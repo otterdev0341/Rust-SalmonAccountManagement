@@ -1,0 +1,211 @@
+@startuml name Double Entry System
+
+actor User
+
+' User Table '
+package "Security System" {
+    
+    package "User Management" {
+        
+        usecase Register
+        usecase Login
+        usecase Logout
+        usecase ForgotPassword
+    }
+    package "Profile Management" {
+        
+        usecase "View Profile"
+        usecase "Edit Profile"
+        usecase "Change Password"
+    }
+    }
+
+    ' Company Table '
+    package "Company Management" {
+    usecase "Create Company"
+    usecase "Edit Company"
+    usecase "Delete Company"
+
+        ' Project Table '
+        package "Project Management" {
+            usecase "Create Project"
+            usecase "Edit Project"
+            usecase "Delete Project"
+        }
+
+        package "Account System" {
+            ' CharOfAccount Table '
+            package "Chart of Accounts" {
+                usecase "Create Account"
+                usecase "Edit Account"
+                usecase "Delete Account"
+            }
+
+            ' Expense Table '
+            package "expenses" {
+                usecase "Create Expense"
+                usecase "Edit Expense"
+                usecase "Delete Expense"
+            }
+            package "Journal Entries" {
+                usecase "Create Entry"
+                usecase "Edit Entry"
+                usecase "Delete Entry"
+            }
+            package "Income & Revenue" {
+                usecase "Create Income"
+                usecase "Edit Income"
+                usecase "Delete Income"
+            }
+            package "Account" {
+                usecase "Create Account"
+                usecase "Edit Account"
+                usecase "Delete Account"
+                usecase "View Account"
+                usecase "View Account Transactions"
+            }
+            package "Transaction" {
+                usecase "Create Transaction"
+                usecase "Edit Transaction"
+                usecase "Delete Transaction"
+                usecase "View Transaction"
+                usecase "View Transaction Details"
+            }
+        ' Customer Table, CustomerContact Table'
+        package "Customer Management" {
+            usecase "Create Customer"
+            usecase "Edit Customer"
+            usecase "Delete Customer"
+        }
+
+        package "Products & Services & Assets" {
+            usecase "Create Product"
+            usecase "Edit Product"
+            usecase "Delete Product"
+        }
+
+        package "Reports" {
+            usecase "View Reports"
+        }
+    
+
+    }
+
+    Actor User as User
+    User --> (Register)
+    User --> (Login)
+    User --> (Logout)
+    User --> (ForgotPassword)
+
+    User --> (View Profile)
+    User --> (Edit Profile)
+    User --> (Change Password)
+
+    User --> (Create Company)
+    User --> (Edit Company)
+    User --> (Delete Company)
+
+    User --> (Create Project)
+    User --> (Edit Project)
+    User --> (Delete Project)
+
+    User --> (Create Customer)
+    User --> (Edit Customer)
+    User --> (Delete Customer)
+
+    User --> (Create Product)
+    User --> (Edit Product)
+    User --> (Delete Product)
+
+    User --> (Create Expense)
+    User --> (Edit Expense)
+    User --> (Delete Expense)
+
+    User --> (Create Income)
+    User --> (Edit Income)
+    User --> (Delete Income)
+
+    User --> (Create Account)
+    User --> (Edit Account)
+    User --> (Delete Account)
+    User --> (View Account)
+    User --> (View Account Transactions)
+
+    User --> (Create Entry)
+    User --> (Edit Entry)
+    User --> (Delete Entry)
+
+    User --> (View Reports)
+
+    User --> (Create Transaction)
+    User --> (Edit Transaction)
+    User --> (Delete Transaction)
+    User --> (View Transaction)
+    User --> (View Transaction Details)
+
+
+@enduml}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+User --> (Register)
+User --> (Login)
+User --> (Logout)
+User --> (ForgotPassword)
+
+User --> (View Profile)
+User --> (Edit Profile)
+User --> (Change Password)
+
+User --> (Create Company)
+User --> (Edit Company)
+User --> (Delete Company)
+
+User --> (Create Project)
+User --> (Edit Project)
+User --> (Delete Project)
+
+User --> (Create Customer)
+User --> (Edit Customer)
+User --> (Delete Customer)
+
+User --> (Create Product)
+User --> (Edit Product)
+User --> (Delete Product)
+
+User --> (Create Expense)
+User --> (Edit Expense)
+User --> (Delete Expense)
+
+User --> (Create Income)
+User --> (Edit Income)
+User --> (Delete Income)
+
+User --> (Create Account)
+User --> (Edit Account)
+User --> (Delete Account)
+
+User --> (Create Entry)
+User --> (Edit Entry)
+User --> (Delete Entry)
+
+User --> (View Reports)
+@enduml

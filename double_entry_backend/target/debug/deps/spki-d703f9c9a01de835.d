@@ -1,0 +1,10 @@
+/home/otterdev_ball/BaseDiskProject/rust_project/Rurst-DoubleEntrySystem/double_entry_backend/target/debug/deps/libspki-d703f9c9a01de835.rmeta: /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spki-0.7.3/src/lib.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spki-0.7.3/src/algorithm.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spki-0.7.3/src/error.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spki-0.7.3/src/spki.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spki-0.7.3/src/traits.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spki-0.7.3/src/../README.md
+
+/home/otterdev_ball/BaseDiskProject/rust_project/Rurst-DoubleEntrySystem/double_entry_backend/target/debug/deps/spki-d703f9c9a01de835.d: /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spki-0.7.3/src/lib.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spki-0.7.3/src/algorithm.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spki-0.7.3/src/error.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spki-0.7.3/src/spki.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spki-0.7.3/src/traits.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spki-0.7.3/src/../README.md
+
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spki-0.7.3/src/lib.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spki-0.7.3/src/algorithm.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spki-0.7.3/src/error.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spki-0.7.3/src/spki.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spki-0.7.3/src/traits.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/spki-0.7.3/src/../README.md:

@@ -1,0 +1,9 @@
+/home/otterdev_ball/BaseDiskProject/rust_project/Rurst-DoubleEntrySystem/double_entry_backend/target/debug/deps/libaliasable-ad2b217042e41903.rmeta: /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/aliasable-0.1.3/src/lib.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/aliasable-0.1.3/src/mut_ref.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/aliasable-0.1.3/src/boxed.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/aliasable-0.1.3/src/string.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/aliasable-0.1.3/src/vec.rs
+
+/home/otterdev_ball/BaseDiskProject/rust_project/Rurst-DoubleEntrySystem/double_entry_backend/target/debug/deps/aliasable-ad2b217042e41903.d: /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/aliasable-0.1.3/src/lib.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/aliasable-0.1.3/src/mut_ref.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/aliasable-0.1.3/src/boxed.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/aliasable-0.1.3/src/string.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/aliasable-0.1.3/src/vec.rs
+
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/aliasable-0.1.3/src/lib.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/aliasable-0.1.3/src/mut_ref.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/aliasable-0.1.3/src/boxed.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/aliasable-0.1.3/src/string.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/aliasable-0.1.3/src/vec.rs:

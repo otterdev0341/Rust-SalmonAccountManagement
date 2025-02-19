@@ -1,0 +1,10 @@
+/home/otterdev_ball/BaseDiskProject/rust_project/Rurst-DoubleEntrySystem/double_entry_backend/target/debug/deps/libthiserror-82d6c0c134ad529c.rmeta: /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-2.0.11/src/lib.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-2.0.11/src/aserror.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-2.0.11/src/display.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-2.0.11/src/var.rs
+
+/home/otterdev_ball/BaseDiskProject/rust_project/Rurst-DoubleEntrySystem/double_entry_backend/target/debug/deps/libthiserror-82d6c0c134ad529c.rlib: /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-2.0.11/src/lib.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-2.0.11/src/aserror.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-2.0.11/src/display.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-2.0.11/src/var.rs
+
+/home/otterdev_ball/BaseDiskProject/rust_project/Rurst-DoubleEntrySystem/double_entry_backend/target/debug/deps/thiserror-82d6c0c134ad529c.d: /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-2.0.11/src/lib.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-2.0.11/src/aserror.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-2.0.11/src/display.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-2.0.11/src/var.rs
+
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-2.0.11/src/lib.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-2.0.11/src/aserror.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-2.0.11/src/display.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/thiserror-2.0.11/src/var.rs:

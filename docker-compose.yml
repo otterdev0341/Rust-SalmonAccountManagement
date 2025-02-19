@@ -1,17 +1,13 @@
 version: '3.8'
 
 services:
-  db:
-    build: 
-      context: .
-      dockerfile: Dockerfile
+  db-double-entry:
+    image: mysql:8
     container_name: mysql-double-entry
     environment:
-      MYSQL_ROOT_PASSWORD: MYSQL_PASSWORD
-      MYSQL_DATABASE: double_entry_bookkeeping
-      MYSQL_USER: root
-      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: password # This sets the root password
+      MYSQL_DATABASE: double_entry_db # This creates the initial database
     ports:
       - "3306:3306"
     volumes:
-      - ./database_mount:/database_mount
+      - ./database_mount:/var/lib/mysql

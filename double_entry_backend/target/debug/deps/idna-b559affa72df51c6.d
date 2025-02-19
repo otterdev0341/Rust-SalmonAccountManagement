@@ -1,0 +1,10 @@
+/home/otterdev_ball/BaseDiskProject/rust_project/Rurst-DoubleEntrySystem/double_entry_backend/target/debug/deps/libidna-b559affa72df51c6.rmeta: /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/idna-1.0.3/src/lib.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/idna-1.0.3/src/deprecated.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/idna-1.0.3/src/punycode.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/idna-1.0.3/src/uts46.rs
+
+/home/otterdev_ball/BaseDiskProject/rust_project/Rurst-DoubleEntrySystem/double_entry_backend/target/debug/deps/libidna-b559affa72df51c6.rlib: /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/idna-1.0.3/src/lib.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/idna-1.0.3/src/deprecated.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/idna-1.0.3/src/punycode.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/idna-1.0.3/src/uts46.rs
+
+/home/otterdev_ball/BaseDiskProject/rust_project/Rurst-DoubleEntrySystem/double_entry_backend/target/debug/deps/idna-b559affa72df51c6.d: /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/idna-1.0.3/src/lib.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/idna-1.0.3/src/deprecated.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/idna-1.0.3/src/punycode.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/idna-1.0.3/src/uts46.rs
+
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/idna-1.0.3/src/lib.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/idna-1.0.3/src/deprecated.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/idna-1.0.3/src/punycode.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/idna-1.0.3/src/uts46.rs:

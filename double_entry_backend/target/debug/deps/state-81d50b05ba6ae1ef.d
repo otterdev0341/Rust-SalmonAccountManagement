@@ -1,0 +1,10 @@
+/home/otterdev_ball/BaseDiskProject/rust_project/Rurst-DoubleEntrySystem/double_entry_backend/target/debug/deps/libstate-81d50b05ba6ae1ef.rmeta: /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.6.0/src/lib.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.6.0/src/ident_hash.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.6.0/src/cell.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.6.0/src/init.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.6.0/src/shim.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.6.0/src/type_map.rs
+
+/home/otterdev_ball/BaseDiskProject/rust_project/Rurst-DoubleEntrySystem/double_entry_backend/target/debug/deps/state-81d50b05ba6ae1ef.d: /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.6.0/src/lib.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.6.0/src/ident_hash.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.6.0/src/cell.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.6.0/src/init.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.6.0/src/shim.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.6.0/src/type_map.rs
+
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.6.0/src/lib.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.6.0/src/ident_hash.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.6.0/src/cell.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.6.0/src/init.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.6.0/src/shim.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/state-0.6.0/src/type_map.rs:

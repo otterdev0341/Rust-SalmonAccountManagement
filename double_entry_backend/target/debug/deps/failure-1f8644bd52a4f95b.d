@@ -1,0 +1,10 @@
+/home/otterdev_ball/BaseDiskProject/rust_project/Rurst-DoubleEntrySystem/double_entry_backend/target/debug/deps/libfailure-1f8644bd52a4f95b.rmeta: /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/failure-0.1.8/src/lib.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/failure-0.1.8/src/as_fail.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/failure-0.1.8/src/backtrace/mod.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/failure-0.1.8/src/compat.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/failure-0.1.8/src/context.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/failure-0.1.8/src/result_ext.rs
+
+/home/otterdev_ball/BaseDiskProject/rust_project/Rurst-DoubleEntrySystem/double_entry_backend/target/debug/deps/failure-1f8644bd52a4f95b.d: /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/failure-0.1.8/src/lib.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/failure-0.1.8/src/as_fail.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/failure-0.1.8/src/backtrace/mod.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/failure-0.1.8/src/compat.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/failure-0.1.8/src/context.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/failure-0.1.8/src/result_ext.rs
+
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/failure-0.1.8/src/lib.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/failure-0.1.8/src/as_fail.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/failure-0.1.8/src/backtrace/mod.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/failure-0.1.8/src/compat.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/failure-0.1.8/src/context.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/failure-0.1.8/src/result_ext.rs:

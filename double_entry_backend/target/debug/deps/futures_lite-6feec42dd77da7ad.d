@@ -1,0 +1,9 @@
+/home/otterdev_ball/BaseDiskProject/rust_project/Rurst-DoubleEntrySystem/double_entry_backend/target/debug/deps/libfutures_lite-6feec42dd77da7ad.rmeta: /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-lite-2.6.0/src/lib.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-lite-2.6.0/src/future.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-lite-2.6.0/src/prelude.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-lite-2.6.0/src/stream.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-lite-2.6.0/src/io.rs
+
+/home/otterdev_ball/BaseDiskProject/rust_project/Rurst-DoubleEntrySystem/double_entry_backend/target/debug/deps/futures_lite-6feec42dd77da7ad.d: /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-lite-2.6.0/src/lib.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-lite-2.6.0/src/future.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-lite-2.6.0/src/prelude.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-lite-2.6.0/src/stream.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-lite-2.6.0/src/io.rs
+
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-lite-2.6.0/src/lib.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-lite-2.6.0/src/future.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-lite-2.6.0/src/prelude.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-lite-2.6.0/src/stream.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/futures-lite-2.6.0/src/io.rs:

@@ -1,0 +1,10 @@
+/home/otterdev_ball/BaseDiskProject/rust_project/Rurst-DoubleEntrySystem/double_entry_backend/target/debug/deps/libasync_io-b50827bcc537532d.rmeta: /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-io-2.4.0/src/lib.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-io-2.4.0/src/driver.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-io-2.4.0/src/reactor.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-io-2.4.0/src/os.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-io-2.4.0/src/os/unix.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-io-2.4.0/src/reactor/unix.rs
+
+/home/otterdev_ball/BaseDiskProject/rust_project/Rurst-DoubleEntrySystem/double_entry_backend/target/debug/deps/async_io-b50827bcc537532d.d: /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-io-2.4.0/src/lib.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-io-2.4.0/src/driver.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-io-2.4.0/src/reactor.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-io-2.4.0/src/os.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-io-2.4.0/src/os/unix.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-io-2.4.0/src/reactor/unix.rs
+
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-io-2.4.0/src/lib.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-io-2.4.0/src/driver.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-io-2.4.0/src/reactor.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-io-2.4.0/src/os.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-io-2.4.0/src/os/unix.rs:
+/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/async-io-2.4.0/src/reactor/unix.rs:

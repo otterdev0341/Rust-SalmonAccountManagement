@@ -1,0 +1,224 @@
+' Rule 1: All Atributes are private
+' Rule 2: table name is CamelCase
+' Rule 3: table name is singular
+' Rule 4: properties are snake_case
+' Rule 5: no access podifier is used
+@startuml name Database Schema
+package "Security System" {
+    
+    Struct User {
+    id: <<PK>> 
+    username: String
+    first_name: String
+    last_name: String
+    email: String
+    password_hash: String
+    }
+}
+
+package "Company Management" {
+    
+    Struct Company {
+    id <<pk>>
+    name: String
+    description: String
+    
+    }
+    Struct UserCompany {
+        id: <<pk>>
+        user_id: <<FK>> User
+        company_id: <<FK>> Company
+        role: String ' e.g., "admin", "manager"'
+    }
+}
+
+package "Project Management" {
+    
+    Struct Project {
+    id <<pk>>
+    name: String
+    description: String
+    company_id: <<FK>> Company
+    
+    }
+
+    Struct Location {
+        id <<pk>>
+        public_name: String
+        internal_name: String
+        lat: String
+        long: String
+        location_type_id: <<FK>> LocationType
+        description: String
+        
+    }
+
+    Struct ProjectLocation {
+        id <<pk>>
+        project_id: <<FK>> Project
+        location_id: <<FK>> Location
+    }
+
+    Struct LocationType {
+        id <<pk>>
+        name: String 'Condo, Villa, Land'
+        description: String
+    }
+
+    Struct ProjectInfo{
+        id <<pk>>
+        project_id: <<FK>> Project
+        user_id: <<FK>> User
+        name: String
+        description: String
+        
+    }
+
+    Struct UserProjectInfo {
+        id <<pk>>
+        user_id: <<FK>> User
+        project_info_id: <<FK>> ProjectInfo
+        role: String 'e.g., "admin", "manager"'
+    }
+}
+
+package "Account System Management" {
+
+    
+    Struct ChartOfAccount {
+        id <<pk>>
+        name: String
+        description: String
+        chart_of_account_type_id: <<FK>> ChartOfAccountType
+        
+    }
+    '  ABCDE assest debt equity income expense'
+    Struct ChartOfAccountType {
+        id <<pk>>
+        account_code: String "00012"
+        number: Int '1, 2, 3, 4, 5'
+        name: String
+        description: String
+    }
+    Struct AccountBalance {
+        id: <<pk>>
+        account_id: <<FK>> ChartOfAccount
+        balance: Decimal
+        last_updated: Date
+    }
+
+    Struct Transaction {
+        id: <<pk>>
+        name: String
+        description: String
+        amount: Decimal
+        date: Date
+        chart_of_account_id: <<FK>> ChartOfAccount
+        transaction_type_id: <<FK>> TranasactionType
+    }
+
+    Struct TranasactionType {
+        id: <<pk>>
+        name: String
+        description: String
+    }
+
+    Struct TransactionDetail {
+        id: <<pk>>
+        transaction_id: <<FK>> Transaction
+        chart_of_account_id: <<FK>> ChartOfAccount
+        amount: Decimal
+        debit: Decimal
+        credit: Decimal
+    }
+    
+
+    Struct BankAccount {
+        id: <<pk>>
+        name: String
+        account_number: String
+        description: String
+        chart_of_account_id: <<FK>> ChartOfAccount
+        bank_account_type_id: <<FK>> BankAccountType
+    }
+
+    Struct BankAccountType{
+        id: <<pk>>
+        name: String
+        description: String
+    }
+
+    
+
+
+    Struct TransactionLog {
+        id: <<pk>>
+        transaction_id: <<FK>> Transaction
+        transaction_log_type_id: <<FK>> TransactionLogType
+        old_value: String
+        new_value: String
+        user_id: <<FK>> User
+        timestamp: Date
+    }
+
+    ' Created, Updated, Deleted '
+    Struct TransactionLogType {
+        id: <<pk>>
+        name: String
+        description: String
+    }
+    
+
+}
+
+
+package "Customer Management" {
+    Struct Customer {
+        id: <<pk>>
+        name: String
+        customer_contact_id: <<FK>> CustomerContact
+        
+    }
+
+    Struct CustomerContact {
+        id: <<pk>>
+        mobile_phone_1: String
+        mobile_phone_2: String
+        mobile_phone_3: String
+        email: String
+        address: String
+        
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+User "1" -- "0..*" UserCompany : "has access"
+Company "1" -- "0..*" UserCompany : "has users"
+Company "1" -- "0..*" Customer: "has"
+Customer "0..1" -- "1" CustomerContact: "has"
+Company "1" -- "0..*" Project : "has || have many"
+Project "1" -- "0..*" ProjectLocation : "has"
+Location "1" -- "0..*" ProjectLocation : "has"
+Project "1" -- "0..*" ProjectInfo : "has"
+User "1" -- "0..*" UserProjectInfo : "has"
+ProjectInfo "1" -- "0..*" UserProjectInfo : "has"
+Location "1" -- "1" LocationType : "has"
+BankAccount "1" -- "1" BankAccountType : "has"
+ChartOfAccount "1" -- "0..*" BankAccount : "has"
+ChartOfAccount "1" -- "0..*" AccountBalance : "has"
+ChartOfAccount "1" -- "0..*" Transaction : "has"
+ChartOfAccount "1" -- "0..*" ChartOfAccountType : "has"
+Transaction "1" -- "0..*" TransactionDetail : "has"
+Transaction "1" -- "1" TranasactionType : "has"
+TransactionLog "1" -- "1" User : "has"
+TransactionLog "1" -- "1" TransactionLogType: "has"
+@enduml
