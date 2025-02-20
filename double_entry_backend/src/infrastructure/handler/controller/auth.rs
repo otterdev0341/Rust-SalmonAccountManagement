@@ -1,6 +1,8 @@
-use rocket::{post, routes, Route};
+use rocket::{post, routes, serde::json::Json, Route};
 
-use crate::domain::dto::user::ReqCreateUser;
+use crate::domain::dto::auth_dto::{ReqCreateUser, ReqSignIn, ResSignIn};
+
+#[allow(dead_code)]
 
 // this for register at a_init_routes.rs
 pub fn auth_routes() -> Vec<Route> {
@@ -12,19 +14,23 @@ pub fn auth_routes() -> Vec<Route> {
 
 
 
-
 #[utoipa::path(
     post,
     path = "/sign-in",
+    request_body = ReqSignIn, 
     summary = "Sign in",
     description = "Sign in to the application",
     tags = ["auth"],
     responses(
-        (status = 200, description = "User signed in successfully")
+        (status = 200, description = "User signed in successfully"),
+        (status = 400, description = "Invalid email or password"),
+        (status = 500, description = "Internal server error"),
+        (status = 404, description = "Email not found"),
+        (status = 401, description = "Incorrect email or password")
     )
 )]
-#[post("/sign-in")]
-pub async fn sign_in() -> &'static str {
+#[post("/sign-in", format = "json", data = "<req_sign_in>")]
+pub async fn sign_in(req_sign_in: Json<ReqSignIn>) -> &'static str {
     "sign in"
 }
 
@@ -43,7 +49,11 @@ pub async fn sign_in() -> &'static str {
         (status = 500, description = "Internal server error")
     )
 )]
-#[post("/sign-up")]
-pub async fn sign_up() -> &'static str {
-    "sign up"
+#[post("/sign-up", format = "json", data = "<req_sign_in>")]
+pub async fn sign_up(req_sign_in: Json<ReqCreateUser>) -> Json<ResSignIn> {
+    
+    Json(ResSignIn {
+        token: "token".to_string(),
+    })
 }
+

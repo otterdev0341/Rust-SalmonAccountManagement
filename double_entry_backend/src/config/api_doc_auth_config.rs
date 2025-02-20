@@ -11,7 +11,9 @@ use utoipa::OpenApi;
     ),
     components(
         schemas(
-            crate::domain::dto::user::ReqCreateUser
+            crate::domain::dto::auth_dto::ReqCreateUser,
+            crate::domain::dto::auth_dto::ReqSignIn,
+            crate::domain::dto::auth_dto::ResSignIn
         )
 
     )

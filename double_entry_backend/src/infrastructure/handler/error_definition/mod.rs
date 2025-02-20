@@ -1,1 +1,1 @@
-pub mod create_user_err;
+pub mod auth_error;
