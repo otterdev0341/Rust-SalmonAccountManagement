@@ -2,30 +2,49 @@
 name = "double_entry_backend"
 version = "0.1.0"
 edition = "2021"
+publish = false
+
+
+
+[lib]
+name = "migration"
+path = "src/lib.rs"
 
 [dependencies]
-
+# Web framework
 rocket = { version = "0.5.1", features = ["json"]}
-sea-orm = { version = "1.1.4", features = [
-    "sqlx-mysql",
-    "runtime-async-std-native-tls",
-    "macros",
-] }
+async-std = { version = "1", features = ["attributes", "tokio1"] }
+sea-orm = { version = "1.1.5", features = ["sqlx-mysql", "runtime-async-std-native-tls", "macros"] }
 
+# Utility lib
 dotenv = "0.15.0"
-anyhow = "1.0.40"
-utoipa = "5.3.1"
-utoipa-swagger-ui = {version="*", features=["rocket"]}
-serde = { version = "1.0.217", features = ["derive"] }
+anyhow = "1.0.96"
+serde = { version = "1.0.218", features = ["derive"] }
 jsonwebtoken = "9.3.0"
 bcrypt = "0.17.0"
 validator = {version = "0.20.0", features = ["derive"]}
 
+
+# Api Docs
+utoipa = "5.3.1"
+utoipa-swagger-ui = {version="*", features=["rocket"]}
+
+# Log
 sqlx = { version = "0.8.3", features = ["runtime-tokio-native-tls", "macros", "mysql"] }
 tracing = "0.1.41"
 tracing-subscriber = "0.3.19"
-diesel = { version = "2.2.0", features = ["mysql"] }
 
+[dependencies.sea-orm-migration]
+version = "1.1.5"
+features = [
+  # Enable at least one `ASYNC_RUNTIME` and `DATABASE_DRIVER` feature if you want to run migration via CLI.
+  # View the list of supported features at https://www.sea-ql.org/SeaORM/docs/install-and-config/database-and-async-runtime.
+  # e.g.
+  # "runtime-tokio-rustls",  # `ASYNC_RUNTIME` feature
+  # "sqlx-postgres",         # `DATABASE_DRIVER` feature
+  "runtime-async-std-native-tls",
+  "sqlx-mysql",
+]
 
 [dev-dependencies]
 mockall = "0.13.1"

@@ -1,8 +1,0 @@
-/home/otterdev_ball/BaseDiskProject/rust_project/Rurst-DoubleEntrySystem/double_entry_backend/target/debug/deps/libsea_query_binder-85f2c8d2898b2071.rmeta: /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sea-query-binder-0.7.0/src/lib.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sea-query-binder-0.7.0/src/sqlx_mysql.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sea-query-binder-0.7.0/src/values.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sea-query-binder-0.7.0/src/sqlx.rs
-
-/home/otterdev_ball/BaseDiskProject/rust_project/Rurst-DoubleEntrySystem/double_entry_backend/target/debug/deps/sea_query_binder-85f2c8d2898b2071.d: /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sea-query-binder-0.7.0/src/lib.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sea-query-binder-0.7.0/src/sqlx_mysql.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sea-query-binder-0.7.0/src/values.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sea-query-binder-0.7.0/src/sqlx.rs
-
-/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sea-query-binder-0.7.0/src/lib.rs:
-/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sea-query-binder-0.7.0/src/sqlx_mysql.rs:
-/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sea-query-binder-0.7.0/src/values.rs:
-/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/sea-query-binder-0.7.0/src/sqlx.rs:

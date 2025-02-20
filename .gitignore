@@ -1,3 +1,4 @@
 /database_mount
 /node_modules
 .env
+/out/uml/ER

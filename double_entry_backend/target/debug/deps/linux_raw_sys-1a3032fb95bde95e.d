@@ -1,9 +1,0 @@
-/home/otterdev_ball/BaseDiskProject/rust_project/Rurst-DoubleEntrySystem/double_entry_backend/target/debug/deps/liblinux_raw_sys-1a3032fb95bde95e.rmeta: /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/linux-raw-sys-0.4.15/src/lib.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/linux-raw-sys-0.4.15/src/elf.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/linux-raw-sys-0.4.15/src/x86_64/errno.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/linux-raw-sys-0.4.15/src/x86_64/general.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/linux-raw-sys-0.4.15/src/x86_64/ioctl.rs
-
-/home/otterdev_ball/BaseDiskProject/rust_project/Rurst-DoubleEntrySystem/double_entry_backend/target/debug/deps/linux_raw_sys-1a3032fb95bde95e.d: /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/linux-raw-sys-0.4.15/src/lib.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/linux-raw-sys-0.4.15/src/elf.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/linux-raw-sys-0.4.15/src/x86_64/errno.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/linux-raw-sys-0.4.15/src/x86_64/general.rs /home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/linux-raw-sys-0.4.15/src/x86_64/ioctl.rs
-
-/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/linux-raw-sys-0.4.15/src/lib.rs:
-/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/linux-raw-sys-0.4.15/src/elf.rs:
-/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/linux-raw-sys-0.4.15/src/x86_64/errno.rs:
-/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/linux-raw-sys-0.4.15/src/x86_64/general.rs:
-/home/otterdev_ball/.cargo/registry/src/index.crates.io-6f17d22bba15001f/linux-raw-sys-0.4.15/src/x86_64/ioctl.rs:
