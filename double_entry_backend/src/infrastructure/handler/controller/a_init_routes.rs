@@ -1,0 +1,18 @@
+use rocket::fairing::AdHoc;
+
+use super::auth::auth_routes;
+
+
+
+
+
+
+
+
+pub fn init_controller_setup() -> AdHoc {
+    AdHoc::on_ignite("Initialize controller", |rocket| async {
+        rocket
+            .mount("/auth/v1", auth_routes())
+            
+    })
+}

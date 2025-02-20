@@ -41,7 +41,14 @@ package "Project Management" {
     name: String
     description: String
     company_id: <<FK>> Company
+    project_status_id: <<FK>> ProjectStatus
     
+    }
+
+    Struct ProjectStatus {
+        id <<pk>>
+        name: String 'e.g., "active", "inactive", "completed"'
+        description: String
     }
 
     Struct Location {
@@ -70,7 +77,6 @@ package "Project Management" {
     Struct ProjectInfo{
         id <<pk>>
         project_id: <<FK>> Project
-        user_id: <<FK>> User
         name: String
         description: String
         
@@ -179,6 +185,7 @@ package "Customer Management" {
         id: <<pk>>
         name: String
         customer_contact_id: <<FK>> CustomerContact
+        company_id: <<FK>> Company
         
     }
 

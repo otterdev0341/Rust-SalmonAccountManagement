@@ -1,150 +1,192 @@
 @startuml name Double Entry System
 
 actor User
+' min 62 API '
 
-' User Table '
-package "Security System" {
-    
-    package "User Management" {
-        
-        usecase Register
-        usecase Login
-        usecase Logout
-        usecase ForgotPassword
-    }
-    package "Profile Management" {
-        
-        usecase "View Profile"
-        usecase "Edit Profile"
-        usecase "Change Password"
-    }
-    }
+package "Authentication" {
+    usecase Register
+    usecase Login
+    usecase Logout
 
-    ' Company Table '
-    package "Company Management" {
-    usecase "Create Company"
-    usecase "Edit Company"
-    usecase "Delete Company"
-
-        ' Project Table '
-        package "Project Management" {
-            usecase "Create Project"
-            usecase "Edit Project"
-            usecase "Delete Project"
-        }
-
-        package "Account System" {
-            ' CharOfAccount Table '
-            package "Chart of Accounts" {
-                usecase "Create Account"
-                usecase "Edit Account"
-                usecase "Delete Account"
-            }
-
-            ' Expense Table '
-            package "expenses" {
-                usecase "Create Expense"
-                usecase "Edit Expense"
-                usecase "Delete Expense"
-            }
-            package "Journal Entries" {
-                usecase "Create Entry"
-                usecase "Edit Entry"
-                usecase "Delete Entry"
-            }
-            package "Income & Revenue" {
-                usecase "Create Income"
-                usecase "Edit Income"
-                usecase "Delete Income"
-            }
-            package "Account" {
-                usecase "Create Account"
-                usecase "Edit Account"
-                usecase "Delete Account"
-                usecase "View Account"
-                usecase "View Account Transactions"
-            }
-            package "Transaction" {
-                usecase "Create Transaction"
-                usecase "Edit Transaction"
-                usecase "Delete Transaction"
-                usecase "View Transaction"
-                usecase "View Transaction Details"
-            }
-        ' Customer Table, CustomerContact Table'
-        package "Customer Management" {
-            usecase "Create Customer"
-            usecase "Edit Customer"
-            usecase "Delete Customer"
-        }
-
-        package "Products & Services & Assets" {
-            usecase "Create Product"
-            usecase "Edit Product"
-            usecase "Delete Product"
-        }
-
-        package "Reports" {
-            usecase "View Reports"
-        }
-    
-
-    }
-
-    Actor User as User
     User --> (Register)
     User --> (Login)
     User --> (Logout)
+    ' 3 '
+}
+
+package "User Management" {
+    
+
+    usecase ForgotPassword
+    usecase DeleteAccount
+    usecase ChangeEmail
+    usecase ChangePassword
+    usecase ViewProfile
+
+
     User --> (ForgotPassword)
+    User --> (DeleteAccount)
+    User --> (ChangeEmail)
+    User --> (ChangePassword)
+    User --> (ViewProfile)
+    ' 5 '
+}
 
-    User --> (View Profile)
-    User --> (Edit Profile)
-    User --> (Change Password)
+package "Company Management" {
+    
+    usecase CreateCompany
+    usecase EditCompany
+    usecase DeleteCompany
+    usecase AddUserToCompany
+    usecase RemoveUserFromCompany
+    usecase ViewCompany
+    usecase ViewCompanies
+    usecase ViewCompanyUsers
 
-    User --> (Create Company)
-    User --> (Edit Company)
-    User --> (Delete Company)
+    User --> (CreateCompany)
+    User --> (EditCompany)
+    User --> (DeleteCompany)
+    User --> (AddUserToCompany)
+    User --> (RemoveUserFromCompany)
+    User --> (ViewCompany)
+    User --> (ViewCompanies)
+    User --> (ViewCompanyUsers)
+    ' 8 '
 
-    User --> (Create Project)
-    User --> (Edit Project)
-    User --> (Delete Project)
+}
 
-    User --> (Create Customer)
-    User --> (Edit Customer)
-    User --> (Delete Customer)
+package "Customer Management" {
+    
+    usecase CreateCustomer
+    usecase EditCustomer
+    usecase DeleteCustomer
+    usecase ViewCustomer
+    usecase ViewCustomers
+    usecase CreateCustomerContact
+    usecase EditCustomerContact
+    usecase DeleteCustomerContact
+    usecase ViewCustomerContacts
+    
+    usecase LinkCustomerToCompany
+    usecase UnlinkCustomerFromCompany
+    usecase ManageCustomerStatus
 
-    User --> (Create Product)
-    User --> (Edit Product)
-    User --> (Delete Product)
+    User --> (CreateCustomer)
+    User --> (EditCustomer)
+    User --> (DeleteCustomer)
+    User --> (ViewCustomer)
+    User --> (ViewCustomers)
+    User --> (CreateCustomerContact)
+    User --> (EditCustomerContact)
+    User --> (DeleteCustomerContact)
+    User --> (ViewCustomerContacts)
+    ' 9 '
+}
 
-    User --> (Create Expense)
-    User --> (Edit Expense)
-    User --> (Delete Expense)
+package "Project Management" {
+    
+    usecase CreateProject
+    usecase EditProject
+    usecase DeleteProject
+    usecase ViewProject
+    usecase ViewProjects
+    
+    usecase AttachProjectLocationToProject
+    usecase DetachProjectLocationFromProject
+    
+    usecase CreateProjectLocation
+    usecase EditProjectLocation
+    usecase DeleteProjectLocation
+    usecase ViewProjectLocations
 
-    User --> (Create Income)
-    User --> (Edit Income)
-    User --> (Delete Income)
+    usecase CreateLocationType
+    usecase EditLocationType
+    usecase DeleteLocationType
+    usecase ViewLocationTypes
 
-    User --> (Create Account)
-    User --> (Edit Account)
-    User --> (Delete Account)
-    User --> (View Account)
-    User --> (View Account Transactions)
+    usecase CreateProjectInfo
+    usecase EditProjectInfo
+    usecase DeleteProjectInfo
+    usecase ViewProjectInfo
 
-    User --> (Create Entry)
-    User --> (Edit Entry)
-    User --> (Delete Entry)
-
-    User --> (View Reports)
-
-    User --> (Create Transaction)
-    User --> (Edit Transaction)
-    User --> (Delete Transaction)
-    User --> (View Transaction)
-    User --> (View Transaction Details)
+    usecase CreateProjectStatus
+    usecase EditProjectStatus
+    usecase DeleteProjectStatus
+    usecase ViewProjectStatus
 
 
-@enduml}
+
+
+    User --> (CreateProject)
+    User --> (EditProject)
+    User --> (DeleteProject)
+    User --> (ViewProject)
+    User --> (ViewProjects)
+    User --> (AttachProjectLocationToProject)
+    User --> (DetachProjectLocationFromProject)
+    User --> (CreateProjectLocation)
+    User --> (EditProjectLocation)
+    User --> (DeleteProjectLocation)
+    User --> (ViewProjectLocations)
+    User --> (CreateLocationType)
+    User --> (EditLocationType)
+    User --> (DeleteLocationType)
+    User --> (ViewLocationTypes)
+    User --> (CreateProjectInfo)
+    User --> (EditProjectInfo)
+    User --> (DeleteProjectInfo)
+    User --> (ViewProjectInfo)
+    ' 19 '
+
+}
+
+package "Account System Management" {
+    usecase UploadChartOfAccountTemplate
+    usecase DownloadChartOfAccountTemplate
+    usecase CreateChartOfAccount
+    usecase EditChartOfAccount
+    usecase DeleteChartOfAccount
+    
+    usecase ViewChartOfAccount
+    usecase ViewChartOfAccountBalance
+    usecase ViewChartOfAccountTransactions
+
+    usecase CreateAccount
+    usecase EditAccount
+    usecase DeleteAccount
+    usecase ViewAccount
+    usecase ViewAccounts
+
+    usecase CreateJournalEntry
+    usecase EditJournalEntry
+    usecase DeleteJournalEntry
+    usecase ViewJournalEntry
+    usecase ViewJournalEntries
+
+    User --> (UploadChartOfAccountTemplate)
+    User --> (DownloadChartOfAccountTemplate)
+    User --> (CreateChartOfAccount)
+    User --> (EditChartOfAccount)
+    User --> (DeleteChartOfAccount)
+    User --> (ViewChartOfAccount)
+    User --> (ViewChartOfAccountBalance)
+    User --> (ViewChartOfAccountTransactions)
+    User --> (CreateAccount)
+    User --> (EditAccount)
+    User --> (DeleteAccount)
+    User --> (ViewAccount)
+    User --> (ViewAccounts)
+    User --> (CreateJournalEntry)
+    User --> (EditJournalEntry)
+    User --> (DeleteJournalEntry)
+    User --> (ViewJournalEntry)
+    User --> (ViewJournalEntries)
+    ' 18 '
+}
+
+
+
+@enduml
 
 
 

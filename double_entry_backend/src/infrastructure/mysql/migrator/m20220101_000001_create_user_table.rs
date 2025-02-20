@@ -14,7 +14,14 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(User::Table)
                     .if_not_exists()
-                    .col(pk_auto(User::Id))
+                    .col(
+                        ColumnDef::new(User::Id)
+                            .uuid()
+                            .not_null()
+                            .default("UUID()")
+                            .primary_key(),
+                    )
+
                     .col(string(User::Username))
                     .col(string(User::FirstName))
                     .col(string(User::LastName))
@@ -47,6 +54,7 @@ impl MigrationTrait for Migration {
 
 #[derive(DeriveIden)]
 pub enum User {
+    #[sea_orm(iden = "User")]
     Table,
     #[sea_orm(iden = "id")]
     Id,
