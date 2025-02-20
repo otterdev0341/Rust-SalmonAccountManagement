@@ -1,0 +1,71 @@
+use rocket::http::Status;
+use rocket::serde::json::Json;
+use rocket::{post, response::Responder, Request, Response};
+use serde::{Deserialize, Serialize};
+use std::io::Cursor;
+
+#[derive(Serialize)]
+struct ApiResponse {
+    message: String,
+}
+
+#[derive(Deserialize)]
+struct CreateUserRequest {
+    username: String,
+    email: String,
+}
+
+#[derive(Debug)]
+enum CreateUserError {
+    DuplicateEmail,
+    DuplicateUsername,
+    EmptyUsername,
+    EmptyEmail,
+    InternalError,
+}
+
+impl<'r> Responder<'r, 'static> for CreateUserError {
+    fn respond_to(self, _: &Request) -> rocket::response::Result<'static> {
+        let (status, message) = match self {
+            CreateUserError::DuplicateEmail => (Status::Conflict, "Duplicate email"),
+            CreateUserError::DuplicateUsername => (Status::Conflict, "Duplicate username"),
+            CreateUserError::EmptyUsername => (Status::BadRequest, "Username is required"),
+            CreateUserError::EmptyEmail => (Status::BadRequest, "Email is required"),
+            CreateUserError::InternalError => (Status::InternalServerError, "Internal server error"),
+        };
+
+        Response::build()
+            .status(status)
+            .sized_body(message.len(), Cursor::new(message))
+            .ok()
+    }
+}
+
+#[post("/users", format = "json", data = "<user>")]
+fn create_user(user: Json<CreateUserRequest>) -> Result<Json<ApiResponse>, CreateUserError> {
+    if user.username.is_empty() {
+        return Err(CreateUserError::EmptyUsername);
+    }
+
+    if user.email.is_empty() {
+        return Err(CreateUserError::EmptyEmail);
+    }
+
+    // Simulate checking for duplicates
+    if user.email == "exists@example.com" {
+        return Err(CreateUserError::DuplicateEmail);
+    }
+
+    if user.username == "takenuser" {
+        return Err(CreateUserError::DuplicateUsername);
+    }
+
+    Ok(Json(ApiResponse {
+        message: "User signed up successfully".to_string(),
+    }))
+}
+
+#[rocket::launch]
+fn rocket() -> _ {
+    rocket::build().mount("/", routes![create_user])
+}

@@ -1,4 +1,6 @@
+
 use utoipa::OpenApi;
+
 
 
 #[derive(OpenApi)]
@@ -9,9 +11,12 @@ use utoipa::OpenApi;
     ),
     components(
         schemas(
-
+            crate::domain::dto::user::ReqCreateUser
         )
+
     )
     
 )]
 pub struct AuthApi();
+
+

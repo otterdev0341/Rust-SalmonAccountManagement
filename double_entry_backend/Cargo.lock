@@ -886,6 +886,7 @@ dependencies = [
  "sea-orm-migration",
  "serde",
  "sqlx",
+ "thiserror 2.0.11",
  "tracing",
  "tracing-subscriber",
  "utoipa",
