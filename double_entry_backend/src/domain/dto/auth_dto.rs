@@ -35,9 +35,10 @@ pub struct ResSignIn {
 
 
 #[derive(Debug, Deserialize, Serialize)]
+#[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 pub struct Claims {
-    pub sub: i32,
-    pub role: String,
+    pub subject_id: i32,
+    pub username: String,
     pub exp: u64,
 }
