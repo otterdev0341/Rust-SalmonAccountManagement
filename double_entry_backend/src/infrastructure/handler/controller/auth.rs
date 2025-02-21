@@ -17,12 +17,15 @@ pub fn auth_routes() -> Vec<Route> {
 #[utoipa::path(
     post,
     path = "/sign-in",
-    request_body = ReqSignIn, 
+    request_body = ReqSignIn,
     summary = "Sign in",
     description = "Sign in to the application",
     tags = ["auth"],
     responses(
-        (status = 200, description = "User signed in successfully"),
+        (status = 200, description = "User signed in successfully",
+            body = ResSignIn,
+            description = "Token that return to user",
+        ),
         (status = 400, description = "Invalid email or password"),
         (status = 500, description = "Internal server error"),
         (status = 404, description = "Email not found"),
@@ -30,8 +33,11 @@ pub fn auth_routes() -> Vec<Route> {
     )
 )]
 #[post("/sign-in", format = "json", data = "<req_sign_in>")]
-pub async fn sign_in(req_sign_in: Json<ReqSignIn>) -> &'static str {
-    "sign in"
+pub async fn sign_in(req_sign_in: Json<ReqSignIn>) -> Json<ResSignIn> {
+    
+    Json(ResSignIn {
+        token: "token".to_string(),
+    })
 }
 
 

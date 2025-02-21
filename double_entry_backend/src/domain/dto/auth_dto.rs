@@ -8,6 +8,13 @@ use utoipa::ToSchema;
 // ToSchema is used to generate the OpenAPI schema for the struct
 
 #[derive(Serialize ,Deserialize, ToSchema)]
+#[schema(example = json!({
+    "username": "kotaro_cute", 
+    "first_name": "kotaro",
+    "last_name": "cute",
+    "email": "kotaro_work.com",
+    "password": "kotaro1235555"
+}))]
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 pub struct ReqCreateUser {
@@ -19,6 +26,7 @@ pub struct ReqCreateUser {
 }
 
 #[derive(Deserialize, ToSchema)]
+#[schema(example = json!({"email": "user@example.com", "password": "securepassword"}))]
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 pub struct ReqSignIn {
@@ -27,6 +35,7 @@ pub struct ReqSignIn {
 }
 
 #[derive(Serialize, ToSchema)]
+#[schema(example = json!({"token": "87AbcDlksdjfiw90w8ljnsLKJFIhwisfhKLDSf"}))]
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 pub struct ResSignIn {

@@ -1,3 +1,4 @@
+pub mod traits_impl;
 pub mod account_system_management_usecase;
 pub mod project_management_usecase;
 pub mod company_management_usecase;
