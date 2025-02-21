@@ -52,3 +52,9 @@ pub struct Claims {
     pub username: String,
     pub exp: u64,
 }
+
+// use in faring authentication.rs
+pub struct AuthenticatedUser {
+    pub id: Uuid,
+    pub username: String,  
+}
