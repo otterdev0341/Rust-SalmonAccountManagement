@@ -4,250 +4,205 @@ actor User
 ' min 62 API '
 
 package "Authentication" {
-    usecase Register
-    usecase Login
-    usecase Logout
+    usecase register
+    usecase login
+    usecase logout
 
-    User --> (Register)
-    User --> (Login)
-    User --> (Logout)
+    User --> (register)
+    User --> (login)
+    User --> (logout)
     ' 3 '
 }
 
 package "User Management" {
     
 
-    usecase ForgotPassword
-    usecase DeleteAccount
-    usecase ChangeEmail
-    usecase ChangePassword
-    usecase ViewProfile
+    usecase forgot_password
+    usecase delete_account
+    usecase change_email
+    usecase change_password
+    usecase view_profile
 
 
-    User --> (ForgotPassword)
-    User --> (DeleteAccount)
-    User --> (ChangeEmail)
-    User --> (ChangePassword)
-    User --> (ViewProfile)
+    User --> (forgot_password)
+    User --> (delete_account)
+    User --> (change_email)
+    User --> (change_password)
+    User --> (view_profile)
     ' 5 '
 }
 
 package "Company Management" {
     
-    usecase CreateCompany
-    usecase EditCompany
-    usecase DeleteCompany
-    usecase AddUserToCompany
-    usecase RemoveUserFromCompany
-    usecase ViewCompany
-    usecase ViewCompanies
-    usecase ViewCompanyUsers
+    usecase create_company
+    usecase edit_company
+    usecase delete_company
+    usecase add_user_to_company
+    usecase remove_user_from_company
+    usecase view_company
+    usecase view_companys
+    usecase view_company_users
 
-    User --> (CreateCompany)
-    User --> (EditCompany)
-    User --> (DeleteCompany)
-    User --> (AddUserToCompany)
-    User --> (RemoveUserFromCompany)
-    User --> (ViewCompany)
-    User --> (ViewCompanies)
-    User --> (ViewCompanyUsers)
+    User --> (create_company)
+    User --> (edit_company)
+    User --> (delete_company)
+    User --> (add_user_to_company)
+    User --> (remove_user_from_company)
+    User --> (view_company)
+    User --> (view_companys)
+    User --> (view_company_users)
     ' 8 '
 
 }
 
 package "Customer Management" {
     
-    usecase CreateCustomer
-    usecase EditCustomer
-    usecase DeleteCustomer
-    usecase ViewCustomer
-    usecase ViewCustomers
-    usecase CreateCustomerContact
-    usecase EditCustomerContact
-    usecase DeleteCustomerContact
-    usecase ViewCustomerContacts
+    usecase create_customer
+    usecase edit_customer
+    usecase delete_customer
+    usecase view_customer
+    usecase view_customers
+    usecase create_customer_contact
+    usecase edit_customer_contact
+    usecase delete_customer_contact
+    usecase view_customer_contact
     
-    usecase LinkCustomerToCompany
-    usecase UnlinkCustomerFromCompany
-    usecase ManageCustomerStatus
-
-    User --> (CreateCustomer)
-    User --> (EditCustomer)
-    User --> (DeleteCustomer)
-    User --> (ViewCustomer)
-    User --> (ViewCustomers)
-    User --> (CreateCustomerContact)
-    User --> (EditCustomerContact)
-    User --> (DeleteCustomerContact)
-    User --> (ViewCustomerContacts)
+   
+    
+    User --> (create_customer)
+    User --> (edit_customer)
+    User --> (delete_customer)
+    User --> (view_customer)
+    User --> (view_customers)
+    User --> (create_customer_contact)
+    User --> (edit_customer_contact)
+    User --> (delete_customer_contact)
+    User --> (view_customer_contact)
     ' 9 '
 }
 
 package "Project Management" {
     
-    usecase CreateProject
-    usecase EditProject
-    usecase DeleteProject
-    usecase ViewProject
-    usecase ViewProjects
+    usecase create_project
+    usecase edit_project
+    usecase delete_project
+    usecase view_project
+    usecase view_projects
     
-    usecase AttachProjectLocationToProject
-    usecase DetachProjectLocationFromProject
-    
-    usecase CreateProjectLocation
-    usecase EditProjectLocation
-    usecase DeleteProjectLocation
-    usecase ViewProjectLocations
+    usecase create_project_location
+    usecase edit_project_location
+    usecase delete_project_location
+    usecase view_project_location
 
-    usecase CreateLocationType
-    usecase EditLocationType
-    usecase DeleteLocationType
-    usecase ViewLocationTypes
+    usecase create_location_type
+    usecase edit_location_type
+    usecase delete_location_type
+    usecase view_location_type
 
-    usecase CreateProjectInfo
-    usecase EditProjectInfo
-    usecase DeleteProjectInfo
-    usecase ViewProjectInfo
+    usecase attach_location_to_project
+    usecase detach_location_from_project
 
-    usecase CreateProjectStatus
-    usecase EditProjectStatus
-    usecase DeleteProjectStatus
-    usecase ViewProjectStatus
+    usecase create_project_info
+    usecase edit_project_info
+    usecase delete_project_info
+    usecase view_project_infos
+
+    usecase create_project_status
+    usecase edit_project_status
+    usecase delete_project_status
+    usecase view_project_status
+    usecase view_project_statuses
 
 
 
-
-    User --> (CreateProject)
-    User --> (EditProject)
-    User --> (DeleteProject)
-    User --> (ViewProject)
-    User --> (ViewProjects)
-    User --> (AttachProjectLocationToProject)
-    User --> (DetachProjectLocationFromProject)
-    User --> (CreateProjectLocation)
-    User --> (EditProjectLocation)
-    User --> (DeleteProjectLocation)
-    User --> (ViewProjectLocations)
-    User --> (CreateLocationType)
-    User --> (EditLocationType)
-    User --> (DeleteLocationType)
-    User --> (ViewLocationTypes)
-    User --> (CreateProjectInfo)
-    User --> (EditProjectInfo)
-    User --> (DeleteProjectInfo)
-    User --> (ViewProjectInfo)
-    ' 19 '
+    User --> (create_project)
+    User --> (edit_project)
+    User --> (delete_project)
+    User --> (view_project)
+    User --> (view_projects)
+    User --> (create_project_location)
+    User --> (edit_project_location)
+    User --> (delete_project_location)
+    User --> (view_project_location)
+    User --> (create_location_type)
+    User --> (edit_location_type)
+    User --> (delete_location_type)
+    User --> (view_location_type)
+    User --> (attach_location_to_project)
+    User --> (detach_location_from_project)
+    User --> (create_project_info)
+    User --> (edit_project_info)
+    User --> (delete_project_info)
+    User --> (view_project_info)
+    User --> (view_project_infos)
+    User --> (create_project_status)
+    User --> (edit_project_status)
+    User --> (delete_project_status)
+    User --> (view_project_status)
+    User --> (view_project_statuses)
+    ' 23 '
 
 }
 
 package "Account System Management" {
-    usecase UploadChartOfAccountTemplate
-    usecase DownloadChartOfAccountTemplate
-    usecase CreateChartOfAccount
-    usecase EditChartOfAccount
-    usecase DeleteChartOfAccount
+    usecase upload_chart_of_account_template
+    usecase download_chart_of_account_template
+
+    usecase create_chart_of_account
+    usecase edit_chart_of_account
+    usecase delete_chart_of_account
+    usecase view_chart_of_account
+    usecase view_chart_of_accounts
+
+    usecase view_chart_of_account_balance
+    usecase view_chart_of_account_transaction
+    usecase view_chart_of_account_transactions
+
+    usecase create_bank_account
+    usecase edit_bank_account
+    usecase delete_bank_account
+    usecase view_bank_account
+    usecase view_bank_accounts
+
+    usecase create_bank_account_type
+    usecase edit_bank_account_type
+    usecase delete_bank_account_type
+    usecase view_bank_account_type
+    usecase view_bank_account_types
+
+    usecase create_journal_entry
+    usecase edit_jounal_entry
+    usecase delete_journal_entry
+    usecase view_journal_entry
+    usecase view_journal_entrys
+
+    User --> (upload_chart_of_account_template)
+    User --> (download_chart_of_account_template)
+    User --> (create_chart_of_account)
+    User --> (edit_chart_of_account)
+    User --> (delete_chart_of_account)
+    User --> (view_chart_of_account)
+    User --> (view_chart_of_accounts)
     
-    usecase ViewChartOfAccount
-    usecase ViewChartOfAccountBalance
-    usecase ViewChartOfAccountTransactions
+    User --> (view_chart_of_account_balance)
+    User --> (view_chart_of_account_transaction)
+    User --> (view_chart_of_account_transactions)
 
-    usecase CreateAccount
-    usecase EditAccount
-    usecase DeleteAccount
-    usecase ViewAccount
-    usecase ViewAccounts
-
-    usecase CreateJournalEntry
-    usecase EditJournalEntry
-    usecase DeleteJournalEntry
-    usecase ViewJournalEntry
-    usecase ViewJournalEntries
-
-    User --> (UploadChartOfAccountTemplate)
-    User --> (DownloadChartOfAccountTemplate)
-    User --> (CreateChartOfAccount)
-    User --> (EditChartOfAccount)
-    User --> (DeleteChartOfAccount)
-    User --> (ViewChartOfAccount)
-    User --> (ViewChartOfAccountBalance)
-    User --> (ViewChartOfAccountTransactions)
-    User --> (CreateAccount)
-    User --> (EditAccount)
-    User --> (DeleteAccount)
-    User --> (ViewAccount)
-    User --> (ViewAccounts)
-    User --> (CreateJournalEntry)
-    User --> (EditJournalEntry)
-    User --> (DeleteJournalEntry)
-    User --> (ViewJournalEntry)
-    User --> (ViewJournalEntries)
-    ' 18 '
+    User --> (create_bank_account)
+    User --> (edit_bank_account)
+    User --> (delete_bank_account)
+    User --> (view_bank_account)
+    User --> (view_bank_accounts)
+    User --> (create_bank_account_type)
+    User --> (edit_bank_account_type)
+    User --> (delete_bank_account_type)
+    User --> (view_bank_account_type)
+    User --> (view_bank_account_types)
+    User --> (create_journal_entry)
+    User --> (edit_jounal_entry)
+    User --> (delete_journal_entry)
+    User --> (view_journal_entry)
+    User --> (view_journal_entrys)
+    ' 25 '
 }
-
-
-
-@enduml
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-User --> (Register)
-User --> (Login)
-User --> (Logout)
-User --> (ForgotPassword)
-
-User --> (View Profile)
-User --> (Edit Profile)
-User --> (Change Password)
-
-User --> (Create Company)
-User --> (Edit Company)
-User --> (Delete Company)
-
-User --> (Create Project)
-User --> (Edit Project)
-User --> (Delete Project)
-
-User --> (Create Customer)
-User --> (Edit Customer)
-User --> (Delete Customer)
-
-User --> (Create Product)
-User --> (Edit Product)
-User --> (Delete Product)
-
-User --> (Create Expense)
-User --> (Edit Expense)
-User --> (Delete Expense)
-
-User --> (Create Income)
-User --> (Edit Income)
-User --> (Delete Income)
-
-User --> (Create Account)
-User --> (Edit Account)
-User --> (Delete Account)
-
-User --> (Create Entry)
-User --> (Edit Entry)
-User --> (Delete Entry)
-
-User --> (View Reports)
 @enduml

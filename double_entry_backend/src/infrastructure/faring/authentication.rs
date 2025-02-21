@@ -1,6 +1,4 @@
 use rocket::{http::Status, outcome::Outcome, request::{self, FromRequest}, Request};
-use uuid::Uuid;
-
 use crate::{domain::dto::auth_dto::AuthenticatedUser, infrastructure::jwt_service::jwt::decode_jwt};
 
 

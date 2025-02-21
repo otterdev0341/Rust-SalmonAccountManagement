@@ -1,14 +1,18 @@
 use rocket::{post, routes, serde::json::Json, Route};
 
-use crate::domain::dto::auth_dto::{ReqCreateUser, ReqSignIn, ResSignIn};
+use crate::{domain::dto::auth_dto::{ReqCreateUserDto, ReqSignInDto, ResSignInDto}, infrastructure::faring::cors::options};
 
 #[allow(dead_code)]
+#[allow(unused_variables)]
 
 // this for register at a_init_routes.rs
+// assign options to allow parse json body in to the request
 pub fn auth_routes() -> Vec<Route> {
     routes![
         sign_up, 
-        sign_in]
+        sign_in,
+        options
+    ]
 }
 
 
@@ -17,13 +21,13 @@ pub fn auth_routes() -> Vec<Route> {
 #[utoipa::path(
     post,
     path = "/sign-in",
-    request_body = ReqSignIn,
+    request_body = ReqSignInDto,
     summary = "Sign in",
     description = "Sign in to the application",
     tags = ["auth"],
     responses(
         (status = 200, description = "User signed in successfully",
-            body = ResSignIn,
+            body = ResSignInDto,
             description = "Token that return to user",
         ),
         (status = 400, description = "Invalid email or password"),
@@ -33,9 +37,9 @@ pub fn auth_routes() -> Vec<Route> {
     )
 )]
 #[post("/sign-in", format = "json", data = "<req_sign_in>")]
-pub async fn sign_in(req_sign_in: Json<ReqSignIn>) -> Json<ResSignIn> {
+pub async fn sign_in(req_sign_in: Json<ReqSignInDto>) -> Json<ResSignInDto> {
     
-    Json(ResSignIn {
+    Json(ResSignInDto {
         token: "token".to_string(),
     })
 }
@@ -44,7 +48,7 @@ pub async fn sign_in(req_sign_in: Json<ReqSignIn>) -> Json<ResSignIn> {
 #[utoipa::path(
     post,
     path = "/sign-up",
-    request_body = ReqCreateUser,
+    request_body = ReqCreateUserDto,
     summary = "Sign up",
     description = "Sign up to the application",
     tags = ["auth"],
@@ -56,9 +60,9 @@ pub async fn sign_in(req_sign_in: Json<ReqSignIn>) -> Json<ResSignIn> {
     )
 )]
 #[post("/sign-up", format = "json", data = "<req_sign_in>")]
-pub async fn sign_up(req_sign_in: Json<ReqCreateUser>) -> Json<ResSignIn> {
+pub async fn sign_up(req_sign_in: Json<ReqCreateUserDto>) -> Json<ResSignInDto> {
     
-    Json(ResSignIn {
+    Json(ResSignInDto {
         token: "token".to_string(),
     })
 }

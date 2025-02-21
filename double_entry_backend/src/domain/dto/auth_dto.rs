@@ -1,4 +1,4 @@
-use rocket::serde;
+
 use ::serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 use uuid::Uuid;
@@ -18,7 +18,7 @@ use uuid::Uuid;
 }))]
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
-pub struct ReqCreateUser {
+pub struct ReqCreateUserDto {
     pub username: String,
     pub first_name: String,
     pub last_name: String,
@@ -26,11 +26,24 @@ pub struct ReqCreateUser {
     pub password: String,
 }
 
+#[derive(Serialize, ToSchema)]
+#[schema(example = json!({"id": "1", "username": "kotaro_cute", "first_name": "kotaro", "last_name": "cute", "email": "kotaro_work.com"}))]
+#[serde(rename_all = "camelCase")]
+#[serde(crate = "rocket::serde")]
+pub struct ResEntryUserDto {
+    pub id: String,
+    pub username: String,
+    pub first_name: String,
+    pub last_name: String,
+    pub email: String,
+}
+
+
 #[derive(Deserialize, ToSchema)]
 #[schema(example = json!({"email": "user@example.com", "password": "securepassword"}))]
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
-pub struct ReqSignIn {
+pub struct ReqSignInDto {
     pub email: String,
     pub password: String,
 }
@@ -39,7 +52,7 @@ pub struct ReqSignIn {
 #[schema(example = json!({"token": "87AbcDlksdjfiw90w8ljnsLKJFIhwisfhKLDSf"}))]
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
-pub struct ResSignIn {
+pub struct ResSignInDto {
     pub token: String,
 }
 
@@ -47,13 +60,14 @@ pub struct ResSignIn {
 #[derive(Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
-pub struct Claims {
+pub struct ClaimsDto {
     pub subject_id: Uuid,
     pub username: String,
     pub exp: u64,
 }
 
 // use in faring authentication.rs
+// use only internal server, not recive from client nor return to client
 pub struct AuthenticatedUser {
     pub id: Uuid,
     pub username: String,  

@@ -1,5 +1,7 @@
 
+use migration::config::a_init_openapi_config::init_openapi;
 use migration::config::api_doc_auth_config::AuthApi;
+use migration::config::api_doc_company_config::CompanyApi;
 use migration::infrastructure::faring::cors::CORS;
 use migration::infrastructure::handler::controller::a_init_routes::init_controller_setup;
 use migration::infrastructure::mysql::migrator::Migrator;
@@ -49,7 +51,7 @@ async fn main() -> Result<(), rocket::Error> {
         .mount("/", 
             SwaggerUi::new("/swagger-ui/<_..>")
                 .url("/api-docs/openapi.json", 
-                AuthApi::openapi(),
+                init_openapi(),  
             )
         )
         .launch()

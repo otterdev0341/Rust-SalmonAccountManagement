@@ -24,10 +24,11 @@ package "Company Management" {
     id <<pk>>
     name: String
     description: String
-    
+    owner_id: <<FK>> User
+    created_at: Date
+    updated_at: Date
     }
     Struct UserCompany {
-        id: <<pk>>
         user_id: <<FK>> User
         company_id: <<FK>> Company
         role: String ' e.g., "admin", "manager"'
@@ -211,6 +212,7 @@ package "Customer Management" {
 
 
 User "1" -- "0..*" UserCompany : "has access"
+User "1" -- "0..*" Company : "owns"
 Company "1" -- "0..*" UserCompany : "has users"
 Company "1" -- "0..*" Customer: "has"
 Customer "0..1" -- "1" CustomerContact: "has"
