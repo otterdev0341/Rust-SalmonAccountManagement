@@ -1,6 +1,7 @@
 use rocket::serde;
 use ::serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
+use uuid::Uuid;
 
 #[allow(dead_code)]
 
@@ -47,7 +48,7 @@ pub struct ResSignIn {
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 pub struct Claims {
-    pub subject_id: i32,
+    pub subject_id: Uuid,
     pub username: String,
     pub exp: u64,
 }
