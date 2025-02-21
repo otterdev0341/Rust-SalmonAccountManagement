@@ -1,4 +1,4 @@
-use utoipa::{openapi::security::{HttpAuthScheme, SecurityScheme}, Modify, OpenApi};
+use utoipa::OpenApi;
 
 use super::{api_doc_auth_config::AuthApi, api_doc_company_config::CompanyApi};
 

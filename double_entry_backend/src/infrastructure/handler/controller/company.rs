@@ -1,10 +1,10 @@
 // the company can't create by it self.
 // it must be create by user and create relation within UserCompany Table
 
-use anyhow::Ok;
-use rocket::{delete, get, http::Status, post, put, routes, serde::json::Json, Route};
 
-use crate::{domain::dto::{auth_dto::AuthenticatedUser, company_dto::{AddRemoveUserToCompanyDto, ReqCreateCompanyDto, ReqUpdateCompanyDto, ResCompanyRelateUserDto, ResEntryCompanyDto, ResListEntryCompanyDto}, }, infrastructure::{faring::cors::options, handler::{api_response::api_response::{ApiErrorResponse, ApiResponse, ApiSuccessResponse}, error_definition::company_error::{CompanyError, CompanySuccess}}}};
+use rocket::{delete, get, post, put, routes, serde::json::Json, Route};
+
+use crate::{domain::dto::{auth_dto::AuthenticatedUser, company_dto::{AddRemoveUserToCompanyDto, ReqCreateCompanyDto, ReqUpdateCompanyDto, ResCompanyRelateUserDto, ResEntryCompanyDto, ResListEntryCompanyDto}, }, infrastructure::{faring::cors::options, handler::api_response::api_response::ApiResponse}};
 
 #[allow(dead_code)]
 #[allow(unused_variables)]
@@ -59,7 +59,8 @@ pub async fn create_company(
     user : AuthenticatedUser,
     company_data: Json<ReqCreateCompanyDto>
 ) 
--> Result<ApiSuccessResponse<String>, ApiErrorResponse<>> {
+-> ApiResponse<String> {
+    // company can't create by it self
     
     
     todo!()

@@ -1,9 +1,7 @@
 use rocket::http::Status;
-use rocket::response::{Responder, Result};
-use rocket::Request;
 use thiserror::Error;
 
-use crate::infrastructure::handler::api_response::api_response::{ApiErrorResponse, ApiSuccessResponse, SuccessMessage};
+use crate::infrastructure::handler::api_response::api_response::{ApiErrorResponse, ApiSuccessResponse};
 
 
 #[derive(Error, Debug)]
@@ -31,20 +29,6 @@ pub enum CompanyError {
     
 }
 
-impl From<CompanyError> for ApiErrorResponse {
-    fn from(err: CompanyError) -> Self {
-        let (status, message) = match err {
-            CompanyError::InvalidId => (Status::BadRequest, err.to_string()),
-            CompanyError::Forbidden => (Status::Forbidden, err.to_string()),
-            CompanyError::NotFound => (Status::NotFound, err.to_string()),
-            CompanyError::UserAlreadyAdded => (Status::Conflict, err.to_string()),
-            CompanyError::UserAlreadyRemoved => (Status::Conflict, err.to_string()),
-            CompanyError::InvalidCompanyData => (Status::BadRequest, err.to_string()),
-            CompanyError::InternalError => (Status::InternalServerError, err.to_string()),
-        };
-        ApiErrorResponse((status, message))
-    }
-}
 
 
 
@@ -64,16 +48,4 @@ pub enum CompanySuccess {
     DeleteSuccess,
 }
 
-impl From<CompanySuccess> for ApiSuccessResponse<SuccessMessage> {
-    fn from(err: CompanySuccess) -> Self {
-        let (status, message) = match err {
-            CompanySuccess::UserAdded => (Status::Created, err.to_string()),
-            CompanySuccess::UserRemoved => (Status::Ok, err.to_string()),
-            CompanySuccess::CompanyCreated => (Status::Ok, err.to_string()),
-            CompanySuccess::UpdateSuccess => (Status::Ok, err.to_string()),
-            CompanySuccess::DeleteSuccess => (Status::Ok, err.to_string()),
-        };
-        ApiSuccessResponse((status, SuccessMessage { message: message.to_string() }))
-    }
-}
 

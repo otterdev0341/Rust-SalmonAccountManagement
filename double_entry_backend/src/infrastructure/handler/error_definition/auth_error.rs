@@ -46,7 +46,10 @@ impl From<CreateUserError> for ApiErrorResponse {
             CreateUserError::InvalidLastName => (Status::BadRequest, err.to_string()),
             CreateUserError::InternalServerError => (Status::InternalServerError, err.to_string()),
         };
-        ApiErrorResponse((status, message))
+        ApiErrorResponse {
+            status: status.to_string(),
+            message: message.to_string(),
+        }
     }
 }
 
@@ -78,7 +81,10 @@ impl From<SignInError> for ApiErrorResponse {
             SignInError::EmailNotFound => (Status::NotFound, err.to_string()),
             SignInError::IncorrectEmailOrPassword => (Status::Unauthorized, err.to_string()),
         };
-        ApiErrorResponse((status, message))
+        ApiErrorResponse {
+            status: status.to_string(),
+            message: message.to_string(),
+        }
     }
 }
 
@@ -106,6 +112,9 @@ impl From<TokenError> for ApiErrorResponse {
             TokenError::InternalServerError => (Status::InternalServerError, err.to_string()),
             TokenError::TokenNotAvailable => (Status::NotFound, err.to_string()),
         };
-        ApiErrorResponse((status, message))
+        ApiErrorResponse {
+            status: status.to_string(),
+            message: message.to_string(),
+        }
     }
 }
