@@ -1,6 +1,6 @@
-use utoipa::{openapi::security::{HttpAuthScheme, SecurityScheme}, Modify, OpenApi};
+use utoipa::OpenApi;
 
-use crate::{config::api_security_addon::SecurityAddon, domain::dto::{auth_dto::ResEntryUserDto, company_dto::{ReqCreateCompanyDto, ReqUpdateCompanyDto, ResCompanyRelateUserDto, ResEntryCompanyDto, ResListEntryCompanyDto}}};
+use crate::{config::api_security_addon::SecurityAddon, domain::dto::company_dto::{AddRemoveUserToCompanyDto, ReqCreateCompanyDto, ReqUpdateCompanyDto, ResCompanyRelateUserDto, ResEntryCompanyDto, ResListEntryCompanyDto}};
 
 
 
@@ -14,7 +14,12 @@ use crate::{config::api_security_addon::SecurityAddon, domain::dto::{auth_dto::R
     paths (
         crate::infrastructure::handler::controller::company::create_company,
         crate::infrastructure::handler::controller::company::edit_company,
-        
+        crate::infrastructure::handler::controller::company::delete_company,
+        crate::infrastructure::handler::controller::company::add_user_to_company,
+        crate::infrastructure::handler::controller::company::remove_user_from_company,
+        crate::infrastructure::handler::controller::company::view_company,
+        crate::infrastructure::handler::controller::company::view_companies,
+        crate::infrastructure::handler::controller::company::view_company_users
         
     ),
     components(
@@ -24,8 +29,8 @@ use crate::{config::api_security_addon::SecurityAddon, domain::dto::{auth_dto::R
             ResEntryCompanyDto,
             ResListEntryCompanyDto,
             ResCompanyRelateUserDto,
+            AddRemoveUserToCompanyDto
         )
-
     )
     
 )]

@@ -115,12 +115,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "anyhow"
-version = "1.0.96"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6b964d184e89d9b6b67dd2715bc8e74cf3107fb2b529990c90cf517326150bf4"
-
-[[package]]
 name = "arbitrary"
 version = "1.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -880,7 +874,6 @@ checksum = "1aaf95b3e5c8f23aa320147307562d361db0ae0d51242340f558153b4eb2439b"
 name = "double_entry_backend"
 version = "0.1.0"
 dependencies = [
- "anyhow",
  "async-std",
  "bcrypt",
  "dotenv",

@@ -1,11 +1,13 @@
 use rocket::http::Status;
+use serde::Serialize;
 
 use crate::infrastructure::handler::api_response::api_response::ApiErrorResponse;
 
 use thiserror::Error;
 
 
-#[derive(Error, Debug)]
+#[derive(Error, Debug, Serialize)]
+#[serde(crate = "rocket::serde")]
 pub enum CreateUserError {
     #[error("Username already exists")]
     UsernameAlreadyExists,
@@ -48,7 +50,8 @@ impl From<CreateUserError> for ApiErrorResponse {
     }
 }
 
-#[derive(Error, Debug)]
+#[derive(Error, Debug, Serialize)]
+#[serde(crate = "rocket::serde")]
 pub enum SignInError {
     #[error("Invalid email")]
     InvalidEmail,

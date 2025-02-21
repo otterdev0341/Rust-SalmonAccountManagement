@@ -36,10 +36,10 @@ pub struct ReqUpdateCompanyDto {
 #[schema(example = json!({
     "id": "2390whflksjf0993",
     "name": "Otter heaven inc",
-    "owner_id": "029j9sjfe9032",
+    "ownerId": "029j9sjfe9032",
     "description": "use tech to grow sweet fish",
-    "created_at": "2021-08-01T00:00:00Z",
-    "updated_at": "2021-08-01T00:00:00Z"
+    "createdAt": "2021-08-01T00:00:00Z",
+    "updatedAt": "2021-08-01T00:00:00Z"
 }))]
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
@@ -60,17 +60,17 @@ pub struct ResEntryCompanyDto{
         {
             "id": "2390whflksjf0993",
             "name": "Otter heaven inc",
-            "owner_id": "029j9sjfe9032",
+            "ownerId": "029j9sjfe9032",
             "description": "use tech to grow sweet fish",
-            "created_at": "2021-08-01T00:00:00Z",
-            "updated_at": "2021-08-01T00:00:00Z"
+            "createdAt": "2021-08-01T00:00:00Z",
+            "updatedAt": "2021-08-01T00:00:00Z"
         },{
             "id": "230sdfnklseo",
             "name": "Otter Paradise inc",
-            "owner_id": "u8futy20lksdnfo0e",
+            "ownerId": "u8futy20lksdnfo0e",
             "description": "better live, better fish",
-            "created_at": "2021-08-01T00:00:00Z",
-            "updated_at": "2021-08-01T00:00:00Z"
+            "createdAt": "2021-08-01T00:00:00Z",
+            "updatedAt": "2021-08-01T00:00:00Z"
         }
     ]
 }))]
@@ -81,13 +81,43 @@ pub struct ResListEntryCompanyDto{
 }
 
 #[derive(Serialize,ToSchema)]
+#[schema(example = json!({
+    "companyName": "Otter heaven inc",
+    "totalUser": 2,
+    "users": [
+        {
+            "id": "2390whflksjf0993",
+            "username": "kotaro_cute",
+            "firstName": "kotaro the otter",
+            "lastName": "cute",
+            "email": "kotaro@moew.com"
+        },{
+            "id": "230sdfnklseo",
+            "username": "hana_the_princess",
+            "firstName": "hana the salmon destroyer",
+            "lastName": "cute",
+            "email": "hana@moew.com"
+        }
+    ]
+}))]
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 pub struct ResCompanyRelateUserDto{
-    pub company_id: String,
     pub company_name: String,
+    pub total_user: i32,
     pub users: Vec<ResEntryUserDto>,
     
 }
 
 
+#[derive(Deserialize,Serialize, ToSchema)]
+#[schema(example = json!({
+    "companyId": "2390whflksjf0993",
+    "userEmail": "kotaro@meow.com"
+}))]
+#[serde(rename_all = "camelCase")]
+#[serde(crate = "rocket::serde")]
+pub struct AddRemoveUserToCompanyDto{
+    pub company_id: String,
+    pub user_email: String,
+}
