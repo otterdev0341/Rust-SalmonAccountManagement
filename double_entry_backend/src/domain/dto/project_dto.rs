@@ -12,7 +12,7 @@ use utoipa::ToSchema;
 }))]
 #[serde(crate = "rocket::serde")]
 #[serde(rename_all = "camelCase")]
-pub struct ReqCreatProjectDto {
+pub struct ReqCreateProjectDto {
     pub name: String,
     pub description: String,
     pub company_id: String,
