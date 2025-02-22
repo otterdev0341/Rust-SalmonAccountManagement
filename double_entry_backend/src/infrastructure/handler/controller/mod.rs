@@ -7,3 +7,4 @@ pub mod customer;
 pub mod customer_contact;
 pub mod info;
 pub mod project;
+pub mod location;

@@ -104,6 +104,7 @@ package "Project Management" {
     usecase edit_location_type
     usecase delete_location_type
     usecase view_location_type
+    usecase view_location_types
 
     ' project_location'
     usecase attach_location_to_project
@@ -112,6 +113,7 @@ package "Project Management" {
     ' project info'
     usecase create_info
     usecase edit_info
+    usecase update_info
     usecase delete_info
     usecase view_infos
 
@@ -129,6 +131,7 @@ package "Project Management" {
     User --> (delete_project)
     User --> (view_project)
     User --> (view_projects)
+
     User --> (create_project_location)
     User --> (edit_project_location)
     User --> (delete_project_location)
