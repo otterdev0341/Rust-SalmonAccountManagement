@@ -10,7 +10,7 @@ use utoipa::ToSchema;
 }))]
 #[serde(crate = "rocket::serde")]
 #[serde(rename_all = "camelCase")]
-pub struct ReqCreateProjectStatus {
+pub struct ReqCreateProjectStatusDto {
     pub name: String,
     pub description: String,
 }
@@ -27,7 +27,7 @@ pub struct ReqCreateProjectStatus {
 }))]
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
-pub struct ResEntryProjectStatus {
+pub struct ResEntryProjectStatusDto {
     pub id: String,
     pub name: String,
     pub description: String,
@@ -57,9 +57,9 @@ pub struct ResEntryProjectStatus {
 }))]
 #[serde(crate = "rocket::serde")]
 #[serde(rename_all = "camelCase")]
-pub struct ResListProjectStatus {
+pub struct ResListProjectStatusDto {
     pub total: i32,
-    pub statuses: Vec<ResEntryProjectStatus>,
+    pub statuses: Vec<ResEntryProjectStatusDto>,
 }
 
 
@@ -70,7 +70,7 @@ pub struct ResListProjectStatus {
 }))]
 #[serde(crate = "rocket::serde")]
 #[serde(rename_all = "camelCase")]
-pub struct ReqUpdateProjectStatus {
+pub struct ReqUpdateProjectStatusDto {
     pub name: Option<String>,
     pub description: Option<String>,
 }

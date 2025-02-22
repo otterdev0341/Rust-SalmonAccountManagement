@@ -10,3 +10,4 @@ pub mod api_config;
 pub mod api_doc_project_config;
 pub mod api_doc_location_config;
 pub mod api_doc_location_type_config;
+pub mod api_doc_project_status_config;
