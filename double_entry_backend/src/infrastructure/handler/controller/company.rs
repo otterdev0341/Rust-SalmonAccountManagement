@@ -80,7 +80,8 @@ fn test () -> Result<String, u8> {
     }
     
 }
-#[allow(unused_variables)]
+
+
 #[utoipa::path(
     put,
     path = "/company{company_id}",
@@ -108,13 +109,13 @@ pub async fn edit_company(
     user : AuthenticatedUser,
     company_id: &str,
     update_company: Json<ReqUpdateCompanyDto>
-) -> &'static str {
-    "company edited"
+) -> ApiResponse<String>{
+    todo!()
 }
 
 
 
-#[allow(unused_variables)]
+
 #[utoipa::path(
     delete,
     path = "/company/{company_id}",
@@ -139,9 +140,9 @@ pub async fn edit_company(
 pub async fn delete_company(
     user : AuthenticatedUser,
     company_id: &str
-) -> &'static str {
+) -> ApiResponse<String> {
     // only the owner of the company can delete the company
-    "company deleted"
+    todo!()
 }
 
 
@@ -151,7 +152,7 @@ pub async fn delete_company(
 
 
 
-#[allow(unused_variables)]
+
 #[utoipa::path(
     post,
     path = "/company/user-company",
@@ -176,13 +177,13 @@ pub async fn delete_company(
 pub async fn add_user_to_company(
     user : AuthenticatedUser,
     company_data: Json<AddRemoveUserToCompanyDto>
-) -> &'static str {
-    "user added to company"
+) -> ApiResponse<String> {
+    todo!();
 }
 
 
 
-#[allow(unused_variables)]
+
 #[utoipa::path(
     delete,
     path = "/company/user-company",
@@ -207,7 +208,7 @@ pub async fn add_user_to_company(
 pub async fn remove_user_from_company(
     user : AuthenticatedUser,
     company_data: Json<AddRemoveUserToCompanyDto>
-) -> ApiResponse<()> {
+) -> ApiResponse<String> {
     todo!();
 }
 
@@ -215,7 +216,7 @@ pub async fn remove_user_from_company(
 
 
 
-#[allow(unused_variables)]
+
 #[utoipa::path(
     get,
     path = "/company/{company_id}",
@@ -244,7 +245,7 @@ pub async fn remove_user_from_company(
 pub async fn view_company(
     user : AuthenticatedUser,
     company_id: &str
-) -> Json<ResEntryCompanyDto> {
+) -> ApiResponse<ResEntryCompanyDto> {
     // to veiew company, the user must be the owner of the company
     // or the user must be the member of the company
     todo!()
@@ -252,7 +253,7 @@ pub async fn view_company(
 
 
 
-#[allow(unused_variables)]
+
 #[utoipa::path(
     get,
     path = "/company",
@@ -277,7 +278,7 @@ pub async fn view_company(
 #[get("/company", format = "json")]
 pub async fn view_companies(
     user : AuthenticatedUser
-) -> Json<ResListEntryCompanyDto> {
+) -> ApiResponse<ResListEntryCompanyDto> {
     // to retrieve companies, the user must be the owner of the company
     // or the user must be the member of the company
     todo!()
@@ -285,7 +286,7 @@ pub async fn view_companies(
 
 
 
-#[allow(unused_variables)]
+
 #[utoipa::path(
     get,
     path = "/company/user-company/{company_id}",
@@ -314,7 +315,7 @@ pub async fn view_companies(
 pub async fn view_company_users(
     user : AuthenticatedUser,
     company_id: &str
-) -> Json<ResCompanyRelateUserDto> {
+) -> ApiResponse<ResCompanyRelateUserDto> {
     // to retrieve company users, the user must be the owner of the company
     todo!("view company users")
 }

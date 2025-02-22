@@ -1,6 +1,8 @@
 use utoipa::OpenApi;
 
-use super::{api_doc_auth_config::AuthApi, api_doc_company_config::CompanyApi, api_doc_utility_config::UtilityApi};
+use super::api_doc_config::{api_doc_auth_config::AuthApi, api_doc_company_config::CompanyApi, api_doc_utility_config::UtilityApi};
+
+
 
 
 
