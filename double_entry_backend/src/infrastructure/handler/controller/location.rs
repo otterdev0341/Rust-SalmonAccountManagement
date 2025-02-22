@@ -11,6 +11,8 @@ pub fn location_routes() -> Vec<Route> {
         view_locations,
         edit_location,
         delete_location,
+        attach_location_to_project,
+        detach_location_from_project,
         options
     ]
 }
@@ -164,3 +166,74 @@ pub async fn delete_location(
 -> ApiResponse<String> {
     todo!()
 }
+
+
+
+
+
+
+#[utoipa::path(
+    post,
+    path = "location/{location_id}/project/{project_id}",
+    summary = "Attach location to project",
+    description = "Attach location to project",
+    tags = ["location"],
+    security(
+        ("bearer_auth" = [])
+    ),
+    params(
+        ("location_id" = String, Path, description = "Location id"),
+        ("project_id" = String, Path, description = "Project id")
+    ),
+    responses(
+        (status = 200, description = "Location attached to project"),
+        (status = 400, description = "Invalid location or project id"),
+        (status = 404, description = "Location or project not found"),
+        (status = 409, description = "Location already attached to project"),
+        (status = 500, description = "Internal server error")
+    ),
+    
+)]
+#[post("/<location_id>/project/<project_id>", format = "json")]
+pub async fn attach_location_to_project(
+    user: AuthenticatedUser,
+    location_id: String,
+    project_id: String
+) -> ApiResponse<String> {
+    todo!()
+}
+
+
+
+
+#[utoipa::path(
+    delete,
+    path = "location/{location_id}/project/{project_id}",
+    summary = "Detach location from project",
+    description = "Detach location from project",
+    tags = ["location"],
+    security(
+        ("bearer_auth" = [])
+    ),
+    params(
+        ("location_id" = String, Path, description = "Location id"),
+        ("project_id" = String, Path, description = "Project id")
+    ),
+    responses(
+        (status = 200, description = "Location detached from project"),
+        (status = 400, description = "Invalid location or project id"),
+        (status = 404, description = "Location or project not found"),
+        (status = 409, description = "Location not attached to project"),
+        (status = 500, description = "Internal server error")
+    ),
+    
+)]
+#[delete("/<location_id>/project/<project_id>", format = "json")]
+pub async fn detach_location_from_project(
+    user: AuthenticatedUser,
+    location_id: String,
+    project_id: String
+) -> ApiResponse<String> {
+    todo!()
+}
+

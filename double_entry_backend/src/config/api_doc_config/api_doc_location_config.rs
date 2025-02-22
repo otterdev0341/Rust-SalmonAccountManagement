@@ -14,7 +14,9 @@ use crate::config::api_doc_config::api_security_addon::SecurityAddon;
         crate::infrastructure::handler::controller::location::view_locations,
         crate::infrastructure::handler::controller::location::edit_location,
         crate::infrastructure::handler::controller::location::delete_location,
-        crate::infrastructure::handler::controller::location::create_location
+        crate::infrastructure::handler::controller::location::create_location,
+        crate::infrastructure::handler::controller::location::attach_location_to_project,
+        crate::infrastructure::handler::controller::location::detach_location_from_project
     ),
     components(
         schemas(
