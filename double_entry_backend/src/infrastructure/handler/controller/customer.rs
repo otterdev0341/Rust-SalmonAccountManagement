@@ -2,7 +2,7 @@ use rocket::{delete, get, post, put, routes, serde::json::Json, Route};
 use crate::{domain::dto::{auth_dto::AuthenticatedUser, company_dto::ReqUpdateCompanyDto, customer_dto::{ReqCreateCustomerDto, ReqUpdateCustomerDto, ResEntryCustomerDto, ResListEntryCustomerDto}}, infrastructure::{faring::cors::options, handler::api_response::api_response::ApiResponse}};
 
 
-pub fn company_routes() -> Vec<Route> {
+pub fn customer_routes() -> Vec<Route> {
     routes![
         view_customer,
         view_customers,

@@ -3,3 +3,4 @@
 pub mod auth_dto;
 pub mod company_dto;
 pub mod customer_dto;
+pub mod customer_contact_dto;

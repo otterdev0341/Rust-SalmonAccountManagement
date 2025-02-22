@@ -198,7 +198,8 @@ package "Customer Management" {
         mobile_phone_3: String
         email: String
         address: String
-        
+        created_at: Date
+        updated_at: Date
     }
 }
 

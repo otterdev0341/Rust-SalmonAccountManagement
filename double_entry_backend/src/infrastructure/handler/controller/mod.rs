@@ -4,3 +4,4 @@ pub mod company;
 pub mod utility;
 pub mod account;
 pub mod customer;
+pub mod customer_contact;

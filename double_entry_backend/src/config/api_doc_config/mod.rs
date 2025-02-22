@@ -4,3 +4,4 @@ pub mod api_doc_utility_config;
 pub mod api_security_addon;
 pub mod api_doc_account_config;
 pub mod api_doc_customer_config;
+pub mod api_doc_customer_contact;

@@ -68,6 +68,7 @@ package "Customer Management" {
     usecase edit_customer_contact
     usecase delete_customer_contact
     usecase view_customer_contact
+    usecase view_customer_contacts
     
    
     
@@ -80,6 +81,7 @@ package "Customer Management" {
     User --> (edit_customer_contact)
     User --> (delete_customer_contact)
     User --> (view_customer_contact)
+    User --> (view_customer_contacts)
     ' 9 '
 }
 
