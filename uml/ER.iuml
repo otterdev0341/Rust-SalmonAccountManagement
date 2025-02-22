@@ -37,18 +37,21 @@ package "Company Management" {
 package "Project Management" {
     
     Struct Project {
-    id <<pk>>
-    name: String
-    description: String
-    company_id: <<FK>> Company
-    project_status_id: <<FK>> ProjectStatus
-    
+        id <<pk>>
+        name: String
+        description: String
+        company_id: <<FK>> Company
+        project_status_id: <<FK>> ProjectStatus
+        created_at: Date
+        updated_at: Date
     }
 
     Struct ProjectStatus {
         id <<pk>>
         name: String 'e.g., "active", "inactive", "completed"'
         description: String
+        created_at: Date
+        updated_at: Date
     }
 
     Struct Location {
@@ -59,6 +62,8 @@ package "Project Management" {
         long: String
         location_type_id: <<FK>> LocationType
         description: String
+        created_at: Date
+        updated_at: Date
         
     }
 
@@ -66,27 +71,31 @@ package "Project Management" {
         id <<pk>>
         project_id: <<FK>> Project
         location_id: <<FK>> Location
+        
     }
 
     Struct LocationType {
         id <<pk>>
         name: String 'Condo, Villa, Land'
         description: String
+        created_at: Date
+        updated_at: Date
     }
 
-    Struct ProjectInfo{
+    Struct Info{
         id <<pk>>
         project_id: <<FK>> Project
-        name: String
-        description: String
+        user_id: <<FK>> User
+        title: String
+        content: String
+        created_at: Date
+        updated_at: Date
         
     }
 
-    Struct UserProjectInfo {
-        id <<pk>>
-        user_id: <<FK>> User
-        project_info_id: <<FK>> ProjectInfo
-        role: String 'e.g., "admin", "manager"'
+    Struct ProjectInfo {
+        project_id: <<FK>> Project
+        info_id: <<FK>> Info
     }
 }
 
@@ -222,8 +231,11 @@ Company "1" -- "0..*" Project : "has || have many"
 Project "1" -- "0..*" ProjectLocation : "has"
 Location "1" -- "0..*" ProjectLocation : "has"
 Project "1" -- "0..*" ProjectInfo : "has"
-User "1" -- "0..*" UserProjectInfo : "has"
-ProjectInfo "1" -- "0..*" UserProjectInfo : "has"
+Info "1" -- "0..*" ProjectInfo : "has"
+Info "1..*" -- "1" User : "has"
+Project "1" -- "1" ProjectStatus : "has"
+
+
 Location "1" -- "1" LocationType : "has"
 BankAccount "1" -- "1" BankAccountType : "has"
 ChartOfAccount "1" -- "0..*" BankAccount : "has"

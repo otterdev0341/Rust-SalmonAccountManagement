@@ -4,3 +4,8 @@ pub mod auth_dto;
 pub mod company_dto;
 pub mod customer_dto;
 pub mod customer_contact_dto;
+pub mod project_dto;
+pub mod info_dto;
+pub mod project_status;
+pub mod location_dto;
+pub mod location_type;

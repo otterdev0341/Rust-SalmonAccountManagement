@@ -86,31 +86,36 @@ package "Customer Management" {
 }
 
 package "Project Management" {
-    
+    ' project '
     usecase create_project
     usecase edit_project
     usecase delete_project
     usecase view_project
     usecase view_projects
     
+    ' location '
     usecase create_project_location
     usecase edit_project_location
     usecase delete_project_location
     usecase view_project_location
 
+    ' location type '
     usecase create_location_type
     usecase edit_location_type
     usecase delete_location_type
     usecase view_location_type
 
+    ' project_location'
     usecase attach_location_to_project
     usecase detach_location_from_project
 
+    ' project info'
     usecase create_project_info
     usecase edit_project_info
     usecase delete_project_info
     usecase view_project_infos
 
+    ' project status '
     usecase create_project_status
     usecase edit_project_status
     usecase delete_project_status
