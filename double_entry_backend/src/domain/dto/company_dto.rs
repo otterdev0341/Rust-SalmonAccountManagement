@@ -36,7 +36,6 @@ pub struct ReqUpdateCompanyDto {
 #[schema(example = json!({
     "id": "2390whflksjf0993",
     "name": "Otter heaven inc",
-    "ownerId": "029j9sjfe9032",
     "description": "use tech to grow sweet fish",
     "createdAt": "2021-08-01T00:00:00Z",
     "updatedAt": "2021-08-01T00:00:00Z"
@@ -46,7 +45,6 @@ pub struct ReqUpdateCompanyDto {
 pub struct ResEntryCompanyDto{
     pub id : String,
     pub name : String,
-    pub owner_id : String,
     pub description : String,
     pub created_at : String,
     pub updated_at : String,
@@ -60,14 +58,12 @@ pub struct ResEntryCompanyDto{
         {
             "id": "2390whflksjf0993",
             "name": "Otter heaven inc",
-            "ownerId": "029j9sjfe9032",
             "description": "use tech to grow sweet fish",
             "createdAt": "2021-08-01T00:00:00Z",
             "updatedAt": "2021-08-01T00:00:00Z"
         },{
             "id": "230sdfnklseo",
             "name": "Otter Paradise inc",
-            "ownerId": "u8futy20lksdnfo0e",
             "description": "better live, better fish",
             "createdAt": "2021-08-01T00:00:00Z",
             "updatedAt": "2021-08-01T00:00:00Z"

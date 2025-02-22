@@ -24,7 +24,6 @@ package "Company Management" {
     id <<pk>>
     name: String
     description: String
-    owner_id: <<FK>> User
     created_at: Date
     updated_at: Date
     }
@@ -185,13 +184,15 @@ package "Customer Management" {
     Struct Customer {
         id: <<pk>>
         name: String
-        customer_contact_id: <<FK>> CustomerContact
         company_id: <<FK>> Company
+        created_at: Date
+        updated_at: Date
         
     }
 
     Struct CustomerContact {
         id: <<pk>>
+        customer_id: <<FK>> Customer
         mobile_phone_1: String
         mobile_phone_2: String
         mobile_phone_3: String
@@ -215,7 +216,7 @@ User "1" -- "0..*" UserCompany : "has access"
 User "1" -- "0..*" Company : "owns"
 Company "1" -- "0..*" UserCompany : "has users"
 Company "1" -- "0..*" Customer: "has"
-Customer "0..1" -- "1" CustomerContact: "has"
+Customer "1" -- "1" CustomerContact: "has"
 Company "1" -- "0..*" Project : "has || have many"
 Project "1" -- "0..*" ProjectLocation : "has"
 Location "1" -- "0..*" ProjectLocation : "has"

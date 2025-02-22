@@ -4,8 +4,10 @@ actor User
 ' min 62 API '
 
 package "Authentication" {
+    ' routes auth '
     usecase register
     usecase login
+    ' frontend handle, bec it stateless '
     usecase logout
 
     User --> (register)
@@ -14,26 +16,24 @@ package "Authentication" {
     ' 3 '
 }
 
-package "User Management" {
+package "Account System Management" {
     
-
-    usecase forgot_password
+    ' routes user ' 
     usecase delete_account
-    usecase change_email
+    usecase update_user_profile
     usecase change_password
     usecase view_profile
 
 
-    User --> (forgot_password)
     User --> (delete_account)
-    User --> (change_email)
+    User --> (update_user_profile)
     User --> (change_password)
     User --> (view_profile)
     ' 5 '
 }
 
 package "Company Management" {
-    
+    ' routes company '
     usecase create_company
     usecase edit_company
     usecase delete_company
@@ -56,12 +56,14 @@ package "Company Management" {
 }
 
 package "Customer Management" {
-    
+    ' customer '
     usecase create_customer
     usecase edit_customer
     usecase delete_customer
     usecase view_customer
     usecase view_customers
+    
+    ' contact '
     usecase create_customer_contact
     usecase edit_customer_contact
     usecase delete_customer_contact

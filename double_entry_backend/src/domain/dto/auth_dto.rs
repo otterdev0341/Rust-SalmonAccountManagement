@@ -27,7 +27,7 @@ pub struct ReqCreateUserDto {
 }
 
 #[derive(Serialize, ToSchema)]
-#[schema(example = json!({"id": "1", "username": "kotaro_cute", "first_name": "kotaro", "last_name": "cute", "email": "kotaro_work.com"}))]
+#[schema(example = json!({"id": "2309jfslkjfe90jklfh", "username": "kotaro_cute", "first_name": "kotaro", "last_name": "cute", "email": "kotaro_work.com"}))]
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 pub struct ResEntryUserDto {
@@ -71,4 +71,30 @@ pub struct ClaimsDto {
 pub struct AuthenticatedUser {
     pub id: Uuid,
     pub username: String,  
+}
+
+
+#[derive(Debug, Deserialize, Serialize, ToSchema)]
+#[schema(example
+= json!({
+    "firstName": "all new kotaro",
+    "lastName": "cute otter",
+    "email": "kotaro_note_work.com"
+}))]
+#[serde(rename_all = "camelCase")]
+#[serde(crate = "rocket::serde")]
+pub struct ReqUpdateUserDto {
+    pub first_name: Option<String>,
+    pub last_name: Option<String>,
+    pub email: Option<String>,
+}
+
+
+
+#[derive(Debug, Deserialize, Serialize,ToSchema)]
+#[schema(example = json!({"password":"newpassword"}))]
+#[serde(rename_all = "camelCase")]
+#[serde(crate = "rocket::serde")]
+pub struct ReqUpdatePasswordDto {
+    pub password: String,
 }

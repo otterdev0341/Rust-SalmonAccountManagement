@@ -1,6 +1,6 @@
 use utoipa::OpenApi;
 
-use super::api_doc_config::{api_doc_auth_config::AuthApi, api_doc_company_config::CompanyApi, api_doc_utility_config::UtilityApi};
+use super::api_doc_config::{api_doc_account_config::AccountApi, api_doc_auth_config::AuthApi, api_doc_company_config::CompanyApi, api_doc_customer_config::CustomerApi, api_doc_utility_config::UtilityApi};
 
 
 
@@ -11,6 +11,8 @@ pub fn init_openapi() -> utoipa::openapi::OpenApi {
         AuthApi::openapi(),
         CompanyApi::openapi(),
         UtilityApi::openapi(),
+        AccountApi::openapi(),
+        CustomerApi::openapi()
     ];
     
     let mut all_api = register.into_iter();

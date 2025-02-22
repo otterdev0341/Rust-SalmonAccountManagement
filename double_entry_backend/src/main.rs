@@ -11,10 +11,6 @@ use utoipa_swagger_ui::SwaggerUi;
 
 
 
-#[get("/")]
-fn health() -> &'static str {
-    "server is running!!"
-}
 
 
 #[rocket::main]
@@ -44,7 +40,6 @@ async fn main() -> Result<(), rocket::Error> {
     // inittial rocket
     let _rocket = rocket::build()
         .attach(CORS)
-        .mount("/", routes![health])
         .attach(init_controller_setup())
         .mount("/", 
             SwaggerUi::new("/swagger-ui/<_..>")
