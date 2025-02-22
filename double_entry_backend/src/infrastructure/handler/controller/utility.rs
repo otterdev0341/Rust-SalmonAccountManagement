@@ -19,7 +19,7 @@ pub fn utility_routes() -> Vec<Route> {
 
 #[utoipa::path(
     get,
-    path = "/server_status",
+    path = "/check/server_status",
     summary = "Check server status",
     description = "Check server status",
     tags = ["utility"],
@@ -35,7 +35,7 @@ pub async fn server_check() -> ApiResponse<String> {
 
 #[utoipa::path(
     get,
-    path = "/database_status",
+    path = "/check/database_status",
     summary = "Check database status",
     description = "Check database status",
     tags = ["utility"],

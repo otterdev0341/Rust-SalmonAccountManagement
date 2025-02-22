@@ -1,5 +1,16 @@
-use rocket::{delete, get, put, serde::json::Json};
-use crate::{domain::dto::auth_dto::{AuthenticatedUser, ReqUpdatePasswordDto, ReqUpdateUserDto, ResEntryUserDto}, infrastructure::handler::api_response::api_response::ApiResponse};
+use rocket::{delete, get, put, routes, serde::json::Json, Route};
+use crate::{domain::dto::auth_dto::{AuthenticatedUser, ReqUpdatePasswordDto, ReqUpdateUserDto, ResEntryUserDto}, infrastructure::{faring::cors::options, handler::api_response::api_response::ApiResponse}};
+
+pub fn account_routes() -> Vec<Route> {
+    routes![
+        delete_account,
+        update_user_profile,
+        change_password,
+        view_profile,
+        options
+    ]
+}
+
 
 #[utoipa::path(
     delete,
@@ -17,7 +28,7 @@ use crate::{domain::dto::auth_dto::{AuthenticatedUser, ReqUpdatePasswordDto, Req
         (status = 500, description = "Internal server error")
     ),
 )]
-#[delete("/account")]
+#[delete("/", format = "json")]
 pub async fn delete_account(
     user : AuthenticatedUser
     ) 
@@ -33,7 +44,7 @@ pub async fn delete_account(
 
 #[utoipa::path(
     put,
-    path = "/account/user-profile",
+    path = "/account/update-profile",
     summary = "Update user profile",
     description = "Update user profile",
     tags = ["account"],
@@ -47,7 +58,7 @@ pub async fn delete_account(
         (status = 500, description = "Internal server error")
     ),
 )]
-#[put("/account/user-profile", format = "json", data = "<update_data>")]
+#[put("/update-profile", format = "json", data = "<update_data>")]
 pub async fn update_user_profile(
     user : AuthenticatedUser,
     update_data: Json<ReqUpdateUserDto>
@@ -61,7 +72,7 @@ pub async fn update_user_profile(
 
 #[utoipa::path(
     put,
-    path = "/account/email",
+    path = "/account/password",
     summary = "Change email",
     description = "Change email",
     tags = ["account"],
@@ -75,7 +86,7 @@ pub async fn update_user_profile(
         (status = 500, description = "Internal server error")
     ),
 )]
-#[put("/account/password", format = "json", data = "<update_data>")]
+#[put("/password", format = "json", data = "<update_data>")]
 pub async fn change_password(
     user : AuthenticatedUser,
     update_data: Json<ReqUpdatePasswordDto>

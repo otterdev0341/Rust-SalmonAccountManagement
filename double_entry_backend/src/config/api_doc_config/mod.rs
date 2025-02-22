@@ -5,3 +5,5 @@ pub mod api_security_addon;
 pub mod api_doc_account_config;
 pub mod api_doc_customer_config;
 pub mod api_doc_customer_contact;
+pub mod api_doc_info_config;
+pub mod api_config;

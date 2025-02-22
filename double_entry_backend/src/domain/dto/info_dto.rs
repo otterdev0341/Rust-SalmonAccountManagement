@@ -80,7 +80,7 @@ pub struct RestListInfoDto {
 }))]
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
-pub struct RequpdateInfoDto {
+pub struct ReqUpdateInfoDto {
     pub title: Option<String>,
     pub content: Option<String>,
 }

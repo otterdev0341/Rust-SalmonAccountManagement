@@ -1,0 +1,16 @@
+use utoipa::OpenApi;
+
+
+#[derive(OpenApi)]
+#[openapi(
+    info(
+        title = "Salmon Account Management API",
+        version = "0.1.0",
+        description = "API for Entry Project"
+    ),
+    servers(
+        (url = "http://127.0.0.1:8000/v1", description = "Local Development Server"),
+        
+    ),
+)]
+pub struct ConfigApi;

@@ -20,7 +20,7 @@ pub fn auth_routes() -> Vec<Route> {
 #[allow(unused_variables)]
 #[utoipa::path(
     post,
-    path = "/sign-in",
+    path = "/auth/sign-in",
     request_body = ReqSignInDto,
     summary = "Sign in",
     description = "Sign in to the application",
@@ -47,7 +47,7 @@ pub async fn sign_in(req_sign_in: Json<ReqSignInDto>) -> Json<ResSignInDto> {
 #[allow(unused_variables)]
 #[utoipa::path(
     post,
-    path = "/sign-up",
+    path = "/auth/sign-up",
     request_body = ReqCreateUserDto,
     summary = "Sign up",
     description = "Sign up to the application",

@@ -33,7 +33,7 @@ pub fn customer_routes() -> Vec<Route> {
         (status = 500, description = "Internal server error")
     ),
 )]
-#[get("/customer/<customer_id>")]
+#[get("/<customer_id>")]
 pub async fn view_customer(
     user: AuthenticatedUser,
     customer_id : String
@@ -46,7 +46,7 @@ pub async fn view_customer(
 
 #[utoipa::path(
     get,
-    path = "/customer",
+    path = "customer/",
     summary = "View customers",
     description = "View customers",
     tags = ["customer"],
@@ -63,7 +63,7 @@ pub async fn view_customer(
         (status = 500, description = "Internal server error")
     ),
 )]
-#[get("/customer")]
+#[get("/")]
 pub async fn view_customers(
     user: AuthenticatedUser
 ) -> ApiResponse<ResListEntryCustomerDto> {
@@ -92,7 +92,7 @@ pub async fn view_customers(
         (status = 500, description = "Internal server error")
     ),
 )]
-#[post("/customer", format = "json", data = "<customer_data>")]
+#[post("/", format = "json", data = "<customer_data>")]
 pub async fn create_customer(
     user: AuthenticatedUser,
     customer_data : Json<ReqCreateCustomerDto>
@@ -124,7 +124,7 @@ pub async fn create_customer(
         (status = 500, description = "Internal server error")
     ),
 )]
-#[put("/customer/<customer_id>", format = "json", data = "<customer_data>")]
+#[put("/<customer_id>", format = "json", data = "<customer_data>")]
 pub async fn edit_customer(
     user: AuthenticatedUser,
     customer_id : String,
@@ -156,7 +156,7 @@ pub async fn edit_customer(
         (status = 500, description = "Internal server error")
     ),
 )]
-#[delete("/customer/<customer_id>")]
+#[delete("/<customer_id>")]
 pub async fn delete_customer(
     user: AuthenticatedUser,
     customer_id : String

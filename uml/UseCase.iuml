@@ -110,10 +110,10 @@ package "Project Management" {
     usecase detach_location_from_project
 
     ' project info'
-    usecase create_project_info
-    usecase edit_project_info
-    usecase delete_project_info
-    usecase view_project_infos
+    usecase create_info
+    usecase edit_info
+    usecase delete_info
+    usecase view_infos
 
     ' project status '
     usecase create_project_status
@@ -139,11 +139,11 @@ package "Project Management" {
     User --> (view_location_type)
     User --> (attach_location_to_project)
     User --> (detach_location_from_project)
-    User --> (create_project_info)
-    User --> (edit_project_info)
-    User --> (delete_project_info)
-    User --> (view_project_info)
-    User --> (view_project_infos)
+    User --> (create_info)
+    User --> (edit_info)
+    User --> (delete_info)
+    User --> (view_info)
+    User --> (view_infos)
     User --> (create_project_status)
     User --> (edit_project_status)
     User --> (delete_project_status)

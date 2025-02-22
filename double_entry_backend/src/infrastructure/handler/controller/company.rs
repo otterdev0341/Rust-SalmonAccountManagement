@@ -53,7 +53,7 @@ pub fn company_routes() -> Vec<Route> {
     ),
     
 )]
-#[post("/company", format = "json", data = "<company_data>")]
+#[post("/", format = "json", data = "<company_data>")]
 pub async fn create_company(
     user : AuthenticatedUser,
     company_data: Json<ReqCreateCompanyDto>
@@ -84,7 +84,7 @@ fn test () -> Result<String, u8> {
 
 #[utoipa::path(
     put,
-    path = "/company{company_id}",
+    path = "/{company_id}",
     request_body = ReqUpdateCompanyDto,
     summary = "Edit company",
     description = "Edit company",
@@ -104,7 +104,7 @@ fn test () -> Result<String, u8> {
     ),
     
 )]
-#[put("/company/<company_id>", format = "json", data = "<update_company>")]
+#[put("/<company_id>", format = "json", data = "<update_company>")]
 pub async fn edit_company(
     user : AuthenticatedUser,
     company_id: &str,
@@ -136,7 +136,7 @@ pub async fn edit_company(
     ),
     
 )]
-#[delete("/company/<company_id>", format = "json")]
+#[delete("/<company_id>", format = "json")]
 pub async fn delete_company(
     user : AuthenticatedUser,
     company_id: &str
@@ -173,7 +173,7 @@ pub async fn delete_company(
     ),
     
 )]
-#[post("/company/user-company", format = "json", data = "<company_data>")]
+#[post("/user-company", format = "json", data = "<company_data>")]
 pub async fn add_user_to_company(
     user : AuthenticatedUser,
     company_data: Json<AddRemoveUserToCompanyDto>
@@ -204,7 +204,7 @@ pub async fn add_user_to_company(
     ),
     
 )]
-#[delete("/company/user-company", format = "json", data = "<company_data>")]
+#[delete("/user-company", format = "json", data = "<company_data>")]
 pub async fn remove_user_from_company(
     user : AuthenticatedUser,
     company_data: Json<AddRemoveUserToCompanyDto>
