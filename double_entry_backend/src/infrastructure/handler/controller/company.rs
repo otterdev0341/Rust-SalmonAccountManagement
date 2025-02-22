@@ -2,12 +2,11 @@
 // it must be create by user and create relation within UserCompany Table
 
 
-use rocket::{delete, get, post, put, routes, serde::json::Json, Route};
+use rocket::{delete, get, http::Status, post, put, routes, serde::json::Json, Route};
 
-use crate::{domain::dto::{auth_dto::AuthenticatedUser, company_dto::{AddRemoveUserToCompanyDto, ReqCreateCompanyDto, ReqUpdateCompanyDto, ResCompanyRelateUserDto, ResEntryCompanyDto, ResListEntryCompanyDto}, }, infrastructure::{faring::cors::options, handler::api_response::api_response::ApiResponse}};
+use crate::{domain::dto::{auth_dto::AuthenticatedUser, company_dto::{AddRemoveUserToCompanyDto, ReqCreateCompanyDto, ReqUpdateCompanyDto, ResCompanyRelateUserDto, ResEntryCompanyDto, ResListEntryCompanyDto}, }, infrastructure::{faring::cors::options, handler::{api_response::api_response::{ApiErrorResponse, ApiResponse, ApiSuccessResponse}, error_definition::company_error::CompanySuccess}}};
 
-#[allow(dead_code)]
-#[allow(unused_variables)]
+
 
 pub fn company_routes() -> Vec<Route> {
     routes![
@@ -61,12 +60,17 @@ pub async fn create_company(
 ) 
 -> ApiResponse<String> {
     // company can't create by it self
+    let result = test();
     
     
-    todo!()
+    match result {
+        Ok(_) => Ok(ApiSuccessResponse::new("success", "Company created".to_string())),
+        Err(_) => Err(ApiErrorResponse::new("fail to create".to_string(), "Internal server error".to_string()))
+    }
 
     
 }
+
 
 fn test () -> Result<String, u8> {
     let a = 1;
@@ -76,7 +80,7 @@ fn test () -> Result<String, u8> {
     }
     
 }
-
+#[allow(unused_variables)]
 #[utoipa::path(
     put,
     path = "/company{company_id}",
@@ -108,6 +112,9 @@ pub async fn edit_company(
     "company edited"
 }
 
+
+
+#[allow(unused_variables)]
 #[utoipa::path(
     delete,
     path = "/company/{company_id}",
@@ -144,7 +151,7 @@ pub async fn delete_company(
 
 
 
-
+#[allow(unused_variables)]
 #[utoipa::path(
     post,
     path = "/company/user-company",
@@ -175,7 +182,7 @@ pub async fn add_user_to_company(
 
 
 
-
+#[allow(unused_variables)]
 #[utoipa::path(
     delete,
     path = "/company/user-company",
@@ -208,7 +215,7 @@ pub async fn remove_user_from_company(
 
 
 
-
+#[allow(unused_variables)]
 #[utoipa::path(
     get,
     path = "/company/{company_id}",
@@ -245,7 +252,7 @@ pub async fn view_company(
 
 
 
-
+#[allow(unused_variables)]
 #[utoipa::path(
     get,
     path = "/company",
@@ -278,7 +285,7 @@ pub async fn view_companies(
 
 
 
-
+#[allow(unused_variables)]
 #[utoipa::path(
     get,
     path = "/company/user-company/{company_id}",

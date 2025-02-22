@@ -17,6 +17,27 @@ pub struct ApiErrorResponse {
     pub message: String,
 }
 
+
+impl ApiSuccessResponse<String> {
+    pub fn new(status: &str,data: String) -> Self {
+        ApiSuccessResponse {
+            status: status.to_string(),
+            data,
+        }
+    }
+}
+
+
+impl ApiErrorResponse {
+    pub fn new(status: String,message: String) -> Self {
+        ApiErrorResponse {
+            status: status,
+            message: message,
+        }
+    }
+}
+
+
 // Implementing Responder for ApiSuccessResponse
 impl<'r, T> Responder<'r, 'r> for ApiSuccessResponse<T>
 where

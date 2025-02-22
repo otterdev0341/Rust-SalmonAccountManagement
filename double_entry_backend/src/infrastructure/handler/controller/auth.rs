@@ -3,7 +3,7 @@ use rocket::{post, routes, serde::json::Json, Route};
 use crate::{domain::dto::auth_dto::{ReqCreateUserDto, ReqSignInDto, ResSignInDto}, infrastructure::faring::cors::options};
 
 #[allow(dead_code)]
-#[allow(unused_variables)]
+
 
 // this for register at a_init_routes.rs
 // assign options to allow parse json body in to the request
@@ -17,7 +17,7 @@ pub fn auth_routes() -> Vec<Route> {
 
 
 
-
+#[allow(unused_variables)]
 #[utoipa::path(
     post,
     path = "/sign-in",
@@ -44,7 +44,7 @@ pub async fn sign_in(req_sign_in: Json<ReqSignInDto>) -> Json<ResSignInDto> {
     })
 }
 
-
+#[allow(unused_variables)]
 #[utoipa::path(
     post,
     path = "/sign-up",

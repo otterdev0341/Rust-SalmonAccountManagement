@@ -1,17 +1,15 @@
 
 use migration::config::a_init_openapi_config::init_openapi;
-use migration::config::api_doc_auth_config::AuthApi;
-use migration::config::api_doc_company_config::CompanyApi;
 use migration::infrastructure::faring::cors::CORS;
 use migration::infrastructure::handler::controller::a_init_routes::init_controller_setup;
 use migration::infrastructure::mysql::migrator::Migrator;
 use migration::{config::db_config::DBConfig, infrastructure::mysql::connection::mysql_connect::mysql_connec};
-
 use tracing_subscriber;
 use sea_orm_migration::MigratorTrait;
-use utoipa::OpenApi;
 use utoipa_swagger_ui::SwaggerUi;
 #[macro_use] extern crate rocket;
+
+
 
 #[get("/")]
 fn health() -> &'static str {

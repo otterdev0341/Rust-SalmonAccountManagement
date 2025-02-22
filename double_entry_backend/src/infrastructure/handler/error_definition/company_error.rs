@@ -1,7 +1,5 @@
-use rocket::http::Status;
 use thiserror::Error;
 
-use crate::infrastructure::handler::api_response::api_response::{ApiErrorResponse, ApiSuccessResponse};
 
 
 #[derive(Error, Debug)]
