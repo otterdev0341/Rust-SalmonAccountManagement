@@ -8,3 +8,4 @@ pub mod customer_contact;
 pub mod info;
 pub mod project;
 pub mod location;
+pub mod location_type;

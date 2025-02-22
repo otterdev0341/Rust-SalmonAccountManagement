@@ -10,7 +10,7 @@ use utoipa::ToSchema;
 }))]
 #[serde(crate = "rocket::serde")]
 #[serde(rename_all = "camelCase")]
-pub struct ReqCreateLocationType {
+pub struct ReqCreateLocationTypeDto {
     pub name: String,
     pub description: Option<String>,
 }
@@ -21,7 +21,7 @@ pub struct ReqCreateLocationType {
     "name": "Pool Villa",
 }))]
 #[serde(crate = "rocket::serde")]
-pub struct ResEntryLocationType {
+pub struct ResEntryLocationTypeDto {
     pub id: String,
     pub name: String,
     pub description: Option<String>,
@@ -51,9 +51,9 @@ pub struct ResEntryLocationType {
     ]}))]
 #[serde(crate = "rocket::serde")]
 #[serde(rename_all = "camelCase")]
-pub struct ResListLocationType {
+pub struct ResListLocationTypeDto {
     pub total: i64,
-    pub location_types: Vec<ResEntryLocationType>,
+    pub location_types: Vec<ResEntryLocationTypeDto>,
 }
 
 
