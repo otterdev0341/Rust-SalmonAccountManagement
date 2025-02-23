@@ -13,3 +13,5 @@ pub mod api_doc_location_type_config;
 pub mod api_doc_project_status_config;
 pub mod api_doc_contact_type_config;
 pub mod api_doc_account_balance_config;
+pub mod api_doc_chart_of_account_config;   
+pub mod api_doc_reference_type_config;

@@ -1,6 +1,6 @@
 use rocket::fairing::AdHoc;
 
-use super::{account::account_routes, auth::auth_routes, company::company_routes, contact::contact_routes, contact_detail::contact_detail_routes, contact_type::contact_type_routes, info::info_routes, location::location_routes, location_type::location_type_routes, project::project_routes, project_status::project_status_routes, utility::utility_routes};
+use super::{account::account_routes, auth::auth_routes, chart_of_account::chart_of_account_routes, company::company_routes, contact::contact_routes, contact_detail::contact_detail_routes, contact_type::contact_type_routes, info::info_routes, location::location_routes, location_type::location_type_routes, project::project_routes, project_status::project_status_routes, reference_type::reference_type_routes, utility::utility_routes};
 
 
 
@@ -25,6 +25,8 @@ pub fn init_controller_setup() -> AdHoc {
             .mount("/v1/location-type", location_type_routes())
             .mount("/v1/project-status", project_status_routes())
             .mount("/v1/account-balance",account_routes())
+            .mount("/v1/chart-of-account", chart_of_account_routes())
+            .mount("/v1/reference-type", reference_type_routes())
 
             
     })

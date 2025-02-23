@@ -4,6 +4,10 @@ use utoipa::ToSchema;
 
 
 #[derive(Deserialize, Serialize, ToSchema)]
+#[schema(example = json!({
+    "name": "Invester",
+    "description" : "Invest in some project",
+}))]
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 pub struct ReqCreateReferenceTypeDto {
@@ -15,6 +19,13 @@ pub struct ReqCreateReferenceTypeDto {
 
 
 #[derive(Deserialize, Serialize, ToSchema)]
+#[schema(example = json!({
+    "id": "2390whflksjf0993",
+    "name": "Invester",
+    "description": "Invest in some project",
+    "createdAt": "2021-08-01T00:00:00Z",
+    "updatedAt": "2021-08-01T00:00:00Z"
+}))]
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 pub struct ResEntryReferenceTypeDto{
@@ -29,6 +40,25 @@ pub struct ResEntryReferenceTypeDto{
 
 
 #[derive(Deserialize, Serialize, ToSchema)]
+#[schema(example = json!({
+    "total": 2,
+    "reference_types": [
+        {
+            "id": "2390whflksjf0993",
+            "name": "Invester",
+            "description": "Invest in some project",
+            "createdAt": "2021-08-01T00:00:00Z",
+            "updatedAt": "2021-08-01T00:00:00Z"
+        },
+        {
+            "id": "2390whflksjf0993",
+            "name": "Invester",
+            "description": "Invest in some project",
+            "createdAt": "2021-08-01T00:00:00Z",
+            "updatedAt": "2021-08-01T00:00:00Z"
+        }
+    ]
+}))]
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 pub struct ResListReferenceTypeDto {
@@ -40,6 +70,10 @@ pub struct ResListReferenceTypeDto {
 
 
 #[derive(Deserialize, Serialize, ToSchema)]
+#[schema(example = json!({
+    "name": "Invester",
+    "description" : "Invest in some project",
+}))]
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 pub struct ReqUpdateReferenceTypeDto {
