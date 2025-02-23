@@ -14,3 +14,4 @@ pub mod contact_type;
 pub mod account_balance;
 pub mod chart_of_account;
 pub mod reference_type;
+pub mod journal_entry;

@@ -48,7 +48,7 @@ pub struct ResEntryJournalEntryDto {
 #[derive(Serialize, Deserialize, ToSchema)]
 #[serde(crate = "rocket::serde")]
 #[serde(rename_all = "camelCase")]
-pub struct ResListEntryJournalEntryDto {
+pub struct ResListJournalEntryDto {
     pub total: u32,
     pub journal_entries: Vec<ResEntryJournalEntryDto>,
 }
