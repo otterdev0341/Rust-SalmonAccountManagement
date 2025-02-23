@@ -22,7 +22,7 @@ pub fn contact_type_routes() -> Vec<Route> {
 
 #[utoipa::path(
     post,
-    path = "contact-type/",
+    path = "/contact-type",
     request_body = ReqCreateContactTypeDto,
     summary = "Create new contact type",
     description = "Create contact type",
@@ -53,7 +53,7 @@ pub async fn create_contact_type(
 
 #[utoipa::path(
     get,
-    path = "/{contact_type_id}",
+    path = "/contact-type/{contact_type_id}",
     summary = "View contact type",
     description = "View contact type",
     tags = ["contact-type"],
@@ -86,7 +86,7 @@ pub async fn view_contact_type(
 
 #[utoipa::path(
     get,
-    path = "/",
+    path = "/contact-type",
     summary = "View contact types",
     description = "View contact types",
     tags = ["contact-type"],
@@ -115,7 +115,7 @@ pub async fn view_contact_types(
 
 #[utoipa::path(
     put,
-    path = "/{contact_type_id}",
+    path = "/contact-type/{contact_type_id}",
     request_body = ReqUpdateContactTypeDto,
     summary = "Update contact type",
     description = "Update contact type",
@@ -149,7 +149,7 @@ pub async fn update_contact_type(
 
 #[utoipa::path(
     delete,
-    path = "/{contact_type_id}",
+    path = "/contact-type/{contact_type_id}",
     summary = "Delete contact type",
     description = "Delete contact type",
     tags = ["contact-type"],
