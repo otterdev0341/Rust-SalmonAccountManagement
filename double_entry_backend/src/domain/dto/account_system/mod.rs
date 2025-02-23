@@ -1,4 +1,4 @@
-pub mod account_balance;
+pub mod account_balance_dto;
 pub mod chart_of_account_type;
 pub mod chart_of_account;
 pub mod reference_type;

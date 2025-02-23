@@ -24,6 +24,7 @@ pub fn init_controller_setup() -> AdHoc {
             .mount("/v1/location", location_routes())
             .mount("/v1/location-type", location_type_routes())
             .mount("/v1/project-status", project_status_routes())
+            .mount("/v1/account-balance",account_routes())
 
             
     })

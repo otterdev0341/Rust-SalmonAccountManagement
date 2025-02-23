@@ -11,3 +11,4 @@ pub mod location;
 pub mod location_type;
 pub mod project_status;
 pub mod contact_type;
+pub mod account_balance;
