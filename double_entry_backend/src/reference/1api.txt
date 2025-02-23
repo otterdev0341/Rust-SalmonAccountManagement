@@ -1,0 +1,25 @@
+POST /api/journal-entry
+
+{
+    //JournalEntry
+  "data": "2025-02-23",
+  "description": "รับเงินจากการขายสินค้า",
+  "reference_id": 1,
+  "contact_id": 123,
+  "details": [
+    {
+        //JournalEntryDetail
+      "chart_of_account_id": 1,
+      "amount": 1000,
+      "debit": 1000,
+      "credit": 0
+    },
+    {
+        //JournalEntryDetail
+      "chart_of_account_id": 2,
+      "amount": 1000,
+      "debit": 0,
+      "credit": 1000
+    }
+  ]
+}

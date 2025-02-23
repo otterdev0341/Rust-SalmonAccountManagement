@@ -97,7 +97,7 @@ package "Project Management" {
 package "Account System Management" {
 
     
-    Struct ChartOfAccount {
+    Class ChartOfAccount {
         id <<pk>>
         account_code: String unique
         name: String
@@ -108,19 +108,18 @@ package "Account System Management" {
     '  ABCDE assest debt equity income expense'
     Struct ChartOfAccountType {
         id <<pk>>
-        account_code: String "00012"
-        number: Int '1, 2, 3, 4, 5'
-        name: String ' Assest, Debt, Equity, Income, Expense'
+        code: Int '1, 2, 3, 4, 5'
+        definition: String ' Assest, Debt, Equity, Income, Expense'
         description: String
     }
-    Struct AccountBalance {
+    Class AccountBalance {
         id: <<pk>>
         account_id: <<FK>> ChartOfAccount
         balance: Decimal
         last_updated: Date
     }
 
-    Struct JournalEntry {
+    Class JournalEntry {
         id: <<pk>>
         data: Date
         description: String
@@ -130,7 +129,11 @@ package "Account System Management" {
         contact_id: <<FK>> Contact ' เชื่อมโยงกับลูกค้า หรือผู้ลงทุน'
     }
 
-    Struct ReferenceType {
+
+
+
+
+    Class ReferenceType {
         id <<pk>>
         name: String  'ชื่อประเภท เช่น "Investment", "Expense", "Income", "Debt", "Equity"'
         description: String  'คำอธิบายเพิ่มเติมของประเภทนี้'
@@ -143,10 +146,10 @@ package "Account System Management" {
         journal_entry_id: <<FK>> JournalEntry
         chart_of_account_id: <<FK>> ChartOfAccount
         project_id: <<FK>> Project
+        description: String
         amount: Decimal
         debit: Decimal
         credit: Decimal
-        expense_id: <<FK>> Expense 'เชื่อมโยงกับ Expense'
     }
 
     Struct LedgerEntry {
@@ -156,21 +159,10 @@ package "Account System Management" {
         journal_entry_detail_id: <<FK>> JournalEntryDetail
         debit: Decimal
         credit: Decimal
-        balance: Decimal
     }
 
 
-    ' ค่าใช้จ่าย ' 
-    Struct Expense {
-        id <<pk>>
-        chart_of_account_id: <<FK>> ChartOfAccount  ' เชื่อมโยงกับ ChartOfAccount'
-        amount: Decimal  ' จำนวนเงินค่าใช้จ่าย'
-        description: String  ' รายละเอียดของค่าใช้จ่าย'
-        reference: String  ' อ้างอิง เช่น เลขที่ใบเสร็จ'
-        transaction_date: Date  ' วันที่ทำธุรกรรม'
-        created_at: Date
-        updated_at: Date
-    }
+
 
 
     
@@ -237,14 +229,16 @@ Location "1" -- "1" LocationType : "has"
 ChartOfAccount "1" -- "0..*" AccountBalance : "has"
 ChartOfAccount "1" -- "0..*" JournalEntryDetail : "has"
 ChartOfAccount "N" -- "1" ChartOfAccountType : "belongs to"
-ChartOfAccount "1" -- "0..*" Expense : "related to"
+
 JournalEntry "1" -- "0..*" JournalEntryDetail : "has"
 JournalEntry "1" -- "1" ReferenceType : "has"
-JournalEntryDetail "1" -- "0..*" Expense : "related to"
+
 JournalEntryDetail "1" -- "0..*" Project : "related to"
 JournalEntryDetail "1" -- "0..*" ChartOfAccount : "related to"
 JournalEntryDetail "1" -- "0..*" LedgerEntry : "recorded in"
 LedgerEntry "1" -- "1" ChartOfAccount : "belongs to"
+
+
 
 
 @enduml
