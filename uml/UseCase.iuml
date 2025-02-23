@@ -1,7 +1,7 @@
 @startuml name Double Entry System
 
 actor User
-' min 62 API '
+' min 65 API '
 
 package "Authentication" {
     ' routes auth '

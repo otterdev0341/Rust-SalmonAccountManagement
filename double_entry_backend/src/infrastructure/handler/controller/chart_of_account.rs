@@ -154,7 +154,7 @@ pub fn view_chart_of_accounts(
         (status = 500, description = "Internal server error")
     ),
 )]
-#[delete("/chart-of-account/<chart_of_account_id>", format = "json")]
+#[delete("/<chart_of_account_id>", format = "json")]
 pub async fn delete_chart_of_account(
     user : AuthenticatedUser,
     chart_of_account_id: String
@@ -172,7 +172,7 @@ pub async fn delete_chart_of_account(
     description = "Init template",
     tags = ["chart-of-account"],
     request_body(
-        content_type = "application/octet-stream",
+        content_type = "text/csv",
         description = "CSV file containing template data",
     ),
     security(
@@ -183,7 +183,7 @@ pub async fn delete_chart_of_account(
         (status = 500, description = "Internal server error")
     ),
 )]
-#[post("/chart-of-account/init-template", format = "text/csv", data = "<template_data>")]
+#[post("/init-template", format = "text/csv", data = "<template_data>")]
 pub async fn init_template(
     user : AuthenticatedUser,
     template_data: Data<'_>
@@ -204,7 +204,7 @@ pub async fn init_template(
     ),
     responses(
         (status = 200, description = "Template downloaded",
-            content_type = "application/octet-stream",
+            content_type = "text/csv",
             description = "Template downloaded"
         ),
         (status = 500, description = "Internal server error")
