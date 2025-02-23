@@ -4,7 +4,7 @@ pub mod auth_dto;
 pub mod company_dto;
 pub mod contact_detail_dto;
 pub mod contact_dto;
-pub mod contact_type;
+pub mod contact_type_dto;
 pub mod project_dto;
 pub mod info_dto;
 pub mod project_status;

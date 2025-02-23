@@ -10,3 +10,4 @@ pub mod project;
 pub mod location;
 pub mod location_type;
 pub mod project_status;
+pub mod contact_type;
