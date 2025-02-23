@@ -1,0 +1,72 @@
+JournalEntry {
+    id: 1
+    data: 2025-02-23
+    description: "การลงทุนของนาย A"
+    reference_id: 1  'ประเภทการลงทุน'
+    created_at: 2025-02-23
+    updated_at: 2025-02-23
+    contact_id: 1  'นาย A (ลูกค้า/ผู้ลงทุน)'
+}
+
+JournalEntryDetail {
+    id: 1
+    journal_entry_id: 1
+    chart_of_account_id: 101  'บัญชีประเภท Equity, เช่น "Capital Investment"'
+    project_id: 1
+    amount: 100000
+    debit: 100000  'บันทึกยอดเดบิต'
+    credit: 0
+    expense_id: null  'ไม่มีค่าใช้จ่ายในรายการนี้'
+}
+
+JournalEntryDetail {
+    id: 2
+    journal_entry_id: 1
+    chart_of_account_id: 102  'บัญชีประเภท Asset (เงินสด), เช่น "Cash"'
+    project_id: 1
+    amount: 70000
+    debit: 70000
+    credit: 0
+    expense_id: null
+}
+
+JournalEntryDetail {
+    id: 3
+    journal_entry_id: 1
+    chart_of_account_id: 103  'บัญชีประเภท Asset (เงินโอน), เช่น "Bank Account"'
+    project_id: 1
+    amount: 30000
+    debit: 30000
+    credit: 0
+    expense_id: null
+}
+
+LedgerEntry {
+    id: 1
+    chart_of_account_id: 101
+    date: 2025-02-23
+    journal_entry_detail_id: 1
+    debit: 100000
+    credit: 0
+    balance: 100000
+}
+
+LedgerEntry {
+    id: 2
+    chart_of_account_id: 102
+    date: 2025-02-23
+    journal_entry_detail_id: 2
+    debit: 70000
+    credit: 0
+    balance: 70000
+}
+
+LedgerEntry {
+    id: 3
+    chart_of_account_id: 103
+    date: 2025-02-23
+    journal_entry_detail_id: 3
+    debit: 30000
+    credit: 0
+    balance: 30000
+}

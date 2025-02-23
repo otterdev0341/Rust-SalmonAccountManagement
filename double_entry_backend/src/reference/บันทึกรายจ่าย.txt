@@ -1,0 +1,72 @@
+JournalEntry {
+    id: 2
+    data: 2025-02-23
+    description: "ค่าใช้จ่าย"
+    reference_id: 2  'ประเภทการใช้จ่าย'
+    created_at: 2025-02-23
+    updated_at: 2025-02-23
+    contact_id: 1  'นาย A (ลูกค้า/ผู้ลงทุน)'
+}
+
+JournalEntryDetail {
+    id: 4
+    journal_entry_id: 2
+    chart_of_account_id: 104  'บัญชีประเภท Expense, เช่น "Electricity Expense"'
+    project_id: 1
+    amount: 25000
+    debit: 25000  'บันทึกยอดเดบิต'
+    credit: 0
+    expense_id: 1  'เชื่อมโยงกับค่าใช้จ่ายค่าไฟ'
+}
+
+JournalEntryDetail {
+    id: 5
+    journal_entry_id: 2
+    chart_of_account_id: 102  'บัญชีประเภท Asset (เงินโอน), เช่น "Bank Account"'
+    project_id: 1
+    amount: 25000
+    debit: 0
+    credit: 25000
+    expense_id: null
+}
+
+JournalEntryDetail {
+    id: 6
+    journal_entry_id: 2
+    chart_of_account_id: 104  'บัญชีประเภท Expense, เช่น "Miscellaneous Expense"'
+    project_id: 1
+    amount: 2200
+    debit: 2200  'บันทึกยอดเดบิต'
+    credit: 0
+    expense_id: 2  'เชื่อมโยงกับค่าใช้จ่ายเบ็ดเตล็ด'
+}
+
+LedgerEntry {
+    id: 4
+    chart_of_account_id: 104
+    date: 2025-02-23
+    journal_entry_detail_id: 4
+    debit: 25000
+    credit: 0
+    balance: 25000
+}
+
+LedgerEntry {
+    id: 5
+    chart_of_account_id: 102
+    date: 2025-02-23
+    journal_entry_detail_id: 5
+    debit: 0
+    credit: 25000
+    balance: 25000
+}
+
+LedgerEntry {
+    id: 6
+    chart_of_account_id: 104
+    date: 2025-02-23
+    journal_entry_detail_id: 6
+    debit: 2200
+    credit: 0
+    balance: 2200
+}

@@ -1,12 +1,14 @@
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 
+use super::contact_dto::ResListContactDto;
+
 
 
 
 #[derive(Deserialize, ToSchema)]
 #[schema(example = json!({
-    "customerId": "2390whflksjf0993",
+    "contactId": "2390whflksjf0993",
     "mobilePhone1": "08123456789",
     "mobilePhone2": "08123456789",
     "mobilePhone3": "08123456789",
@@ -15,8 +17,8 @@ use utoipa::ToSchema;
 }))]
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
-pub struct ReqCreateCustomerContactDto {
-    pub customer_id: String,
+pub struct ReqCreateContactDetailDto {
+    pub contact_id: String,
     pub mobile_phone_1: Option<String>,
     pub mobile_phone_2: Option<String>,
     pub mobile_phone_3: Option<String>,
@@ -29,7 +31,7 @@ pub struct ReqCreateCustomerContactDto {
 #[derive(Serialize, ToSchema)]
 #[schema(example = json!({
     "id": "2390whflksjf0993",
-    "customerId": "2390whflksjf0993",
+    "contactId": "2390whflksjf0993",
     "mobilePhone1": "08123456789",
     "mobilePhone2": "08123456789",
     "mobilePhone3": "08123456789",
@@ -40,9 +42,9 @@ pub struct ReqCreateCustomerContactDto {
 }))]
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
-pub struct ResEntryCustomerContactDto {
+pub struct ResEntryContactDetailDto {
     pub id: String,
-    pub customer_id: String,
+    pub contact_id: String,
     pub mobile_phone_1: String,
     pub mobile_phone_2: String,
     pub mobile_phone_3: String,
@@ -60,10 +62,10 @@ pub struct ResEntryCustomerContactDto {
 #[derive(Serialize, ToSchema)]
 #[schema(example = json!({
     "total": 2,
-    "customerContacts": [
+    "contactDetails": [
         {
             "id": "2390whflksjf0993",
-            "customerId": "2390whflksjf0993",
+            "contactId": "2390whflksjf0993",
             "mobilePhone1": "08123456789",
             "mobilePhone2": "08123456789",
             "mobilePhone3": "08123456789",
@@ -74,7 +76,7 @@ pub struct ResEntryCustomerContactDto {
         },
         {
             "id": "2390whflksjf0993",
-            "customerId": "2390whflksjf0993",
+            "contactId": "2390whflksjf0993",
             "mobilePhone1": "08123456789",
             "mobilePhone2": "08123456789",
             "mobilePhone3": "08123456789",
@@ -87,9 +89,9 @@ pub struct ResEntryCustomerContactDto {
 }))]
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
-pub struct ResListCustomerContactDto {
+pub struct ResListContactDetailDto {
     pub total: i32,
-    pub customer_contacts: Vec<ResEntryCustomerContactDto>
+    pub contact_details: Vec<ResListContactDto>
 }
 
 
@@ -104,7 +106,7 @@ pub struct ResListCustomerContactDto {
 }))]
 #[serde(crate = "rocket::serde")]
 #[serde(rename_all = "camelCase")]
-pub struct ReqUpdateCustomerContactDto {
+pub struct ReqUpdateContactDetailDto {
     pub mobile_phone_1: Option<String>,
     pub mobile_phone_2: Option<String>,
     pub mobile_phone_3: Option<String>,

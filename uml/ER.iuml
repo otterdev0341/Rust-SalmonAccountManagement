@@ -24,14 +24,11 @@ package "Company Management" {
     id <<pk>>
     name: String
     description: String
+    user_id : <<FK>> User
     created_at: Date
     updated_at: Date
     }
-    Struct UserCompany {
-        user_id: <<FK>> User
-        company_id: <<FK>> Company
-        role: String ' e.g., "admin", "manager"'
-    }
+
 }
 
 package "Project Management" {
@@ -84,8 +81,6 @@ package "Project Management" {
 
     Struct Info{
         id <<pk>>
-        project_id: <<FK>> Project
-        user_id: <<FK>> User
         title: String
         content: String
         created_at: Date
@@ -104,6 +99,7 @@ package "Account System Management" {
     
     Struct ChartOfAccount {
         id <<pk>>
+        account_code: String unique
         name: String
         description: String
         chart_of_account_type_id: <<FK>> ChartOfAccountType
@@ -114,7 +110,7 @@ package "Account System Management" {
         id <<pk>>
         account_code: String "00012"
         number: Int '1, 2, 3, 4, 5'
-        name: String
+        name: String ' Assest, Debt, Equity, Income, Expense'
         description: String
     }
     Struct AccountBalance {
@@ -124,82 +120,76 @@ package "Account System Management" {
         last_updated: Date
     }
 
-    Struct Transaction {
+    Struct JournalEntry {
         id: <<pk>>
-        name: String
+        data: Date
         description: String
-        amount: Decimal
-        date: Date
-        chart_of_account_id: <<FK>> ChartOfAccount
-        transaction_type_id: <<FK>> TranasactionType
+        reference_id: <<fk>> ReferenceType
+        created_at: Date
+        updated_at: Date 
+        contact_id: <<FK>> Contact ' เชื่อมโยงกับลูกค้า หรือผู้ลงทุน'
     }
 
-    Struct TranasactionType {
-        id: <<pk>>
-        name: String
-        description: String
+    Struct ReferenceType {
+        id <<pk>>
+        name: String  'ชื่อประเภท เช่น "Investment", "Expense", "Income", "Debt", "Equity"'
+        description: String  'คำอธิบายเพิ่มเติมของประเภทนี้'
+        created_at: Date
+        updated_at: Date
     }
 
-    Struct TransactionDetail {
+    Struct JournalEntryDetail {
         id: <<pk>>
-        transaction_id: <<FK>> Transaction
+        journal_entry_id: <<FK>> JournalEntry
         chart_of_account_id: <<FK>> ChartOfAccount
+        project_id: <<FK>> Project
         amount: Decimal
         debit: Decimal
         credit: Decimal
+        expense_id: <<FK>> Expense 'เชื่อมโยงกับ Expense'
     }
-    
 
-    Struct BankAccount {
+    Struct LedgerEntry {
         id: <<pk>>
-        name: String
-        account_number: String
-        description: String
         chart_of_account_id: <<FK>> ChartOfAccount
-        bank_account_type_id: <<FK>> BankAccountType
+        date: Date
+        journal_entry_detail_id: <<FK>> JournalEntryDetail
+        debit: Decimal
+        credit: Decimal
+        balance: Decimal
     }
 
-    Struct BankAccountType{
-        id: <<pk>>
-        name: String
-        description: String
+
+    ' ค่าใช้จ่าย ' 
+    Struct Expense {
+        id <<pk>>
+        chart_of_account_id: <<FK>> ChartOfAccount  ' เชื่อมโยงกับ ChartOfAccount'
+        amount: Decimal  ' จำนวนเงินค่าใช้จ่าย'
+        description: String  ' รายละเอียดของค่าใช้จ่าย'
+        reference: String  ' อ้างอิง เช่น เลขที่ใบเสร็จ'
+        transaction_date: Date  ' วันที่ทำธุรกรรม'
+        created_at: Date
+        updated_at: Date
     }
 
-    
 
-
-    Struct TransactionLog {
-        id: <<pk>>
-        transaction_id: <<FK>> Transaction
-        transaction_log_type_id: <<FK>> TransactionLogType
-        old_value: String
-        new_value: String
-        user_id: <<FK>> User
-        timestamp: Date
-    }
-
-    ' Created, Updated, Deleted '
-    Struct TransactionLogType {
-        id: <<pk>>
-        name: String
-        description: String
-    }
     
 
 }
 
 
-package "Customer Management" {
-    Struct Customer {
+package "Contact Management" {
+    Struct Contact {
         id: <<pk>>
         name: String
         company_id: <<FK>> Company
+        contact_type_id: <<FK>> ContactType
         created_at: Date
         updated_at: Date
         
     }
 
-    Struct CustomerContact {
+    Struct ContactDetail {
         id: <<pk>>
         customer_id: <<FK>> Customer
         mobile_phone_1: String
@@ -210,6 +200,14 @@ package "Customer Management" {
         created_at: Date
         updated_at: Date
     }
+
+    Struct ContactType {
+        id: <<pk>>
+        name: String
+        description: String
+        created_at: Date
+        updated_at: Date
+    }
 }
 
 
@@ -222,28 +220,31 @@ package "Customer Management" {
 
 
 
-User "1" -- "0..*" UserCompany : "has access"
+
 User "1" -- "0..*" Company : "owns"
-Company "1" -- "0..*" UserCompany : "has users"
-Company "1" -- "0..*" Customer: "has"
-Customer "1" -- "1" CustomerContact: "has"
-Company "1" -- "0..*" Project : "has || have many"
+
+Company "1" -- "0..*" Contact : "has"
+Contact "1" -- "1" ContactDetail : "has"
+Contact "0.*" -- "1" ContactType : "has"
+Company "1" -- "0..*" Project : "has"
 Project "1" -- "0..*" ProjectLocation : "has"
 Location "1" -- "0..*" ProjectLocation : "has"
 Project "1" -- "0..*" ProjectInfo : "has"
 Info "1" -- "0..*" ProjectInfo : "has"
-Info "1..*" -- "1" User : "has"
 Project "1" -- "1" ProjectStatus : "has"
-
-
+Project "1" -- "0..*" JournalEntry : "has"
 Location "1" -- "1" LocationType : "has"
-BankAccount "1" -- "1" BankAccountType : "has"
-ChartOfAccount "1" -- "0..*" BankAccount : "has"
 ChartOfAccount "1" -- "0..*" AccountBalance : "has"
-ChartOfAccount "1" -- "0..*" Transaction : "has"
-ChartOfAccount "1" -- "0..*" ChartOfAccountType : "has"
-Transaction "1" -- "0..*" TransactionDetail : "has"
-Transaction "1" -- "1" TranasactionType : "has"
-TransactionLog "1" -- "1" User : "has"
-TransactionLog "1" -- "1" TransactionLogType: "has"
+ChartOfAccount "1" -- "0..*" JournalEntryDetail : "has"
+ChartOfAccount "N" -- "1" ChartOfAccountType : "belongs to"
+ChartOfAccount "1" -- "0..*" Expense : "related to"
+JournalEntry "1" -- "0..*" JournalEntryDetail : "has"
+JournalEntry "1" -- "1" ReferenceType : "has"
+JournalEntryDetail "1" -- "0..*" Expense : "related to"
+JournalEntryDetail "1" -- "0..*" Project : "related to"
+JournalEntryDetail "1" -- "0..*" ChartOfAccount : "related to"
+JournalEntryDetail "1" -- "0..*" LedgerEntry : "recorded in"
+LedgerEntry "1" -- "1" ChartOfAccount : "belongs to"
+
+
 @enduml
