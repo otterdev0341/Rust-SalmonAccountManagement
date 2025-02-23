@@ -13,11 +13,8 @@ pub fn company_routes() -> Vec<Route> {
         create_company,
         edit_company,
         delete_company,
-        add_user_to_company,
-        remove_user_from_company,
         view_company,
         view_companies,
-        view_company_users,
         options
     ]
 }
@@ -153,64 +150,10 @@ pub async fn delete_company(
 
 
 
-#[utoipa::path(
-    post,
-    path = "/company/user-company",
-    request_body = AddRemoveUserToCompanyDto,
-    summary = "Add user to company",
-    description = "Add user to company, only the owner of the company can add user to the company",
-    tags = ["user-company"],
-    security(
-        ("bearer_auth" = [])
-    ),
-    responses(
-        (status = 200, description = "User added to company"),
-        (status = 400, description = "Invalid company id or user id"),
-        (status = 403, description = "Forbidden"),
-        (status = 404, description = "Company or user_id not found"),
-        (status = 409, description = "User already added to this company"),
-        (status = 500, description = "Internal server error")
-    ),
-    
-)]
-#[post("/user-company", format = "json", data = "<company_data>")]
-pub async fn add_user_to_company(
-    user : AuthenticatedUser,
-    company_data: Json<AddRemoveUserToCompanyDto>
-) -> ApiResponse<String> {
-    todo!();
-}
 
 
 
 
-#[utoipa::path(
-    delete,
-    path = "/company/user-company",
-    request_body = AddRemoveUserToCompanyDto,
-    summary = "Remove user from company",
-    description = "Remove user from company, only the owner of the company can remove user from the company",
-    tags = ["user-company"],
-    security(
-        ("bearer_auth" = [])
-    ),
-    responses(
-        (status = 200, description = "User removed from company"),
-        (status = 400, description = "Invalid company id or user id"),
-        (status = 403, description = "Forbidden"),
-        (status = 404, description = "Company or user_id not found"),
-        (status = 409, description = "User already removed from this company"),
-        (status = 500, description = "Internal server error")
-    ),
-    
-)]
-#[delete("/user-company", format = "json", data = "<company_data>")]
-pub async fn remove_user_from_company(
-    user : AuthenticatedUser,
-    company_data: Json<AddRemoveUserToCompanyDto>
-) -> ApiResponse<String> {
-    todo!();
-}
 
 
 
@@ -284,38 +227,3 @@ pub async fn view_companies(
     todo!()
 }
 
-
-
-
-#[utoipa::path(
-    get,
-    path = "/company/user-company/{company_id}",
-    summary = "View company users",
-    description = "View company users",
-    tags = ["user-company"],
-    security(
-        ("bearer_auth" = [])
-    ),
-    params(
-        ("company_id" = String,Path, description = "Company ID")
-    ),
-    responses(
-        (status = 200, description = "Company users viewed",
-            body = ResCompanyRelateUserDto,
-            description = "List of users of the company"
-        ),
-        (status = 400, description = "Invalid company id"),
-        (status = 403, description = "Forbidden"),
-        (status = 404, description = "Company not found"),
-        (status = 500, description = "Internal server error")
-    ),
-    
-)]
-#[get("/company/user-company/<company_id>", format = "json")]
-pub async fn view_company_users(
-    user : AuthenticatedUser,
-    company_id: &str
-) -> ApiResponse<ResCompanyRelateUserDto> {
-    // to retrieve company users, the user must be the owner of the company
-    todo!("view company users")
-}
