@@ -27,6 +27,11 @@ bcrypt = "0.17.0"
 validator = {version = "0.20.0", features = ["derive"]}
 
 
+# Hash Passwort to Db
+argon2 = "0.5.3"
+rand_core = {version = "0.9.2", features = ["std"]}
+password-hash = "0.5.0"
+
 # Api Docs
 utoipa = "5.3.1"
 utoipa-swagger-ui = {version="9.0.0", features=["rocket"]}
