@@ -2,7 +2,8 @@ use std::{sync::Arc, time::SystemTime};
 
 use thiserror::Error;
 
-use crate::{domain::{dto::auth_dto::{ClaimsDto, ReqCreateUserDto, ReqSignInDto, ResSignInDto}, repository::require_implementation::trait_auth::AuthRepoReqImpl}, infrastructure::{handler::{api_response::api_response::ApiErrorResponse, operation_status::auth_error::{CreateUserError, SignInError}}, jwt_service::jwt::generate_jwt}};
+use crate::{domain::{dto::auth_dto::{ClaimsDto, ReqCreateUserDto, ReqSignInDto, ResSignInDto}, repository::require_implementation::trait_auth::AuthRepoReqImpl}, infrastructure::{handler::{api_response::api_response::ApiErrorResponse}, jwt_service::jwt::generate_jwt}};
+
 
 
 
@@ -55,21 +56,12 @@ where
         AuthUseCase { auth_repo }
     }
 
-
-
-
-    
     pub async fn create_user(&self, user_data: ReqCreateUserDto) -> Result<(), AuthUseCaseError> {
         match self.auth_repo.create_user(user_data).await {
             Ok(_) => Ok(()),
             Err(e) => Err(e.into()),
         }
     }
-
-
-
-
-
 
 
     pub async fn sign_in(&self, user_data: ReqSignInDto) -> Result<ResSignInDto, AuthUseCaseError>{

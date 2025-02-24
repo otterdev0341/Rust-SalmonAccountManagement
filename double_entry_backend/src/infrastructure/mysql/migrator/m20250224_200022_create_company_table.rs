@@ -1,0 +1,82 @@
+use sea_orm_migration::{prelude::*, schema::*};
+
+use super::m20220101_000001_create_user_table::User;
+
+#[derive(DeriveMigrationName)]
+pub struct Migration;
+
+#[async_trait::async_trait]
+impl MigrationTrait for Migration {
+    async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
+        // Replace the sample below with your own migration scripts
+        
+
+        manager
+            .create_table(
+                Table::create()
+                    .table(Company::Table)
+                        .if_not_exists()
+                    .col(
+                        ColumnDef::new(Company::Id)
+                            .uuid()
+                            .not_null()
+                            .default("UUID()")
+                            .primary_key(),
+                    )
+                    .col(string(Company::Name))
+                    .col(string(Company::Description))
+                    .col(
+                        ColumnDef::new(Company::UseId)
+                            .uuid()
+                            .not_null(),
+                    )
+                    .foreign_key(
+                        ForeignKey::create()
+                            .name("fk_company_user_id")
+                            .from(Company::Table, Company::UseId)
+                            .to(User::Table, User::Id)
+                            .on_delete(ForeignKeyAction::Cascade)
+                            .on_update(ForeignKeyAction::Cascade),
+                    )
+                    .col(
+                        ColumnDef::new(Company::CreatedAt)
+                            .timestamp()
+                            .extra("DEFAULT CURRENT_TIMESTAMP".to_owned()),
+                    )
+                    .col(
+                        ColumnDef::new(Company::UpdatedAt)
+                            .timestamp()
+                            .extra("DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP".to_owned()),
+                    )
+                    .to_owned(),
+            )
+            .await
+    }
+
+    async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
+        // Replace the sample below with your own migration scripts
+        
+
+        manager
+            .drop_table(Table::drop().table(Company::Table).to_owned())
+            .await
+    }
+}
+
+#[derive(DeriveIden)]
+pub enum Company {
+    #[sea_orm(iden = "Company")]
+    Table,
+    #[sea_orm(iden = "id")]
+    Id,
+    #[sea_orm(iden = "name")]
+    Name,
+    #[sea_orm(iden = "description")]
+    Description,
+    #[sea_orm(iden = "use_id")]
+    UseId,
+    #[sea_orm(iden = "created_at")]
+    CreatedAt,
+    #[sea_orm(iden = "updated_at")]
+    UpdatedAt,
+}

@@ -4,6 +4,8 @@ sea migrate generate -d <path of migration dir> <migrate name>
 #to generate entity
 sea generate entity -o <output dir> -u <database url>
 
+sea migrate generate -d ./src/infrastructure/mysql/migrator/ "name"
+
 #use
 sea generate entity \
     -u mysql://root:password@localhost:3306/double_entry_db \

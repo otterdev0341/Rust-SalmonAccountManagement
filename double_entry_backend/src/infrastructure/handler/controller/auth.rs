@@ -1,8 +1,9 @@
-use std::{f32::consts::E, sync::Arc};
+use std::sync::Arc;
 
-use rocket::{http::Status, post, routes, serde::json::Json, Route, State};
+use rocket::{post, routes, serde::json::Json, Route, State};
 
-use crate::{application::usecase::auth_usecase::{AuthUseCase, AuthUseCaseError}, domain::dto::auth_dto::{ReqCreateUserDto, ReqSignInDto, ResSignInDto}, infrastructure::{faring::cors::options, handler::{api_response::api_response::{ApiErrorResponse, ApiResponse, ApiSuccessResponse}, operation_status::auth_error::{CreateUserError, SignInError}, validate_util::auth_validate::check_req_create_user_dto}, mysql::repositories::impl_auth_repository::ImplAuthRepository}};
+use crate::{application::usecase::auth_usecase::{AuthUseCase, AuthUseCaseError}, domain::dto::auth_dto::{ReqCreateUserDto, ReqSignInDto, ResSignInDto}, infrastructure::{faring::cors::options, handler::{api_response::api_response::{ApiErrorResponse, ApiResponse, ApiSuccessResponse}, validate_util::auth_validate::check_req_create_user_dto}, mysql::repositories::impl_auth_repository::ImplAuthRepository}};
+
 
 #[allow(dead_code)]
 
