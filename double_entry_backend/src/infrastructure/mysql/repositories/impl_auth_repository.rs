@@ -2,13 +2,14 @@ use core::hash;
 use std::sync::Arc;
 
 use rocket::fairing::Info;
-use sea_orm::{ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter, Set};
+use sea_orm::{ColumnTrait, DatabaseConnection, DbErr, EntityTrait, QueryFilter, Set};
 use sea_orm_migration::async_trait;
+use thiserror::Error;
 use tracing::{info, warn};
 use utoipa::openapi::info;
 use uuid::Uuid;
 
-use crate::{domain::{dto::auth_dto::{ReqCreateUserDto, ReqSignInDto, ResEntryUserDto}, entities::user, repository::require_implementation::trait_auth::AuthRepoReqImpl}, infrastructure::{argon_hash::hash_util::{hash_password, verify_password, HashOperationError}, handler::operation_status::auth_error::{CreateUserError, SignInError}}};
+use crate::{application::usecase::auth_usecase::AuthUseCaseError, domain::{dto::auth_dto::{ReqCreateUserDto, ReqSignInDto, ResEntryUserDto}, entities::user, repository::require_implementation::trait_auth::AuthRepoReqImpl}, infrastructure::{argon_hash::hash_util::{hash_password, verify_password, HashOperationError}, handler::operation_status::auth_error::{CreateUserError, SignInError}}};
 
 
 
@@ -24,17 +25,59 @@ impl ImplAuthRepository {
     }
 }
 
+#[derive(Debug, Error)]
+pub enum AuthRepositoryError {
+    
+    #[error("Database Error: {0}")]
+    DatabaseError(#[from] DbErr),
+    
+    #[error("User not found")]
+    UserNotFound,
+
+    #[error("Username already exists")]
+    EmailAlreadyExists,
+
+    #[error("Email already exists")]
+    UserAlreadyExists,
+
+    #[error("email or password not correct")]
+    EmailOrPasswordNotCorrect,
+    
+    #[error("Email not fount")]
+    EmailNotFound,
+
+    #[error("Hash operation failed")]
+    HashFailed,
+
+    #[error("Uuid cast error")]
+    UuidCastError
+}
+
+impl From<AuthRepositoryError> for AuthUseCaseError {
+    fn from(error: AuthRepositoryError) -> Self {
+        match error {
+            AuthRepositoryError::DatabaseError(db) => AuthUseCaseError::InternalError(db.to_string()),
+            AuthRepositoryError::UserNotFound => AuthUseCaseError::UserNotFound,
+            AuthRepositoryError::EmailAlreadyExists => AuthUseCaseError::EmailAlreadyExists,
+            AuthRepositoryError::UserAlreadyExists => AuthUseCaseError::UserAlreadyExists,
+            AuthRepositoryError::EmailOrPasswordNotCorrect => AuthUseCaseError::EmailOrPasswordNotCorrect,
+            AuthRepositoryError::EmailNotFound => AuthUseCaseError::EmailNotFound,
+            AuthRepositoryError::HashFailed => AuthUseCaseError::HashFailed,
+            AuthRepositoryError::UuidCastError => AuthUseCaseError::UuidCastError
+        }
+    }
+}
 
 #[async_trait::async_trait]
 impl AuthRepoReqImpl for ImplAuthRepository {
-    async fn create_user(&self, user_data: ReqCreateUserDto) -> Result<(), CreateUserError> {
+    async fn create_user(&self, user_data: ReqCreateUserDto) -> Result<(), AuthRepositoryError> {
         info!(">>>>>>>>>>>> create user in repository");
         info!(">>>>>>>>>>>>> check is  user exists");
         // check username is already exists
         match user::Entity::find().filter(user::Column::Username.eq(user_data.username.clone())).one(&*self.db).await {
             Ok(user) => {
                 if let Some(user) = user {
-                    return Err(CreateUserError::UsernameAlreadyExists)
+                    return Err(AuthRepositoryError::UserAlreadyExists)
                 }
             },
             Err(_) => ()
@@ -45,7 +88,7 @@ impl AuthRepoReqImpl for ImplAuthRepository {
         match user::Entity::find().filter(user::Column::Email.eq(user_data.email.clone())).one(&*self.db).await {
             Ok(data) => {
                 if let Some(data) = data {
-                    return Err(CreateUserError::EmailAlreadyExists)
+                    return Err(AuthRepositoryError::EmailAlreadyExists)
                 }
             },
             Err(_) => ()
@@ -55,7 +98,7 @@ impl AuthRepoReqImpl for ImplAuthRepository {
         // create hash password from user data
         let hash_password = hash_password(&user_data.password).map_err(|_| HashOperationError::FailToHashPassword);
         if hash_password.is_err() {
-            return Err(CreateUserError::InternalServerError)
+            return Err(AuthRepositoryError::EmailOrPasswordNotCorrect)
         }
 
         info!(">>>>>>>>>>>>> create user entity");
@@ -80,7 +123,7 @@ impl AuthRepoReqImpl for ImplAuthRepository {
             Ok(data) => (),
             Err(_) => {
                 warn!("Failed to insert user entity");
-                return Err(CreateUserError::InternalServerError)
+                return Err(AuthRepositoryError::DatabaseError(DbErr::RecordNotInserted))
             }
         }
         Ok(())
@@ -92,7 +135,7 @@ impl AuthRepoReqImpl for ImplAuthRepository {
 
 
 
-    async fn sign_in(&self, sign_data: ReqSignInDto) -> Result<ResEntryUserDto, SignInError> {
+    async fn sign_in(&self, sign_data: ReqSignInDto) -> Result<ResEntryUserDto, AuthRepositoryError> {
         info!(">>>>>>>>>>>> sign in user in repository");
         info!(">>>>>>>>>>>>> check is email exists");
         // check is email exists
@@ -101,10 +144,10 @@ impl AuthRepoReqImpl for ImplAuthRepository {
                 if let Some(data) = data {
                     data
                 } else {
-                    return Err(SignInError::EmailNotFound)
+                    return Err(AuthRepositoryError::EmailNotFound)
                 }
             },
-            Err(_) => return Err(SignInError::InternalServerError)
+            Err(_) => return Err(AuthRepositoryError::DatabaseError(DbErr::RecordNotFound(("User not found").to_string())))
         };
         
         info!(">>>>>>>>>>>>> check password");
@@ -113,15 +156,12 @@ impl AuthRepoReqImpl for ImplAuthRepository {
         match is_password_match {
             Ok(the_bool) => {
                 if !the_bool {
-                    return Err(SignInError::InvalidPassword)
+                    return Err(AuthRepositoryError::EmailOrPasswordNotCorrect)
                 }
             },
-            Err(_) => return Err(SignInError::InvalidPassword)
+            Err(_) => return Err(AuthRepositoryError::HashFailed)
         }
         
-        if is_password_match.is_err() {
-            return Err(SignInError::InvalidPassword)
-        }
         
         info!(">>>>>>>>>>>>> create user to return");
         let the_id = Uuid::from_slice(&user.id);
@@ -137,7 +177,7 @@ impl AuthRepoReqImpl for ImplAuthRepository {
         info!(">>>>>>>>>>>>> return user");
                 Ok(res_user)
             },
-            Err(_) => Err(SignInError::InternalServerError)
+            Err(_) => Err(AuthRepositoryError::UuidCastError)
         }
 
 
