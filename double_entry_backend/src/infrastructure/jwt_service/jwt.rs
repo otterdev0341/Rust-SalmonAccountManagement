@@ -18,7 +18,7 @@ pub enum JwtError {
 }
 
 
-pub fn generate_jwt(user_id: Uuid, username: &str) -> Result<ResSignInDto, JwtError> {
+pub fn generate_jwt(user_id: String, username: &str) -> Result<ResSignInDto, JwtError> {
     // load env and handle error
     let jwt_config = JwtConfig::default();
     if jwt_config.secret_key.is_empty() || jwt_config.expiration == 0 {

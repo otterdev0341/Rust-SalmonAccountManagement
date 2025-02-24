@@ -1,8 +1,8 @@
-use std::sync::Arc;
+use std::{f32::consts::E, sync::Arc};
 
 use rocket::{http::Status, post, routes, serde::json::Json, Route, State};
 
-use crate::{application::usecase::auth_usecase::AuthUseCase, domain::dto::auth_dto::{ReqCreateUserDto, ReqSignInDto, ResSignInDto}, infrastructure::{faring::cors::options, handler::{api_response::api_response::{ApiErrorResponse, ApiResponse, ApiSuccessResponse}, operation_status::auth_error::CreateUserError, validate_util::auth_validate::check_req_create_user_dto}, mysql::repositories::impl_auth_repository::ImplAuthRepository}};
+use crate::{application::usecase::auth_usecase::AuthUseCase, domain::dto::auth_dto::{ReqCreateUserDto, ReqSignInDto, ResSignInDto}, infrastructure::{faring::cors::options, handler::{api_response::api_response::{ApiErrorResponse, ApiResponse, ApiSuccessResponse}, operation_status::auth_error::{CreateUserError, SignInError}, validate_util::auth_validate::check_req_create_user_dto}, mysql::repositories::impl_auth_repository::ImplAuthRepository}};
 
 #[allow(dead_code)]
 
@@ -39,12 +39,29 @@ pub fn auth_routes() -> Vec<Route> {
     )
 )]
 #[post("/sign-in", format = "json", data = "<req_sign_in>")]
-pub async fn sign_in(req_sign_in: Json<ReqSignInDto>) -> Json<ResSignInDto> {
+pub async fn sign_in(
+    req_sign_in: Json<ReqSignInDto>,
+    auth_usecase: &State<Arc<AuthUseCase<ImplAuthRepository>>>
+) 
+-> ApiResponse<ResSignInDto> {
     
-    Json(ResSignInDto {
-        token: "token".to_string(),
-    })
-}
+    let result = auth_usecase.sign_in(req_sign_in.into_inner()).await;
+    match result {
+        Ok(token) => {
+            return Ok(ApiSuccessResponse{
+                status: "success".to_string(),
+                data: token
+            });
+        },
+        Err(_err) => {
+            
+                return Err(ApiErrorResponse::new(400, "Invalid email or password".to_string()))
+            
+        }
+    }
+}    
+    
+
 
 
 #[utoipa::path(

@@ -76,7 +76,7 @@ pub struct ResSignInDto {
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 pub struct ClaimsDto {
-    pub subject_id: Uuid,
+    pub subject_id: String,
     pub username: String,
     pub exp: u64,
 }
@@ -84,7 +84,7 @@ pub struct ClaimsDto {
 // use in faring authentication.rs
 // use only internal server, not recive from client nor return to client
 pub struct AuthenticatedUser {
-    pub id: Uuid,
+    pub id: String,
     pub username: String,  
 }
 
