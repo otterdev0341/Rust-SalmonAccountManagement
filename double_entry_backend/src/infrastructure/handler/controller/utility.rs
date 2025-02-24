@@ -49,8 +49,8 @@ pub async fn database_check() -> ApiResponse<String> {
     let databse_config = DBConfig::default();
     let db_connection = mysql_connec(&databse_config).await;
     match db_connection {
-        Ok(_) => Ok(ApiSuccessResponse::new("200", "Database is running".to_string())),
-        Err(_) => return Err(ApiErrorResponse::new("500".to_string(), "Database is not running".to_string()))
+        Ok(_) => Ok(ApiSuccessResponse::new("success", "Database is running".to_string())),
+        Err(_) => return Err(ApiErrorResponse::new(200, "Database is not running".to_string()))
     }
 
     

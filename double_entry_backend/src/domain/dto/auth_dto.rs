@@ -3,12 +3,13 @@ use ::serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 use uuid::Uuid;
 
+
 #[allow(dead_code)]
 
 // Serialize and Deserialize are used to convert the struct into a JSON object and vice versa
 // ToSchema is used to generate the OpenAPI schema for the struct
 
-#[derive(Serialize ,Deserialize, ToSchema)]
+#[derive(Serialize ,Deserialize, ToSchema, Clone)]
 #[schema(example = json!({
     "username": "kotaro_cute", 
     "first_name": "kotaro",
@@ -19,12 +20,26 @@ use uuid::Uuid;
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 pub struct ReqCreateUserDto {
+
+    
     pub username: String,
+
+    
     pub first_name: String,
+
+    
     pub last_name: String,
+
+    
     pub email: String,
+
+    
     pub password: String,
 }
+
+
+
+
 
 #[derive(Serialize, ToSchema)]
 #[schema(example = json!({"id": "2309jfslkjfe90jklfh", "username": "kotaro_cute", "first_name": "kotaro", "last_name": "cute", "email": "kotaro_work.com"}))]

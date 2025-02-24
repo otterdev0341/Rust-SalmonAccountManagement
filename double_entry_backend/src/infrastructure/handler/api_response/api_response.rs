@@ -13,7 +13,7 @@ pub struct ApiSuccessResponse<T> {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ApiErrorResponse {
-    pub status: String,
+    pub status: u16,
     pub message: String,
 }
 
@@ -29,7 +29,7 @@ impl ApiSuccessResponse<String> {
 
 
 impl ApiErrorResponse {
-    pub fn new(status: String,message: String) -> Self {
+    pub fn new(status: u16,message: String) -> Self {
         ApiErrorResponse {
             status: status,
             message: message,
@@ -44,7 +44,8 @@ where
     T: Serialize + 'r,  // Ensure that T is serializable and has the same or longer lifetime as 'r
 {
     fn respond_to(self, _: &'r Request) -> rocket::response::Result<'r> {
-        let body_string = serde_json::to_string(&self).unwrap();  // Serialize the inner struct directly (not Json)
+        let body_string = serde_json::to_string(&self)
+            .map_err(|_| Status::InternalServerError)?;  // Serialize the inner struct directly (not Json)
         let body_bytes = body_string.into_bytes();  // Convert the string to bytes
         let cursor = Cursor::new(body_bytes);  // Wrap bytes in a Cursor for AsyncRead
 
@@ -59,12 +60,13 @@ where
 // Implementing Responder for ApiErrorResponse
 impl<'r> Responder<'r, 'r> for ApiErrorResponse {
     fn respond_to(self, _: &'r Request) -> rocket::response::Result<'r> {
-        let body_string = serde_json::to_string(&self).unwrap();  // Serialize the inner struct directly (not Json)
+        let body_string = serde_json::to_string(&self)
+            .map_err(|_| Status::InternalServerError)?;  // Serialize the inner struct directly (not Json)
         let body_bytes = body_string.into_bytes();  // Convert the string to bytes
         let cursor = Cursor::new(body_bytes);  // Wrap bytes in a Cursor for AsyncRead
 
         rocket::Response::build()
-            .status(Status::from_code(self.status.parse::<u16>().unwrap()).unwrap_or(Status::InternalServerError))
+            .status(Status::from_code(self.status).unwrap_or(Status::InternalServerError))
             .sized_body(cursor.get_ref().len(), cursor)  // Set the body and its length
             .header(ContentType::JSON)  // Set the content type to JSON
             .ok()

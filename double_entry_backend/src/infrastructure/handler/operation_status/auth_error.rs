@@ -49,7 +49,7 @@ impl From<CreateUserError> for ApiErrorResponse {
             CreateUserError::InternalServerError => (Status::InternalServerError, err.to_string()),
         };
         ApiErrorResponse {
-            status: status.to_string(),
+            status: status.code,
             message: message.to_string(),
         }
     }
@@ -94,7 +94,7 @@ impl From<SignInError> for ApiErrorResponse {
             SignInError::IncorrectEmailOrPassword => (Status::Unauthorized, err.to_string()),
         };
         ApiErrorResponse {
-            status: status.to_string(),
+            status: status.code,
             message: message.to_string(),
         }
     }
@@ -125,7 +125,7 @@ impl From<TokenError> for ApiErrorResponse {
             TokenError::TokenNotAvailable => (Status::NotFound, err.to_string()),
         };
         ApiErrorResponse {
-            status: status.to_string(),
+            status: status.code,
             message: message.to_string(),
         }
     }

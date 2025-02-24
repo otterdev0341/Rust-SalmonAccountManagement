@@ -1,4 +1,7 @@
 
+use std::sync::Arc;
+
+use migration::application::usecase::a_init_usecases::init_usecase_setup;
 use migration::config::a_init_openapi_config::init_openapi;
 use migration::infrastructure::faring::cors::CORS;
 use migration::infrastructure::handler::controller::a_init_routes::init_controller_setup;
@@ -7,7 +10,7 @@ use migration::{config::db_config::DBConfig, infrastructure::mysql::connection::
 use tracing_subscriber;
 use sea_orm_migration::MigratorTrait;
 use utoipa_swagger_ui::SwaggerUi;
-#[macro_use] extern crate rocket;
+extern crate rocket;
 
 
 
@@ -34,12 +37,20 @@ async fn main() -> Result<(), rocket::Error> {
             
         }
     };
-    Migrator::up(&db, None).await.unwrap();
+    let migrate_status =  Migrator::up(&db, None).await;
+    if migrate_status.is_err() {
+        eprintln!("Failed to migrate: {:?}", migrate_status);
+        panic!("Failed to migrate: {:?}", migrate_status);
+    }
     // Migrator::fresh(&db).await.unwrap();
+
+    let db_arc = Arc::new(db);
+
 
     // inittial rocket
     let _rocket = rocket::build()
         .attach(CORS)
+        .attach(init_usecase_setup(Arc::clone(&db_arc)))
         .attach(init_controller_setup())
         .mount("/", 
             SwaggerUi::new("/swagger-ui/<_..>")

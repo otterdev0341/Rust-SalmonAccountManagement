@@ -62,7 +62,7 @@ pub async fn create_company(
     
     match result {
         Ok(_) => Ok(ApiSuccessResponse::new("success", "Company created".to_string())),
-        Err(_) => Err(ApiErrorResponse::new("fail to create".to_string(), "Internal server error".to_string()))
+        Err(_) => Err(ApiErrorResponse::new(500, "Internal server error".to_string()))
     }
 
     

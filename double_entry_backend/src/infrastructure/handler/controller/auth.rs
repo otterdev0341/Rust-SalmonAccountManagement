@@ -1,6 +1,8 @@
-use rocket::{post, routes, serde::json::Json, Route};
+use std::sync::Arc;
 
-use crate::{domain::dto::auth_dto::{ReqCreateUserDto, ReqSignInDto, ResSignInDto}, infrastructure::faring::cors::options};
+use rocket::{http::Status, post, routes, serde::json::Json, Route, State};
+
+use crate::{application::usecase::auth_usecase::AuthUseCase, domain::dto::auth_dto::{ReqCreateUserDto, ReqSignInDto, ResSignInDto}, infrastructure::{faring::cors::options, handler::{api_response::api_response::{ApiErrorResponse, ApiResponse, ApiSuccessResponse}, operation_status::auth_error::CreateUserError, validate_util::auth_validate::check_req_create_user_dto}, mysql::repositories::impl_auth_repository::ImplAuthRepository}};
 
 #[allow(dead_code)]
 
@@ -17,7 +19,7 @@ pub fn auth_routes() -> Vec<Route> {
 
 
 
-#[allow(unused_variables)]
+
 #[utoipa::path(
     post,
     path = "/auth/sign-in",
@@ -44,7 +46,7 @@ pub async fn sign_in(req_sign_in: Json<ReqSignInDto>) -> Json<ResSignInDto> {
     })
 }
 
-#[allow(unused_variables)]
+
 #[utoipa::path(
     post,
     path = "/auth/sign-up",
@@ -59,11 +61,34 @@ pub async fn sign_in(req_sign_in: Json<ReqSignInDto>) -> Json<ResSignInDto> {
         (status = 500, description = "Internal server error")
     )
 )]
-#[post("/sign-up", format = "json", data = "<req_sign_in>")]
-pub async fn sign_up(req_sign_in: Json<ReqCreateUserDto>) -> Json<ResSignInDto> {
+#[post("/sign-up", format = "json", data = "<req_sign_up>")]
+pub async fn sign_up(
+    auth_usecase: &State<Arc<AuthUseCase<ImplAuthRepository>>>,
+    req_sign_up: Json<ReqCreateUserDto>) 
     
-    Json(ResSignInDto {
-        token: "token".to_string(),
-    })
+-> ApiResponse<String> {
+    
+    let req_sign_up_clone = req_sign_up.into_inner().clone();
+    let check_data = check_req_create_user_dto(&req_sign_up_clone);
+    match check_data {
+        Ok(_) => (),
+        Err(e) => return Err(ApiErrorResponse::new(200, e.to_string()))
+    }
+    let result = auth_usecase.create_user(req_sign_up_clone).await;
+    
+    if let Err(err) = result {
+        match err {
+            CreateUserError::UsernameAlreadyExists => return Err(ApiErrorResponse::new(409, "Username already exists".to_string())),
+            CreateUserError::EmailAlreadyExists => return Err(ApiErrorResponse::new(409, "Email already exists".to_string())),
+            CreateUserError::InternalServerError => return Err(ApiErrorResponse::new(500, "Internal server error".to_string())),
+            _ => return Err(ApiErrorResponse::new(400, "Invalid username, email, password, first name, or last name".to_string()))
+        }
+    }
+
+    
+    Ok(ApiSuccessResponse::new("success","Create user succesfull".to_string()))
+    
+
+    
 }
 
