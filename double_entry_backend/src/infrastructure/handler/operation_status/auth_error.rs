@@ -34,6 +34,8 @@ pub enum CreateUserError {
     InternalServerError,
 }
 
+
+
 impl From<CreateUserError> for ApiErrorResponse {
     fn from(err: CreateUserError) -> Self {
         let (status, message) = match err {
@@ -52,6 +54,16 @@ impl From<CreateUserError> for ApiErrorResponse {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
 
 #[derive(Error, Debug, Serialize)]
 #[serde(crate = "rocket::serde")]
