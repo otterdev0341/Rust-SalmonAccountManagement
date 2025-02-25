@@ -1,4 +1,7 @@
+use std::str::FromStr;
+
 use rocket::{http::Status, outcome::Outcome, request::{self, FromRequest}, Request};
+use uuid::Uuid;
 use crate::{domain::dto::auth_dto::AuthenticatedUser, infrastructure::jwt_service::jwt::decode_jwt};
 
 
@@ -21,7 +24,7 @@ impl<'r> FromRequest<'r> for AuthenticatedUser {
                     }
                 };            
 
-                return Outcome::Success(AuthenticatedUser { id: claims.subject_id, username: claims.username });
+                return Outcome::Success(AuthenticatedUser { id: Uuid::parse_str(&claims.subject_id).unwrap(), username: claims.username });
             }
         }
         Outcome::Error((Status::Unauthorized, "Authorization header missing or malformed".to_string()))

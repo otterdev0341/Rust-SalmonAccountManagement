@@ -7,10 +7,11 @@ use sea_orm::entity::prelude::*;
 pub struct Model {
     #[sea_orm(primary_key, auto_increment = false, column_type = "Binary(16)")]
     pub id: Vec<u8>,
+    #[sea_orm(unique)]
     pub name: String,
     pub description: String,
     #[sea_orm(column_type = "Binary(16)")]
-    pub use_id: Vec<u8>,
+    pub user_id: Vec<u8>,
     pub created_at: Option<DateTimeUtc>,
     pub updated_at: Option<DateTimeUtc>,
 }
@@ -19,7 +20,7 @@ pub struct Model {
 pub enum Relation {
     #[sea_orm(
         belongs_to = "super::user::Entity",
-        from = "Column::UseId",
+        from = "Column::UserId",
         to = "super::user::Column::Id",
         on_update = "Cascade",
         on_delete = "Cascade"

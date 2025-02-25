@@ -37,11 +37,9 @@ package "Company Management" {
     usecase create_company
     usecase edit_company
     usecase delete_company
-    usecase add_user_to_company
-    usecase remove_user_from_company
     usecase view_company
     usecase view_companys
-    usecase view_company_users
+    
 
     User --> (create_company)
     User --> (edit_company)

@@ -164,11 +164,10 @@ impl AuthRepoReqImpl for ImplAuthRepository {
         
         
         info!(">>>>>>>>>>>>> create user to return");
-        let the_id = Uuid::from_slice(&user.id);
-        match the_id {
-            Ok(id) => {
+        
+        
                 let res_user = ResEntryUserDto {
-                    id: id.to_string(),
+                    id: Uuid::from_slice(&user.id).unwrap(),
                     username: user.username,
                     email: user.email,
                     first_name: user.first_name,
@@ -176,9 +175,7 @@ impl AuthRepoReqImpl for ImplAuthRepository {
                 };
         info!(">>>>>>>>>>>>> return user");
                 Ok(res_user)
-            },
-            Err(_) => Err(AuthRepositoryError::UuidCastError)
-        }
+     
 
 
         

@@ -1,0 +1,86 @@
+@startuml name Backend Architecture
+package "Infrastructure" {
+    package "Configuration" {
+
+    }
+    
+    package "DTO" {
+
+    }
+
+    package "Controller"{
+        package "auth_controller" {
+            class AuthController {
+                + auth_usecase: Arc<T + AuthUseCase + Send + Sync>
+                fn new(auth_usecase: Arc<dyn AuthUseCase>) -> Self
+                async fn create_user(&self, user_data: ReqCreateUserDto) -> Result<HttpResponse, Error>;
+                async fn sign_in(&self, sign_data: ReqSignInDto) -> Result<HttpResponse, Error>;
+            }
+        }
+    }
+
+    package "UseCase" {
+        package "auth_usecase" {
+            enum AuthUseCaseError {
+                + UserNotFound
+                + EmailAlreadyExists
+                + InvalidPassword
+                + InternalError(String)
+                + UserAlreadyExists
+                + EmailOrPasswordNotCorrect
+                + EmailNotFound
+                + HashFailed
+                + UuidCastError
+                
+            }
+            class AuthUseCase {
+                + auth_repo: Arc<T + AuthRepoReqImpl + Send + Sync> 
+                fn new(auth_repo: Arc<dyn AuthRepoReqImpl>) -> Self
+                async fn create_user(&self, user_data: ReqCreateUserDto) -> Result<(), AuthUseCaseError>;
+                async fn sign_in(&self, sign_data: ReqSignInDto) -> Result<ResEntryUserDto, AuthUseCaseError>;
+            }
+        }
+    }
+
+    package "ImplRepository" {
+        package "impl_auth" {
+            enum AuthRepositoryError {
+                + DatabaseError
+                + UserNotFound
+                + UserAlreadyExists
+                + EmailOrPasswordNotCorrect
+                + EmailNotFound
+                + HashFailed
+                + UuidCastError
+                impl From<AuthRepositoryError> for AuthUseCaseError;
+
+            }
+            class AuthRepoImpl {
+                + db: Arc<DatabaseConnection>
+                fn new(db: Arc<DatabaseConnection>) -> Self
+                
+                async fn create_user(&self, user_data: ReqCreateUserDto) -> Result<(), AuthRepositoryError>;
+                async fn sign_in(&self, sign_data: ReqSignInDto) -> Result<ResEntryUserDto, AuthRepositoryError>;
+            }
+             
+        }
+
+    }
+     
+    package "Trait Repository" {
+        package "trait_auth" {
+            class AuthRepoReqImpl {
+               async fn create_user(&self, user_data: ReqCreateUserDto) -> Result<(), AuthRepositoryError>;
+               async fn sign_in(&self, sign_data: ReqSignInDto) -> Result<ResEntryUserDto, AuthRepositoryError>;
+                
+            }
+        }
+    }
+    ' trait impl by impl '
+    "AuthRepoReqImpl" --> "AuthRepoImpl"
+
+    ' a inject by b'
+
+    "AuthRepoImpl" --> "AuthUseCase"
+}
+@enduml

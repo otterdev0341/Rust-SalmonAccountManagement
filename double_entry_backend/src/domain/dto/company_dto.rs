@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
+use uuid::Uuid;
 
 use super::auth_dto::ResEntryUserDto;
 
@@ -8,7 +9,7 @@ use super::auth_dto::ResEntryUserDto;
 
 
 
-#[derive(Deserialize,Serialize,ToSchema)]
+#[derive(Deserialize,Serialize,ToSchema, Clone)]
 #[schema(example = json!({
     "name": "Otter heaven inc",
     "description": "use tech to grow sweet fish"
@@ -26,7 +27,6 @@ pub struct ReqCreateCompanyDto {
 }))]
 #[serde(crate = "rocket::serde")]
 pub struct ReqUpdateCompanyDto {
-    pub company_id: String,
     pub name: Option<String>,
     pub description: Option<String>,
 }
@@ -43,7 +43,8 @@ pub struct ReqUpdateCompanyDto {
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 pub struct ResEntryCompanyDto{
-    pub id : String,
+    #[schema(value_type = String)]
+    pub id : Uuid,
     pub name : String,
     pub description : String,
     pub created_at : String,
@@ -71,8 +72,8 @@ pub struct ResEntryCompanyDto{
     ]
 }))]
 #[serde(crate= "rocket::serde")]
-pub struct ResListEntryCompanyDto{
-    pub total: i32,
+pub struct ResListCompanyDto{
+    pub total: u32,
     pub companies: Vec<ResEntryCompanyDto>,
 }
 
@@ -100,7 +101,7 @@ pub struct ResListEntryCompanyDto{
 #[serde(crate = "rocket::serde")]
 pub struct ResCompanyRelateUserDto{
     pub company_name: String,
-    pub total_user: i32,
+    pub total_user: u32,
     pub users: Vec<ResEntryUserDto>,
     
 }

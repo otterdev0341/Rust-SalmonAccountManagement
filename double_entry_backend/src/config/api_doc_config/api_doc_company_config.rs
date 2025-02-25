@@ -1,6 +1,6 @@
 use utoipa::OpenApi;
 
-use crate::{config::api_doc_config::api_security_addon::SecurityAddon, domain::dto::company_dto::{AddRemoveUserToCompanyDto, ReqCreateCompanyDto, ReqUpdateCompanyDto, ResCompanyRelateUserDto, ResEntryCompanyDto, ResListEntryCompanyDto}};
+use crate::{config::api_doc_config::api_security_addon::SecurityAddon, domain::dto::company_dto::{AddRemoveUserToCompanyDto, ReqCreateCompanyDto, ReqUpdateCompanyDto, ResCompanyRelateUserDto, ResEntryCompanyDto, ResListCompanyDto, }};
 
 
 
@@ -27,7 +27,7 @@ use crate::{config::api_doc_config::api_security_addon::SecurityAddon, domain::d
             ReqCreateCompanyDto,
             ReqUpdateCompanyDto,
             ResEntryCompanyDto,
-            ResListEntryCompanyDto,
+            ResListCompanyDto,
             ResCompanyRelateUserDto,
             AddRemoveUserToCompanyDto
         )

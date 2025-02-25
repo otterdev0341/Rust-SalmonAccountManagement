@@ -1,6 +1,7 @@
 
 use ::serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
+use uuid::Uuid;
 
 
 
@@ -12,8 +13,8 @@ use utoipa::ToSchema;
 #[derive(Serialize ,Deserialize, ToSchema, Clone)]
 #[schema(example = json!({
     "username": "kotaro_cute", 
-    "first_name": "kotaro",
-    "last_name": "cute",
+    "firstName": "kotaro",
+    "lastName": "cute",
     "email": "kotaro_work.com",
     "password": "kotaro1235555"
 }))]
@@ -36,7 +37,8 @@ pub struct ReqCreateUserDto {
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 pub struct ResEntryUserDto {
-    pub id: String,
+    #[schema(value_type = String)]
+    pub id: Uuid,
     pub username: String,
     pub first_name: String,
     pub last_name: String,
@@ -45,7 +47,7 @@ pub struct ResEntryUserDto {
 
 
 #[derive(Deserialize, ToSchema)]
-#[schema(example = json!({"email": "user@example.com", "password": "securepassword"}))]
+#[schema(example = json!({"email": "kotaro@work.com", "password": "kotaro1235555"}))]
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 pub struct ReqSignInDto {
@@ -74,7 +76,8 @@ pub struct ClaimsDto {
 // use in faring authentication.rs
 // use only internal server, not recive from client nor return to client
 pub struct AuthenticatedUser {
-    pub id: String,
+    
+    pub id: Uuid,
     pub username: String,  
 }
 

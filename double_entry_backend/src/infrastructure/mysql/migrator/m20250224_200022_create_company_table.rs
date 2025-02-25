@@ -23,11 +23,12 @@ impl MigrationTrait for Migration {
                             .default("UUID()")
                             .primary_key(),
                     )
-                    .col(string(Company::Name))
+                    .col(string(Company::Name).unique_key())
                     .col(string(Company::Description))
                     .col(
                         ColumnDef::new(Company::UseId)
                             .uuid()
+                            .default("UUID()")
                             .not_null(),
                     )
                     .foreign_key(
@@ -73,7 +74,7 @@ pub enum Company {
     Name,
     #[sea_orm(iden = "description")]
     Description,
-    #[sea_orm(iden = "use_id")]
+    #[sea_orm(iden = "user_id")]
     UseId,
     #[sea_orm(iden = "created_at")]
     CreatedAt,

@@ -70,7 +70,7 @@ where
 
         match user {
             Ok(user) => {
-                let jwt = generate_jwt(user.id, &user.username);
+                let jwt = generate_jwt(user.id.to_string(), &user.username);
                 match jwt {
                     Ok(token) => Ok(token),
                     Err(_) => Err(AuthUseCaseError::InternalError("jwt generation failed".to_string()))

@@ -2,9 +2,15 @@
 // it must be create by user and create relation within UserCompany Table
 
 
-use rocket::{delete, get, http::Status, post, put, routes, serde::json::Json, Route};
+use std::sync::Arc;
 
-use crate::{domain::dto::{auth_dto::AuthenticatedUser, company_dto::{AddRemoveUserToCompanyDto, ReqCreateCompanyDto, ReqUpdateCompanyDto, ResCompanyRelateUserDto, ResEntryCompanyDto, ResListEntryCompanyDto}, }, infrastructure::{faring::cors::options, handler::{api_response::api_response::{ApiErrorResponse, ApiResponse, ApiSuccessResponse}, operation_status::company_error::CompanySuccess}}};
+use rocket::{ delete, get, post, put, routes, serde::json::Json, Route, State};
+
+use tracing::{warn, info};
+use utoipa::openapi::info;
+use uuid::Uuid;
+
+use crate::{application::usecase::company_usecase::{CompanyUseCase, CompanyUseCaseError}, domain::dto::{auth_dto::AuthenticatedUser, company_dto::{ReqCreateCompanyDto, ReqUpdateCompanyDto, ResEntryCompanyDto, ResListCompanyDto}, std_201::ResCreateSuccess, }, infrastructure::{faring::cors::options, handler::{api_response::api_response::{ApiErrorResponse, ApiResponse, ApiSuccessResponse}, operation_status::company_error::CompanySuccess}, mysql::repositories::impl_company_repository::ImplCompanyRespository}};
 
 
 
@@ -21,16 +27,18 @@ pub fn company_routes() -> Vec<Route> {
 
 
 
-// usecase create_company -> 201
-// usecase edit_company -> 200
-// usecase delete_companies -> 200
-
-// usecase add_user_to_company -> 200
-// usecase remove_user_from_company -> 200
-
-// usecase view_company -> ResEntryCompanyDto
-// usecase view_companys -> ResListEntryCompanyDto
-// usecase view_company_users 
+impl From<CompanyUseCaseError> for ApiErrorResponse {
+    fn from(error: CompanyUseCaseError) -> Self {
+        match error {
+            CompanyUseCaseError::CompanyNotFound => ApiErrorResponse::new(404, "Company not found".to_string()),
+            CompanyUseCaseError::InternalServerError => ApiErrorResponse::new(500, "Internal server error".to_string()),
+            CompanyUseCaseError::ConflictingCompany => ApiErrorResponse::new(409, "Conflicting company".to_string()),
+            CompanyUseCaseError::ConvertUuidError => ApiErrorResponse::new(500, "Uuid convert error".to_string()),
+            CompanyUseCaseError::DeleteFailed => ApiErrorResponse::new(500, "Delete failed".to_string()),
+            CompanyUseCaseError::UpdateFailed => ApiErrorResponse::new(500, "Update failed".to_string())
+        }
+    }
+}
 
 
 #[utoipa::path(
@@ -53,35 +61,36 @@ pub fn company_routes() -> Vec<Route> {
 #[post("/", format = "json", data = "<company_data>")]
 pub async fn create_company(
     user : AuthenticatedUser,
-    company_data: Json<ReqCreateCompanyDto>
+    company_data: Json<ReqCreateCompanyDto>,
+    company_usecase: &State<Arc<CompanyUseCase<ImplCompanyRespository>>>
 ) 
--> ApiResponse<String> {
-    // company can't create by it self
-    let result = test();
-    
-    
+-> ApiResponse<ResCreateSuccess> {
+    // validate data
+    let extract = company_data.clone().into_inner();
+    if extract.name.is_empty() || extract.description.is_empty() {
+        return Err(ApiErrorResponse::new(400, "Invalid company name or description".to_string()));
+    }
+
+    // if not null
+    let result = company_usecase.create_company( user.id ,company_data.into_inner()).await;
     match result {
-        Ok(_) => Ok(ApiSuccessResponse::new("success", "Company created".to_string())),
-        Err(_) => Err(ApiErrorResponse::new(500, "Internal server error".to_string()))
+        Ok(data) => {
+            return Ok(ApiSuccessResponse{
+                status: CompanySuccess::CompanyCreated.to_string(),
+                data: data
+            });
+        },
+        Err(err) => {
+            return Err(err.into());
+        }
     }
-
-    
 }
 
-
-fn test () -> Result<String, u8> {
-    let a = 1;
-    match a {
-        1 => Ok("a".to_string()),
-        _ => Err(1)
-    }
-    
-}
 
 
 #[utoipa::path(
     put,
-    path = "/{company_id}",
+    path = "/company/{company_id}",
     request_body = ReqUpdateCompanyDto,
     summary = "Edit company",
     description = "Edit company",
@@ -104,12 +113,24 @@ fn test () -> Result<String, u8> {
 #[put("/<company_id>", format = "json", data = "<update_company>")]
 pub async fn edit_company(
     user : AuthenticatedUser,
-    company_id: &str,
-    update_company: Json<ReqUpdateCompanyDto>
+    company_id: String,
+    update_company: Json<ReqUpdateCompanyDto>,
+    company_usecase: &State<Arc<CompanyUseCase<ImplCompanyRespository>>>
 ) -> ApiResponse<String>{
-    todo!()
+    let result 
+        = company_usecase.update_company(user.id, Uuid::parse_str(&company_id).unwrap(), update_company.into_inner()).await;
+    match result {
+        Ok(_) => {
+            return Ok(ApiSuccessResponse{
+                status: "success".to_string(),
+                data: "Company edited".to_string()
+            });
+        },
+        Err(err) => {
+            return Err(err.into());
+        }
+    }
 }
-
 
 
 
@@ -123,23 +144,34 @@ pub async fn edit_company(
         ("bearer_auth" = [])
     ),
     params(
-        ("company_id" = String,Path, description = "Company ID")
+        ("target_id" = String,Path, description = "Company ID")
     ),
     responses(
         (status = 200, description = "Company deleted"),
-        (status = 403, description = "Forbidden"),
+        (status = 400, description = "Invalid company id"),
         (status = 404, description = "Company not found"),
         (status = 500, description = "Internal server error")
     ),
     
 )]
-#[delete("/<company_id>", format = "json")]
+#[delete("/<company_id>" , format = "json")]
 pub async fn delete_company(
     user : AuthenticatedUser,
-    company_id: &str
+    company_id: String,
+    company_usecase: &State<Arc<CompanyUseCase<ImplCompanyRespository>>>
 ) -> ApiResponse<String> {
-    // only the owner of the company can delete the company
-    todo!()
+    let result = company_usecase.delete_company(user.id, Uuid::parse_str(&company_id).unwrap()).await;
+    match result {
+        Ok(_) => {
+            return Ok(ApiSuccessResponse{
+                status: "success".to_string(),
+                data: "Company deleted".to_string()
+            });
+        },
+        Err(err) => {
+            return Err(err.into());
+        }
+    }
 }
 
 
@@ -184,14 +216,24 @@ pub async fn delete_company(
     ),
     
 )]
-#[get("/company/<company_id>", format = "json")]
+#[get("/<company_id>", format = "json")]
 pub async fn view_company(
     user : AuthenticatedUser,
-    company_id: &str
+    company_usecase: &State<Arc<CompanyUseCase<ImplCompanyRespository>>>,
+    company_id: String
 ) -> ApiResponse<ResEntryCompanyDto> {
-    // to veiew company, the user must be the owner of the company
-    // or the user must be the member of the company
-    todo!()
+    let result = company_usecase.get_company(user.id, Uuid::parse_str(&company_id).unwrap()).await;
+    match result {
+        Ok(data) => {
+            return Ok(ApiSuccessResponse{
+                status: "success".to_string(),
+                data
+            });
+        },
+        Err(err) => {
+            return Err(err.into());
+        }
+    }
 }
 
 
@@ -208,7 +250,7 @@ pub async fn view_company(
     ),
     responses(
         (status = 200, description = "Companies viewed",
-            body = ResListEntryCompanyDto,
+            body = ResListCompanyDto,
             description = "List of companies of the user"
         ),
         (status = 400, description = "Invalid company id"),
@@ -218,12 +260,23 @@ pub async fn view_company(
     ),
     
 )]
-#[get("/company", format = "json")]
+#[get("/", format = "json")]
 pub async fn view_companies(
-    user : AuthenticatedUser
-) -> ApiResponse<ResListEntryCompanyDto> {
+    user : AuthenticatedUser,
+    company_usecase: &State<Arc<CompanyUseCase<ImplCompanyRespository>>>
+) -> ApiResponse<ResListCompanyDto> {
     // to retrieve companies, the user must be the owner of the company
-    // or the user must be the member of the company
-    todo!()
+    let result = company_usecase.get_companies(user.id).await;
+    match result {
+        Ok(data) => {
+            return Ok(ApiSuccessResponse{
+                status: "success".to_string(),
+                data
+            });
+        },
+        Err(err) => {
+            return Err(err.into());
+        }
+    }
 }
 
