@@ -1,6 +1,5 @@
 use std::sync::Arc;
 
-use rocket::{async_trait, form::name};
 use sea_orm::{ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel, ModelTrait, QueryFilter, Set};
 use sea_orm_migration::async_trait;
 use thiserror::Error;
@@ -144,7 +143,7 @@ impl CompanyRepoReqImpl for ImplCompanyRespository {
         // if query error return internal server error
         // If query error or company not found, return an error
         match get_company {
-            Ok(Some(mut company)) => {
+            Ok(Some(company)) => {
                 // Prepare for update
                 let mut before_update = company.into_active_model();
 

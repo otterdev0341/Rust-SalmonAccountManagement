@@ -1,12 +1,9 @@
-use core::hash;
 use std::sync::Arc;
 
-use rocket::fairing::Info;
 use sea_orm::{ColumnTrait, DatabaseConnection, DbErr, EntityTrait, QueryFilter, Set};
 use sea_orm_migration::async_trait;
 use thiserror::Error;
 use tracing::{info, warn};
-use utoipa::openapi::info;
 use uuid::Uuid;
 
 use crate::{application::usecase::auth_usecase::AuthUseCaseError, domain::{dto::auth_dto::{ReqCreateUserDto, ReqSignInDto, ResEntryUserDto}, entities::user, repository::require_implementation::trait_auth::AuthRepoReqImpl}, infrastructure::argon_hash::hash_util::{hash_password, verify_password, HashOperationError}};
@@ -76,7 +73,7 @@ impl AuthRepoReqImpl for ImplAuthRepository {
         // check username is already exists
         match user::Entity::find().filter(user::Column::Username.eq(user_data.username.clone())).one(&*self.db).await {
             Ok(user) => {
-                if let Some(user) = user {
+                if let Some(_user) = user {
                     return Err(AuthRepositoryError::UserAlreadyExists)
                 }
             },
@@ -87,7 +84,7 @@ impl AuthRepoReqImpl for ImplAuthRepository {
         // check is email already exists
         match user::Entity::find().filter(user::Column::Email.eq(user_data.email.clone())).one(&*self.db).await {
             Ok(data) => {
-                if let Some(data) = data {
+                if let Some(_data) = data {
                     return Err(AuthRepositoryError::EmailAlreadyExists)
                 }
             },
@@ -120,7 +117,7 @@ impl AuthRepoReqImpl for ImplAuthRepository {
 
         info!(">>>>>>>>>>>>> check insert result");
         match persist_result {
-            Ok(data) => (),
+            Ok(_data) => (),
             Err(_) => {
                 warn!("Failed to insert user entity");
                 return Err(AuthRepositoryError::DatabaseError(DbErr::RecordNotInserted))

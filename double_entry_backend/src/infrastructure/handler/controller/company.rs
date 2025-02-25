@@ -6,8 +6,6 @@ use std::sync::Arc;
 
 use rocket::{ delete, get, post, put, routes, serde::json::Json, Route, State};
 
-use tracing::{warn, info};
-use utoipa::openapi::info;
 use uuid::Uuid;
 
 use crate::{application::usecase::company_usecase::{CompanyUseCase, CompanyUseCaseError}, domain::dto::{auth_dto::AuthenticatedUser, company_dto::{ReqCreateCompanyDto, ReqUpdateCompanyDto, ResEntryCompanyDto, ResListCompanyDto}, std_201::ResCreateSuccess, }, infrastructure::{faring::cors::options, handler::{api_response::api_response::{ApiErrorResponse, ApiResponse, ApiSuccessResponse}, operation_status::company_error::CompanySuccess}, mysql::repositories::impl_company_repository::ImplCompanyRespository}};
@@ -136,7 +134,7 @@ pub async fn edit_company(
 
 #[utoipa::path(
     delete,
-    path = "/company/{company_id}",
+    path = "/company/{target_id}",
     summary = "Delete company",
     description = "Delete company",
     tags = ["company"],
@@ -154,13 +152,19 @@ pub async fn edit_company(
     ),
     
 )]
-#[delete("/<company_id>" , format = "json")]
+#[delete("/<target_id>")]
 pub async fn delete_company(
     user : AuthenticatedUser,
-    company_id: String,
+    target_id: &str,
     company_usecase: &State<Arc<CompanyUseCase<ImplCompanyRespository>>>
 ) -> ApiResponse<String> {
-    let result = company_usecase.delete_company(user.id, Uuid::parse_str(&company_id).unwrap()).await;
+    let uuid = match Uuid::parse_str(target_id) {
+        Ok(id) => id,
+        Err(_) => {
+            return Err(ApiErrorResponse::new(400, "Invalid company id".to_string()));
+        }
+    };
+    let result = company_usecase.delete_company(user.id, uuid).await;
     match result {
         Ok(_) => {
             return Ok(ApiSuccessResponse{
