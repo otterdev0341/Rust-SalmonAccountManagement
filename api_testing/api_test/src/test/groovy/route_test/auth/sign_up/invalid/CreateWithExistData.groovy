@@ -8,7 +8,7 @@ import io.qameta.allure.Step
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Tag
-import utility.RouteCase
+import utility.AuthCase
 import utility.TestRouteManagement
 
 import static io.restassured.RestAssured.*
@@ -22,7 +22,7 @@ class CreateWithExistData extends Specification {
 
     def setupSpec() {
         def helper = new TestRouteManagement()
-        target_url = helper.get_route(RouteCase.SIGN_UP)
+        target_url = helper.get_auth_route(AuthCase.SIGN_UP)
     }
 
     @Step("create with exist data")

@@ -2,15 +2,13 @@ package route_test.auth.sign_in.invalid
 
 import dto.auth.SignInDtoHelper
 import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
 import io.qameta.allure.Feature
 import spock.lang.Shared
 import spock.lang.Specification
-import utility.RouteCase
+import utility.AuthCase
 import utility.TestRouteManagement
 
 import static io.restassured.RestAssured.given
-import static io.restassured.RestAssured.when
 
 @Feature("Test sign-in with invalid value")
 class SignInWithInvalidData extends Specification {
@@ -22,7 +20,7 @@ class SignInWithInvalidData extends Specification {
     def help_sign_in_dto
 
     def setupSpec() {
-        base_url = new TestRouteManagement().get_route(RouteCase.SIGN_IN)
+        base_url = new TestRouteManagement().get_auth_route(AuthCase.SIGN_IN)
         help_sign_in_dto = new SignInDtoHelper()
     }
 

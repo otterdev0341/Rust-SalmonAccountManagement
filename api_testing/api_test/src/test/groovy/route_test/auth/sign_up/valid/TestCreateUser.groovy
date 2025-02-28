@@ -7,7 +7,7 @@ import groovy.json.JsonSlurper
 import io.qameta.allure.Description
 import io.qameta.allure.Epic
 import spock.lang.Specification
-import utility.RouteCase
+import utility.AuthCase
 import utility.TestRouteManagement
 
 import static io.restassured.RestAssured.*
@@ -22,7 +22,7 @@ class TestCreateUser extends Specification{
             ReqCreateUserDto new_user = new SignUpDtoHelper().get_always_new_user()
             // convert to json to use in api
             def new_user_json = JsonOutput.toJson(new_user)
-            def target_url = new TestRouteManagement().get_route(RouteCase.SIGN_UP)
+            def target_url = new TestRouteManagement().get_auth_route(AuthCase.SIGN_UP)
         when: "try to connect to api"
             def response
                         = given().contentType("application/json")

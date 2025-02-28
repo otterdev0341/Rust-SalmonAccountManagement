@@ -5,17 +5,15 @@ import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import io.qameta.allure.Description
 import io.qameta.allure.Epic
-import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Subject
 
-import static io.restassured.RestAssured.expect
 import static io.restassured.RestAssured.given
 
 class SignInToken {
 
     String get_valid_token(){
-        def base_url = new TestRouteManagement().get_route(RouteCase.SIGN_IN)
+        def base_url = new TestRouteManagement().get_auth_route(AuthCase.SIGN_IN)
         def target_user = new SignInDtoHelper().case_1_valid_email_valid_password()
         def json_target = JsonOutput.toJson(target_user)
 
@@ -32,6 +30,10 @@ class SignInToken {
         def token = json_response.data.token
         return token
     }
+
+    String get_bearer_token(){
+        return "Bearer " + get_valid_token()
+    }
 }
 
 
@@ -46,5 +48,13 @@ class TestSignInToken extends Specification {
         expect:
             token != null
 
+    }
+
+    def "this must return bearer token"(){
+        @Subject
+        def token = new SignInToken().get_bearer_token()
+
+        expect:
+            token != null
     }
 }

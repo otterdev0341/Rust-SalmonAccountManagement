@@ -7,7 +7,7 @@ import io.qameta.allure.Epic
 import io.qameta.allure.Step
 import spock.lang.Shared
 import spock.lang.Specification
-import utility.RouteCase
+import utility.AuthCase
 import utility.TestRouteManagement
 
 import static io.restassured.RestAssured.*
@@ -20,7 +20,7 @@ class TestSignIn extends Specification {
 
 
     def setupSpec(){
-        base_url = new TestRouteManagement().get_route(RouteCase.SIGN_IN)
+        base_url = new TestRouteManagement().get_auth_route(AuthCase.SIGN_IN)
     }
 
     @Step("Sign in with valid data")

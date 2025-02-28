@@ -8,7 +8,7 @@ use rocket::{ delete, get, post, put, routes, serde::json::Json, Route, State};
 
 use uuid::Uuid;
 
-use crate::{application::usecase::company_usecase::{CompanyUseCase, CompanyUseCaseError}, domain::dto::{auth_dto::AuthenticatedUser, company_dto::{ReqCreateCompanyDto, ReqUpdateCompanyDto, ResEntryCompanyDto, ResListCompanyDto}, std_201::ResCreateSuccess, }, infrastructure::{faring::cors::options, handler::{api_response::api_response::{ApiErrorResponse, ApiResponse, ApiSuccessResponse}, operation_status::company_error::CompanySuccess}, mysql::repositories::impl_company_repository::ImplCompanyRespository}};
+use crate::{application::usecase::company_usecase::{CompanyUseCase, CompanyUseCaseError}, domain::dto::{auth_dto::AuthenticatedUser, company_dto::{ReqCreateCompanyDto, ReqUpdateCompanyDto, ResEntryCompanyDto, ResListCompanyDto}, std_201::ResCreateSuccess, }, infrastructure::{faring::cors::options, handler::{api_response::{api_response::{ApiErrorResponse, ApiResponse, ApiSuccessResponse}, api_success_response::{ApiCreatedResponse, ApiCreatedResponseType}}, operation_status::company_error::CompanySuccess}, mysql::repositories::impl_company_repository::ImplCompanyRespository}};
 
 
 
@@ -62,7 +62,7 @@ pub async fn create_company(
     company_data: Json<ReqCreateCompanyDto>,
     company_usecase: &State<Arc<CompanyUseCase<ImplCompanyRespository>>>
 ) 
--> ApiResponse<ResCreateSuccess> {
+-> ApiCreatedResponseType<ResCreateSuccess> {
     // validate data
     let extract = company_data.clone().into_inner();
     if extract.name.is_empty() || extract.description.is_empty() {
@@ -73,8 +73,9 @@ pub async fn create_company(
     let result = company_usecase.create_company( user.id ,company_data.into_inner()).await;
     match result {
         Ok(data) => {
-            return Ok(ApiSuccessResponse{
-                status: CompanySuccess::CompanyCreated.to_string(),
+            return Ok(ApiCreatedResponse{
+                status: "success".to_string(),
+                message: "Company created".to_string(),
                 data: data
             });
         },

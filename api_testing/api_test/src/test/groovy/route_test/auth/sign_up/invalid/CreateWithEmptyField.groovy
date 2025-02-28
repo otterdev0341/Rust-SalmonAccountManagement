@@ -7,7 +7,7 @@ import io.qameta.allure.Step
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Tag
-import utility.RouteCase
+import utility.AuthCase
 import utility.TestRouteManagement
 import static io.restassured.RestAssured.*
 
@@ -19,7 +19,7 @@ class CreateWithEmptyField extends Specification {
     def target_url
 
     def setupSpec() {
-        target_url = new TestRouteManagement().get_route(RouteCase.SIGN_UP)
+        target_url = new TestRouteManagement().get_auth_route(AuthCase.SIGN_UP)
     }
 
     @Step("test create user with empty firstname")
