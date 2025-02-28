@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use thiserror::Error;
 
-use crate::{domain::{dto::auth_dto::{ReqCreateUserDto, ReqSignInDto, ResSignInDto}, repository::require_implementation::trait_auth::AuthRepoReqImpl}, infrastructure::jwt_service::jwt::generate_jwt};
+use crate::{domain::{dto::{auth_dto::{ReqCreateUserDto, ReqSignInDto, ResSignInDto}, std_201::ResCreateSuccess}, repository::require_implementation::trait_auth::AuthRepoReqImpl}, infrastructure::jwt_service::jwt::generate_jwt};
 
 
 
@@ -56,9 +56,9 @@ where
         AuthUseCase { auth_repo }
     }
 
-    pub async fn create_user(&self, user_data: ReqCreateUserDto) -> Result<(), AuthUseCaseError> {
+    pub async fn create_user(&self, user_data: ReqCreateUserDto) -> Result<ResCreateSuccess, AuthUseCaseError> {
         match self.auth_repo.create_user(user_data).await {
-            Ok(_) => Ok(()),
+            Ok(data) => Ok(data),
             Err(e) => Err(e.into()),
         }
     }

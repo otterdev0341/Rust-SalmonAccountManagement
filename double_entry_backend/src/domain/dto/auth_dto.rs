@@ -43,6 +43,8 @@ pub struct ResEntryUserDto {
     pub first_name: String,
     pub last_name: String,
     pub email: String,
+    pub created_at: String,
+    pub updated_at: String,
 }
 
 

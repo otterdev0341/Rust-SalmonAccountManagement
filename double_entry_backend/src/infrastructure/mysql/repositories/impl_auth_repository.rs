@@ -6,7 +6,7 @@ use thiserror::Error;
 use tracing::{info, warn};
 use uuid::Uuid;
 
-use crate::{application::usecase::auth_usecase::AuthUseCaseError, domain::{dto::auth_dto::{ReqCreateUserDto, ReqSignInDto, ResEntryUserDto}, entities::user, repository::require_implementation::trait_auth::AuthRepoReqImpl}, infrastructure::argon_hash::hash_util::{hash_password, verify_password, HashOperationError}};
+use crate::{application::usecase::auth_usecase::AuthUseCaseError, domain::{dto::{auth_dto::{ReqCreateUserDto, ReqSignInDto, ResEntryUserDto}, std_201::ResCreateSuccess}, entities::user, repository::require_implementation::trait_auth::AuthRepoReqImpl}, infrastructure::argon_hash::hash_util::{hash_password, verify_password, HashOperationError}};
 
 
 
@@ -67,7 +67,7 @@ impl From<AuthRepositoryError> for AuthUseCaseError {
 
 #[async_trait::async_trait]
 impl AuthRepoReqImpl for ImplAuthRepository {
-    async fn create_user(&self, user_data: ReqCreateUserDto) -> Result<(), AuthRepositoryError> {
+    async fn create_user(&self, user_data: ReqCreateUserDto) -> Result<ResCreateSuccess, AuthRepositoryError> {
         info!(">>>>>>>>>>>> create user in repository");
         info!(">>>>>>>>>>>>> check is  user exists");
         // check username is already exists
@@ -101,6 +101,7 @@ impl AuthRepoReqImpl for ImplAuthRepository {
         info!(">>>>>>>>>>>>> create user entity");
         // create use entity to persit to database
         let new_user = user::ActiveModel {
+            id: Set(Uuid::new_v4().as_bytes().to_vec()),
             username: Set(user_data.username),
             email: Set(user_data.email),
             password_hash: Set(hash_password.unwrap()),
@@ -112,18 +113,24 @@ impl AuthRepoReqImpl for ImplAuthRepository {
         info!(">>>>>>>>>>>>> insert user entity");
         // check insert result, this is pass
         let persist_result = user::Entity::insert(new_user)
-            .exec_without_returning(&*self.db)
+            .exec_with_returning(&*self.db)
             .await;
 
         info!(">>>>>>>>>>>>> check insert result");
+        
         match persist_result {
-            Ok(_data) => (),
+            Ok(data) => {
+                let data = Uuid::from_slice(&data.id).map_err(|_| AuthRepositoryError::UuidCastError)?;
+                return Ok(ResCreateSuccess {
+                    id_created: data
+                })
+            },
             Err(_) => {
                 warn!("Failed to insert user entity");
                 return Err(AuthRepositoryError::DatabaseError(DbErr::RecordNotInserted))
             }
         }
-        Ok(())
+        
         
 
     }
@@ -168,7 +175,9 @@ impl AuthRepoReqImpl for ImplAuthRepository {
                     username: user.username,
                     email: user.email,
                     first_name: user.first_name,
-                    last_name: user.last_name
+                    last_name: user.last_name,
+                    created_at: user.created_at.map(|dt| dt.to_string()).unwrap_or_default(),
+                    updated_at: user.updated_at.map(|dt| dt.to_string()).unwrap_or_default()
                 };
         info!(">>>>>>>>>>>>> return user");
                 Ok(res_user)

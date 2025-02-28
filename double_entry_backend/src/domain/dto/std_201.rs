@@ -11,8 +11,13 @@ use uuid::Uuid;
 #[serde(crate = "rocket::serde")]
 pub struct ResCreateSuccess{
     
+    #[serde(rename = "idCreated")]
     #[schema(value_type = String)]
     pub id_created: Uuid,
 }
 
-
+impl std::fmt::Display for ResCreateSuccess {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(f, "id_created: {}", self.id_created)
+    }
+}

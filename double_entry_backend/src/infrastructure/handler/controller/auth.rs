@@ -104,15 +104,15 @@ pub async fn sign_up(
     let check_data = check_req_create_user_dto(&req_sign_up_clone);
     match check_data {
         Ok(_) => (),
-        Err(e) => return Err(ApiErrorResponse::new(200, e.to_string()))
+        Err(e) => return Err(ApiErrorResponse::new(400, e.to_string()))
     }
     let result = auth_usecase.create_user(req_sign_up_clone).await;
 
     match result {
-        Ok(_) => {
+        Ok(detail) => {
             return Ok(ApiSuccessResponse{
                 status: "success".to_string(),
-                data: "User created successfully".to_string()
+                data: detail.to_string()
             });
         },
         Err(err) => {
