@@ -1,0 +1,33 @@
+plugins {
+    id "groovy"
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Allure Spock adapter
+    testImplementation(platform("io.qameta.allure:allure-bom:2.24.0"))
+    testImplementation("io.qameta.allure:allure-spock2")
+    testImplementation("io.qameta.allure:allure-junit-platform")
+
+    // Spock framework
+    testImplementation(platform("org.spockframework:spock-bom:2.3-groovy-4.0"))
+    testImplementation("org.spockframework:spock-core")
+    // Log
+    implementation 'org.slf4j:slf4j-api:1.7.25'
+    implementation 'ch.qos.logback:logback-classic:1.4.12'
+
+    //Rest assured
+    testImplementation 'io.rest-assured:rest-assured:5.4.0'
+    testImplementation 'org.hamcrest:hamcrest:2.2'
+
+}
+
+test {
+    useJUnitPlatform()
+}

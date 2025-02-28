@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use rocket::{post, routes, serde::json::Json, Route, State};
 
-use crate::{application::usecase::auth_usecase::{AuthUseCase, AuthUseCaseError}, domain::dto::auth_dto::{ReqCreateUserDto, ReqSignInDto, ResSignInDto}, infrastructure::{faring::cors::options, handler::{api_response::api_response::{ApiErrorResponse, ApiResponse, ApiSuccessResponse}, validate_util::auth_validate::check_req_create_user_dto}, mysql::repositories::impl_auth_repository::ImplAuthRepository}};
+use crate::{application::usecase::auth_usecase::{AuthUseCase, AuthUseCaseError}, domain::dto::auth_dto::{ReqCreateUserDto, ReqSignInDto, ResSignInDto}, infrastructure::{faring::cors::options, handler::{api_response::{api_response::{ApiErrorResponse, ApiResponse, ApiSuccessResponse}, api_success_response::{ApiCreatedResponse, ApiCreatedResponseType}}, validate_util::auth_validate::check_req_create_user_dto}, mysql::repositories::impl_auth_repository::ImplAuthRepository}};
 
 
 #[allow(dead_code)]
@@ -21,13 +21,13 @@ pub fn auth_routes() -> Vec<Route> {
 impl From<AuthUseCaseError> for ApiErrorResponse {
     fn from(error: AuthUseCaseError) -> Self {
         match error {
-            AuthUseCaseError::UserNotFound => ApiErrorResponse::new(404, "User not found".to_string()),
+            AuthUseCaseError::UserNotFound => ApiErrorResponse::new(401, "User not found".to_string()),
             AuthUseCaseError::EmailAlreadyExists => ApiErrorResponse::new(400, "Email already exists".to_string()),
             AuthUseCaseError::InvalidPassword => ApiErrorResponse::new(400, "Invalid password".to_string()),
             AuthUseCaseError::InternalError(e) => ApiErrorResponse::new(500, e),
             AuthUseCaseError::UserAlreadyExists => ApiErrorResponse::new(400, "User already exists".to_string()),
             AuthUseCaseError::EmailOrPasswordNotCorrect => ApiErrorResponse::new(401, "Email or password not correct".to_string()),
-            AuthUseCaseError::EmailNotFound => ApiErrorResponse::new(404, "Email not found".to_string()),
+            AuthUseCaseError::EmailNotFound => ApiErrorResponse::new(401, "Email not found".to_string()),
             AuthUseCaseError::HashFailed => ApiErrorResponse::new(500, "Hash operation failed".to_string()),
             AuthUseCaseError::UuidCastError => ApiErrorResponse::new(500, "Uuid cast error".to_string())
         }
@@ -60,7 +60,9 @@ pub async fn sign_in(
     auth_usecase: &State<Arc<AuthUseCase<ImplAuthRepository>>>
 ) 
 -> ApiResponse<ResSignInDto> {
-    
+    if req_sign_in.email.is_empty() || req_sign_in.password.is_empty() {
+        return Err(ApiErrorResponse::new(400, "Invalid email or password".to_string()));
+    }
     let result = auth_usecase.sign_in(req_sign_in.into_inner()).await;
     match result {
         Ok(token) => {
@@ -98,7 +100,7 @@ pub async fn sign_up(
     auth_usecase: &State<Arc<AuthUseCase<ImplAuthRepository>>>,
     req_sign_up: Json<ReqCreateUserDto>) 
     
--> ApiResponse<String> {
+-> ApiCreatedResponseType<String> {
     
     let req_sign_up_clone = req_sign_up.into_inner().clone();
     let check_data = check_req_create_user_dto(&req_sign_up_clone);
@@ -110,8 +112,9 @@ pub async fn sign_up(
 
     match result {
         Ok(detail) => {
-            return Ok(ApiSuccessResponse{
+            return Ok(ApiCreatedResponse{
                 status: "success".to_string(),
+                message: "user created successfully".to_string(),
                 data: detail.to_string()
             });
         },
