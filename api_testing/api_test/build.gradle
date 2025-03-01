@@ -10,19 +10,24 @@ repositories {
 }
 
 dependencies {
+    // Apache Groovy 4.0
+    implementation "org.apache.groovy:groovy:4.0.18"
+    implementation "org.apache.groovy:groovy-contracts:4.0.18"
+
     // Allure Spock adapter
-    testImplementation(platform("io.qameta.allure:allure-bom:2.24.0"))
+    testImplementation(platform("io.qameta.allure:allure-bom:2.25.0"))
     testImplementation("io.qameta.allure:allure-spock2")
     testImplementation("io.qameta.allure:allure-junit-platform")
 
-    // Spock framework
+    // Spock framework (compatible with Groovy 4)
     testImplementation(platform("org.spockframework:spock-bom:2.3-groovy-4.0"))
     testImplementation("org.spockframework:spock-core")
-    // Log
+
+    // Logging
     implementation 'org.slf4j:slf4j-api:1.7.25'
     implementation 'ch.qos.logback:logback-classic:1.4.12'
 
-    //Rest assured
+    // Rest Assured
     testImplementation 'io.rest-assured:rest-assured:5.4.0'
     testImplementation 'org.hamcrest:hamcrest:2.2'
 

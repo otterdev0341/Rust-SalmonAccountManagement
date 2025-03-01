@@ -7,6 +7,7 @@ import io.qameta.allure.Description
 import io.qameta.allure.Epic
 import spock.lang.Specification
 import spock.lang.Subject
+import utility.enum_type.AuthCase
 
 import static io.restassured.RestAssured.given
 

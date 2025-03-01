@@ -2,6 +2,8 @@ package utility
 
 import io.qameta.allure.Epic
 import spock.lang.Specification
+import utility.enum_type.AuthCase
+import utility.enum_type.CompanyCase
 
 
 class TestRouteManagement {
@@ -19,18 +21,18 @@ class TestRouteManagement {
         }
     }
 
-    String get_company_route(CompanyCase routeCase, String target_id){
+    static String get_company_route(CompanyCase routeCase){
         switch (routeCase) {
             case CompanyCase.CREATE_COMPANY:
                 return base + "/v1/company"
             case CompanyCase.VIEW_COMPANY:
-                return base + "/v1/company/${target_id}" + target_id
+                return base + "/v1/company"
             case CompanyCase.VIEW_COMPANIES:
                 return base + "/v1/company"
-            case CompanyCase.UPDATE_COMPANY:
-                return base + "/v1/company/${target_id}" + target_id
+            case CompanyCase.EDIT_COMPANY:
+                return base + "/v1/company"
             case CompanyCase.DELETE_COMPANY:
-                return base + "/v1/company/${target_id}" + target_id
+                return base + "/v1/company"
             default:
                 return ""
         }

@@ -5,7 +5,7 @@ import groovy.json.JsonOutput
 import io.qameta.allure.Feature
 import spock.lang.Shared
 import spock.lang.Specification
-import utility.AuthCase
+import utility.enum_type.AuthCase
 import utility.TestRouteManagement
 
 import static io.restassured.RestAssured.given

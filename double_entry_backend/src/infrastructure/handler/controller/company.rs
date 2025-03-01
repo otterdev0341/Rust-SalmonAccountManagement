@@ -8,7 +8,7 @@ use rocket::{ delete, get, post, put, routes, serde::json::Json, Route, State};
 
 use uuid::Uuid;
 
-use crate::{application::usecase::company_usecase::{CompanyUseCase, CompanyUseCaseError}, domain::dto::{auth_dto::AuthenticatedUser, company_dto::{ReqCreateCompanyDto, ReqUpdateCompanyDto, ResEntryCompanyDto, ResListCompanyDto}, std_201::ResCreateSuccess, }, infrastructure::{faring::cors::options, handler::{api_response::{api_response::{ApiErrorResponse, ApiResponse, ApiSuccessResponse}, api_success_response::{ApiCreatedResponse, ApiCreatedResponseType}}, operation_status::company_error::CompanySuccess}, mysql::repositories::impl_company_repository::ImplCompanyRespository}};
+use crate::{application::usecase::company_usecase::{CompanyUseCase, CompanyUseCaseError}, domain::dto::{auth_dto::AuthenticatedUser, company_dto::{ReqCreateCompanyDto, ReqUpdateCompanyDto, ResEntryCompanyDto, ResListCompanyDto, ResUpdateCompanyDto}, std_201::ResCreateSuccess, }, infrastructure::{faring::cors::options, handler::{api_response::{api_response::{ApiErrorResponse, ApiResponse, ApiSuccessResponse}, api_success_response::{ApiCreatedResponse, ApiCreatedResponseType}, api_update_response::{ApiUpdateResponse, ApiUpdateResponseType}}, operation_status::company_error::CompanySuccess}, mysql::repositories::impl_company_repository::ImplCompanyRespository}};
 
 
 
@@ -115,14 +115,15 @@ pub async fn edit_company(
     company_id: String,
     update_company: Json<ReqUpdateCompanyDto>,
     company_usecase: &State<Arc<CompanyUseCase<ImplCompanyRespository>>>
-) -> ApiResponse<String>{
+) -> ApiUpdateResponseType<ResUpdateCompanyDto>{
     let result 
         = company_usecase.update_company(user.id, Uuid::parse_str(&company_id).unwrap(), update_company.into_inner()).await;
     match result {
-        Ok(_) => {
-            return Ok(ApiSuccessResponse{
+        Ok(updated_data) => {
+            return Ok(ApiUpdateResponse{
                 status: "success".to_string(),
-                data: "Company edited".to_string()
+                message: "Company edited".to_string(),
+                data: updated_data
             });
         },
         Err(err) => {

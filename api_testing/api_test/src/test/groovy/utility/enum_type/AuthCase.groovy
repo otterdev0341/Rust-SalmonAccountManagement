@@ -1,4 +1,4 @@
-package utility
+package utility.enum_type
 
 enum AuthCase {
     SIGN_UP,
@@ -11,6 +11,6 @@ enum CompanyCase {
     CREATE_COMPANY,
     VIEW_COMPANY,
     VIEW_COMPANIES,
-    UPDATE_COMPANY,
+    EDIT_COMPANY,
     DELETE_COMPANY
 }

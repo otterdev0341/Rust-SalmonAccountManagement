@@ -3,7 +3,7 @@ use std::sync::Arc;
 use thiserror::Error;
 use uuid::Uuid;
 
-use crate::domain::{dto::{company_dto::{ReqCreateCompanyDto, ReqUpdateCompanyDto, ResEntryCompanyDto, ResListCompanyDto}, std_201::ResCreateSuccess}, repository::require_implementation::trait_company::CompanyRepoReqImpl};
+use crate::domain::{dto::{company_dto::{ReqCreateCompanyDto, ReqUpdateCompanyDto, ResEntryCompanyDto, ResListCompanyDto, ResUpdateCompanyDto}, std_201::ResCreateSuccess}, repository::require_implementation::trait_company::CompanyRepoReqImpl};
 
 pub struct CompanyUseCase<T>
 where
@@ -63,9 +63,9 @@ where
         }
     }
 
-    pub async fn update_company(&self, user_id: Uuid, company_id: Uuid, company_data: ReqUpdateCompanyDto) -> Result<(), CompanyUseCaseError> {
+    pub async fn update_company(&self, user_id: Uuid, company_id: Uuid, company_data: ReqUpdateCompanyDto) -> Result<ResUpdateCompanyDto, CompanyUseCaseError> {
         match self.company_repo.update_company(user_id, company_id, company_data).await {
-            Ok(_) => Ok(()),
+            Ok(data) => Ok(data),
             Err(e) => Err(e.into())
         }
     }

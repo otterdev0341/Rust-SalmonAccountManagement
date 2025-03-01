@@ -7,7 +7,7 @@ import groovy.json.JsonSlurper
 import io.qameta.allure.Description
 import io.qameta.allure.Epic
 import spock.lang.Specification
-import utility.AuthCase
+import utility.enum_type.AuthCase
 import utility.TestRouteManagement
 
 import static io.restassured.RestAssured.*

@@ -2,23 +2,20 @@ package dto.company
 
 import groovy.transform.ToString
 
-
-interface ViewCompanyResponse<T> {
+interface ResUpdateCompanyDtoResponse<T>{
     String getStatus()
     T getData()
 }
 
-
 @ToString
-class ResEntryCompanyDto {
+class ResUpdateCompanyDto {
     String id
     String name
     String description
-    String createdAt
     String updatedAt
 }
 
-class SuccessViewCompanyResponse implements ViewCompanyResponse<ResEntryCompanyDto> {
+class SuccessEditCompanyResponse implements ResUpdateCompanyDtoResponse<ResUpdateCompanyDto> {
     String status
-    ResEntryCompanyDto data
+    ResUpdateCompanyDto data
 }

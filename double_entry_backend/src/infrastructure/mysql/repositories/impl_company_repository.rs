@@ -5,7 +5,7 @@ use sea_orm_migration::async_trait;
 use thiserror::Error;
 use uuid::Uuid;
 
-use crate::{application::usecase::company_usecase::CompanyUseCaseError, domain::{dto::{company_dto::{ReqCreateCompanyDto, ReqUpdateCompanyDto, ResEntryCompanyDto, ResListCompanyDto}, std_201::ResCreateSuccess}, entities::company, repository::require_implementation::trait_company::CompanyRepoReqImpl}};
+use crate::{application::usecase::company_usecase::CompanyUseCaseError, domain::{dto::{company_dto::{ReqCreateCompanyDto, ReqUpdateCompanyDto, ResEntryCompanyDto, ResListCompanyDto, ResUpdateCompanyDto}, std_201::ResCreateSuccess}, entities::company, repository::require_implementation::trait_company::CompanyRepoReqImpl}};
 
 pub struct ImplCompanyRespository {
     pub db: Arc<DatabaseConnection>
@@ -133,7 +133,11 @@ impl CompanyRepoReqImpl for ImplCompanyRespository {
         })
     }
 
-    async fn update_company(&self, user_id: Uuid, company_id: Uuid, company_data: ReqUpdateCompanyDto) -> Result<(), CompanyRepositoryError> {
+    async fn update_company(
+        &self, user_id: Uuid, 
+        company_id: Uuid, 
+        company_data: ReqUpdateCompanyDto) 
+    -> Result<ResUpdateCompanyDto, CompanyRepositoryError> {
         // Implement the logic to update a company by id
         // check is this id exist
         
@@ -156,10 +160,19 @@ impl CompanyRepoReqImpl for ImplCompanyRespository {
                 }
 
                 // Perform the update and check for failure
-                match before_update.save(&*self.db).await {
-                    Ok(_) => Ok(()),  // Update successful
-                    Err(_) => Err(CompanyRepositoryError::UpdateFailed),  // Update failed
+                
+                let update_result =  before_update.update(&*self.db).await;
+                if update_result.is_err() {
+                    return Err(CompanyRepositoryError::UpdateFailed)
                 }
+                // Return the updated company
+                let updated_company = update_result.unwrap();
+                Ok(ResUpdateCompanyDto {
+                    id: Uuid::from_slice(&updated_company.id).unwrap(),
+                    name: updated_company.name,
+                    description: updated_company.description,
+                    updated_at: updated_company.updated_at.map(|dt| dt.to_string()).unwrap_or_default()
+                })
             },
             Ok(None) => Err(CompanyRepositoryError::CompanyNotFound),  // Company not found
             Err(_) => Err(CompanyRepositoryError::InternalServerError),  // Query error

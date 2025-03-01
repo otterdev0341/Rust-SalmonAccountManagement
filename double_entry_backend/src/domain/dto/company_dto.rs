@@ -54,6 +54,25 @@ pub struct ResEntryCompanyDto{
 
 #[derive(Serialize,ToSchema)]
 #[schema(example = json!({
+    "id": "2390whflksjf0993",
+    "name": "Otter heaven inc",
+    "description": "use tech to grow sweet fish",
+    "createdAt": "2021-08-01T00:00:00Z",
+    "updatedAt": "2021-08-01T00:00:00Z"
+}))]
+#[serde(rename_all = "camelCase")]
+#[serde(crate = "rocket::serde")]
+pub struct ResUpdateCompanyDto{
+    #[schema(value_type = String)]
+    pub id : Uuid,
+    pub name : String,
+    pub description : String,
+    pub updated_at : String,
+}
+
+
+#[derive(Serialize,ToSchema)]
+#[schema(example = json!({
     "total": 2,
     "companies": [
         {
