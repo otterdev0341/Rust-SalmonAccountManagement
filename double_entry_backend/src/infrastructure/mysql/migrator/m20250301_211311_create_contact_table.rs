@@ -1,6 +1,6 @@
 use sea_orm_migration::{prelude::*, schema::*};
 
-use super::m20220101_000001_create_user_table::User;
+use super::m20250301_212131_create_contact_type::ContactType;
 
 #[derive(DeriveMigrationName)]
 pub struct Migration;
@@ -14,38 +14,40 @@ impl MigrationTrait for Migration {
         manager
             .create_table(
                 Table::create()
-                    .table(Company::Table)
-                        .if_not_exists()
+                    .table(Contact::Table)
+                    .if_not_exists()
                     .col(
-                        ColumnDef::new(Company::Id)
+                        ColumnDef::new(Contact::Id)
                             .uuid()
                             .not_null()
                             .primary_key(),
-                                                       
                     )
-                    .col(string(Company::Name).unique_key())
-                    .col(string(Company::Description))
+                    .col(string(Contact::Name))
                     .col(
-                        ColumnDef::new(Company::UseId)
-                            .binary_len(16)
-                            .default("UUID()")
-                            .not_null(),
+                        ColumnDef::new(Contact::CompanyId)
+                            .uuid()
+                            .not_null()
+                    )
+                    .col(
+                        ColumnDef::new(Contact::ContactTypeId)
+                            .uuid()
+                            .not_null()
                     )
                     .foreign_key(
                         ForeignKey::create()
-                            .name("fk_company_user_id")
-                            .from(Company::Table, Company::UseId)
-                            .to(User::Table, User::Id)
+                            .name("fk_contact_contact_type_id")
+                            .from(Contact::Table, Contact::ContactTypeId)
+                            .to(ContactType::Table, ContactType::Id)
                             .on_delete(ForeignKeyAction::Cascade)
                             .on_update(ForeignKeyAction::Cascade),
                     )
                     .col(
-                        ColumnDef::new(Company::CreatedAt)
+                        ColumnDef::new(Contact::CreatedAt)
                             .timestamp()
                             .extra("DEFAULT CURRENT_TIMESTAMP".to_owned()),
                     )
                     .col(
-                        ColumnDef::new(Company::UpdatedAt)
+                        ColumnDef::new(Contact::UpdatedAt)
                             .timestamp()
                             .extra("DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP".to_owned()),
                     )
@@ -59,23 +61,23 @@ impl MigrationTrait for Migration {
         
 
         manager
-            .drop_table(Table::drop().table(Company::Table).to_owned())
+            .drop_table(Table::drop().table(Contact::Table).to_owned())
             .await
     }
 }
 
 #[derive(DeriveIden)]
-pub enum Company {
-    #[sea_orm(iden = "Company")]
+pub enum Contact {
+    #[sea_orm(iden = "Contact")]
     Table,
     #[sea_orm(iden = "id")]
     Id,
     #[sea_orm(iden = "name")]
     Name,
-    #[sea_orm(iden = "description")]
-    Description,
-    #[sea_orm(iden = "user_id")]
-    UseId,
+    #[sea_orm(iden = "company_id")]
+    CompanyId,
+    #[sea_orm(iden = "contact_type_id")]
+    ContactTypeId,
     #[sea_orm(iden = "created_at")]
     CreatedAt,
     #[sea_orm(iden = "updated_at")]

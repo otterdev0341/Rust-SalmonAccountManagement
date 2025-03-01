@@ -12,27 +12,23 @@ impl MigrationTrait for Migration {
         manager
             .create_table(
                 Table::create()
-                    .table(User::Table)
+                    .table(ContactType::Table)
                     .if_not_exists()
                     .col(
-                        ColumnDef::new(User::Id)
+                        ColumnDef::new(ContactType::Id)
                             .uuid()
                             .not_null()
                             .primary_key(),
                     )
-
-                    .col(string(User::Username))
-                    .col(string(User::FirstName))
-                    .col(string(User::LastName))
-                    .col(string(User::Email).unique_key())
-                    .col(string(User::PasswordHash))
+                    .col(string(ContactType::Name))
+                    .col(string(ContactType::Description))
                     .col(
-                        ColumnDef::new(User::CreatedAt)
+                        ColumnDef::new(ContactType::CreatedAt)
                             .timestamp()
                             .extra("DEFAULT CURRENT_TIMESTAMP".to_owned()),
                     )
                     .col(
-                        ColumnDef::new(User::UpdatedAt)
+                        ColumnDef::new(ContactType::UpdatedAt)
                             .timestamp()
                             .extra("DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP".to_owned()),
                     )
@@ -46,27 +42,21 @@ impl MigrationTrait for Migration {
         
 
         manager
-            .drop_table(Table::drop().table(User::Table).to_owned())
+            .drop_table(Table::drop().table(ContactType::Table).to_owned())
             .await
     }
 }
 
 #[derive(DeriveIden)]
-pub enum User {
-    #[sea_orm(iden = "User")]
+pub enum ContactType {
+    #[sea_orm(iden = "ContactType")]
     Table,
     #[sea_orm(iden = "id")]
     Id,
-    #[sea_orm(iden = "username")]
-    Username,
-    #[sea_orm(iden = "first_name")]
-    FirstName,
-    #[sea_orm(iden = "last_name")]
-    LastName,
-    #[sea_orm(iden = "email")]
-    Email,
-    #[sea_orm(iden = "password_hash")]
-    PasswordHash,
+    #[sea_orm(iden = "name")]
+    Name,
+    #[sea_orm(iden = "description")]
+    Description,
     #[sea_orm(iden = "created_at")]
     CreatedAt,
     #[sea_orm(iden = "updated_at")]

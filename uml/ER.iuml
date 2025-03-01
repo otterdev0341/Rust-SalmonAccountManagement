@@ -183,7 +183,7 @@ package "Contact Management" {
 
     Struct ContactDetail {
         id: <<pk>>
-        customer_id: <<FK>> Customer
+        contact_id: <<FK>> Customer
         mobile_phone_1: String
         mobile_phone_2: String
         mobile_phone_3: String

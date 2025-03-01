@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
+use uuid::Uuid;
 
 
 
@@ -7,7 +8,7 @@ use utoipa::ToSchema;
 #[schema(example = json!({
     "name": "Otter heaven inc",
     "companyId": "2390whflksjf0993",
-    "contact_type_id": "2390whflksjf0993"
+    "contactTypeId": "2390whflksjf0993"
 }))]
 #[serde(crate = "rocket::serde")]
 #[serde(rename_all = "camelCase")]
@@ -48,11 +49,27 @@ pub struct ResEntryContactDto {
     pub updated_at: String,
 }
 
+#[derive(Serialize, Deserialize, ToSchema)]
+#[schema(example = json!({
+    "id": "2390whflksjf0993",
+    "name": "Otter heaven inc",
+    "companyId": "2390whflksjf0993",
+    "updatedAt": "2021-08-01T00:00:00Z"
+}))]
+#[serde(crate = "rocket::serde")]
+#[serde(rename_all = "camelCase")]
+pub struct ResUpdateContactDto{
+    #[schema(value_type = String)]
+    pub id : Uuid,
+    pub name : String,
+    pub company_id : String,
+    pub updated_at : String,
+}
 
 #[derive(Serialize, Deserialize, ToSchema)]
 #[schema(example = json!({
     "total": 1,
-    "customers": [
+    "contacts": [
         {
             "id": "2390whflksjf0993",
             "name": "Otter heaven inc",
