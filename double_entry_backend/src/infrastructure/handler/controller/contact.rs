@@ -1,5 +1,8 @@
-use rocket::{delete, get, post, put, routes, serde::json::Json, Route};
-use crate::{domain::dto::{auth_dto::AuthenticatedUser, contact_dto::{ReqCreateContactDto, ReqUpdateContactDto, ResEntryContactDto, ResListContactDto}}, infrastructure::{faring::cors::options, handler::api_response::api_response::ApiResponse}};
+use std::sync::Arc;
+
+use rocket::{delete, get, post, put, routes, serde::json::Json, Route, State};
+use uuid::Uuid;
+use crate::{application::usecase::contact_usecase::{ContactUseCase, ContactUseCaseError}, domain::{dto::{auth_dto::AuthenticatedUser, contact_dto::{ReqCreateContactDto, ReqUpdateContactDto, ResEntryContactDto, ResListContactDto, ResUpdateContactDto}, std_201::ResCreateSuccess}, entities::contact}, infrastructure::{faring::cors::options, handler::api_response::{api_response::{ApiErrorResponse, ApiResponse, ApiSuccessResponse}, api_success_response::{ApiCreatedResponse, ApiCreatedResponseType}}, mysql::repositories::impl_contact_repository::ImplContactRepository}};
 
 
 pub fn contact_routes() -> Vec<Route> {
@@ -11,6 +14,16 @@ pub fn contact_routes() -> Vec<Route> {
         delete_contact,
         options
     ]
+}
+
+impl From<ContactUseCaseError> for ApiErrorResponse {
+    fn from(error: ContactUseCaseError) -> Self {
+        match error {
+            ContactUseCaseError::ContactNotFound => ApiErrorResponse::new(404, "Contact not found".to_string()),
+            ContactUseCaseError::InternalServerError => ApiErrorResponse::new(500, "Internal server error".to_string()),
+            ContactUseCaseError::UnAuthorized => ApiErrorResponse::new(401, "UnAuthorized".to_string())
+        }
+    }
 }
 
 
@@ -36,9 +49,26 @@ pub fn contact_routes() -> Vec<Route> {
 #[get("/<contact_id>")]
 pub async fn view_contact(
     user: AuthenticatedUser,
-    contact_id : String
-) -> ApiResponse<ResEntryContactDto> {
-    todo!()
+    contact_id : String,
+    contact_usecase: &State<Arc<ContactUseCase<ImplContactRepository>>>
+) 
+-> ApiResponse<ResEntryContactDto> {
+    
+    let operaion = 
+        contact_usecase
+        .get_contact(user.id, Uuid::parse_str(&contact_id).unwrap()).await;
+    
+    match operaion {
+        Ok(data) => {
+            return Ok(ApiSuccessResponse{
+                status: "success".to_string(),
+                data: data
+            })
+        },
+        Err(e) => {
+            return Err(e.into())
+        }
+    }
 }
 
 
@@ -65,9 +95,22 @@ pub async fn view_contact(
 )]
 #[get("/")]
 pub async fn view_contacts(
-    user: AuthenticatedUser
-) -> ApiResponse<ResListContactDto> {
-    todo!()
+    user: AuthenticatedUser,
+    contact_usecase: &State<Arc<ContactUseCase<ImplContactRepository>>>
+) 
+-> ApiResponse<ResListContactDto> {
+    let operaion = contact_usecase.get_contacts(user.id).await;
+    match operaion {
+        Ok(data) => {
+            return Ok(ApiSuccessResponse{
+                status: "success".to_string(),
+                data: data
+            })
+        },
+        Err(e) => {
+            return Err(e.into())
+        }
+    }
     
 }
 
@@ -95,9 +138,24 @@ pub async fn view_contacts(
 #[post("/", format = "json", data = "<contact_id>")]
 pub async fn create_contact(
     user: AuthenticatedUser,
-    contact_id : Json<ReqCreateContactDto>
-) -> ApiResponse<String> {
-    todo!()
+    contact_id : Json<ReqCreateContactDto>,
+    contact_usecase: &State<Arc<ContactUseCase<ImplContactRepository>>>
+) 
+-> ApiCreatedResponseType<ResCreateSuccess> 
+{
+    let operation = contact_usecase.create_contact(user.id, contact_id.into_inner()).await;
+    match operation {
+        Ok(data) => {
+            return Ok(ApiCreatedResponse{
+                status: "success".to_string(),
+                message: "Contact created".to_string(),
+                data: data
+            })
+        },
+        Err(e) => {
+            return Err(e.into())
+        }
+    }
 }
 
 
@@ -128,9 +186,21 @@ pub async fn create_contact(
 pub async fn edit_contact(
     user: AuthenticatedUser,
     contact_id : String,
-    contact_data : Json<ReqUpdateContactDto>
-) -> ApiResponse<String> {
-    todo!()
+    contact_data : Json<ReqUpdateContactDto>,
+    contact_usecase: &State<Arc<ContactUseCase<ImplContactRepository>>>
+) -> ApiResponse<ResUpdateContactDto> {
+    let operation = contact_usecase.update_contact(user.id, Uuid::parse_str(&contact_id).unwrap(), contact_data.into_inner()).await;
+    match operation {
+        Ok(data) => {
+            return Ok(ApiSuccessResponse{
+                status: "success".to_string(),
+                data: data
+            })
+        },
+        Err(e) => {
+            return Err(e.into())
+        }
+    }
 }
 
 
@@ -159,9 +229,21 @@ pub async fn edit_contact(
 #[delete("/<contact_id>")]
 pub async fn delete_contact(
     user: AuthenticatedUser,
-    contact_id : String
+    contact_id : String,
+    contact_usecase: &State<Arc<ContactUseCase<ImplContactRepository>>>
 ) -> ApiResponse<String> {
-    todo!()
+    let operation = contact_usecase.delete_contact(user.id, Uuid::parse_str(&contact_id).unwrap()).await;
+    match operation {
+        Ok(_) => {
+            return Ok(ApiSuccessResponse{
+                status: "success".to_string(),
+                data: "Contact deleted".to_string()
+            })
+        },
+        Err(e) => {
+            return Err(e.into())
+        }
+    }
 }
 
 

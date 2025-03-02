@@ -109,8 +109,8 @@ impl CompanyRepoReqImpl for ImplCompanyRespository {
     async fn get_companies(&self, user_id: Uuid) -> Result<ResListCompanyDto, CompanyRepositoryError> {
         // Implement the logic to get all companies
         let result = company::Entity::find()
-        .filter(company::Column::UserId.eq(user_id.as_bytes().to_vec()))
-        .all(&*self.db).await;
+            .filter(company::Column::UserId.eq(user_id.as_bytes().to_vec()))
+            .all(&*self.db).await;
         if result.is_err() {
             return Err(CompanyRepositoryError::InternalServerError)
         }

@@ -1,6 +1,7 @@
 
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
+use uuid::Uuid;
 
 
 #[derive(Serialize, Deserialize, ToSchema)]
@@ -26,9 +27,12 @@ pub struct ReqCreateContactTypeDto {
 #[serde(crate = "rocket::serde")]
 #[serde(rename_all = "camelCase")]
 pub struct ResEntryContactTypeDto {
-    pub id: String,
+    #[schema(value_type = String)]
+    pub id: Uuid,
     pub name: String,
     pub description: String,
+    #[schema(value_type = String)]
+    pub user_id: Uuid,
     pub created_at: String,
     pub updated_at: String
 }
@@ -72,7 +76,28 @@ pub struct ResListContactTypeDto {
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 pub struct ReqUpdateContactTypeDto{
-    name: Option<String>,
-    description: Option<String>,
+    pub name: Option<String>,
+    pub description: Option<String>,
 
+}
+
+
+
+#[derive(Serialize, Deserialize, ToSchema)]
+#[schema(example = json!({
+    "id": "2390whflksjf0993",
+    "name": "Customer",
+    "description": "Customer that required more information",
+    "updatedAt": "2021-08-01T00:00:00Z"
+}))]
+#[serde(rename_all = "camelCase")]
+#[serde(crate = "rocket::serde")]
+pub struct ResUpdateContactTypeDto {
+    #[schema(value_type = String)]
+    pub id: Uuid,
+    pub name: String,
+    pub description: String,
+    #[schema(value_type = String)]
+    pub user_id: Uuid,
+    pub updated_at: String,
 }

@@ -185,6 +185,7 @@ package "Contact Management" {
     Struct ContactDetail {
         id: <<pk>>
         contact_id: <<FK>> Customer
+        user_id: <<FK>> User
         mobile_phone_1: String
         mobile_phone_2: String
         mobile_phone_3: String
@@ -197,6 +198,7 @@ package "Contact Management" {
     Struct ContactType {
         id: <<pk>>
         name: String
+        user_id: <<FK>> User
         description: String
         created_at: Date
         updated_at: Date

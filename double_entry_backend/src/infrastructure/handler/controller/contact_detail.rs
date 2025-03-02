@@ -6,9 +6,14 @@
 // usecase edit_customer_contact
 // usecase delete_customer_contact
 
-use rocket::{delete, get, post, put, routes, serde::json::Json, Route};
+use std::sync::Arc;
 
-use crate::{domain::dto::{auth_dto::AuthenticatedUser, contact_detail_dto::{ReqCreateContactDetailDto, ReqUpdateContactDetailDto, ResEntryContactDetailDto, ResListContactDetailDto}}, infrastructure::{faring::cors::options, handler::api_response::api_response::ApiResponse}};
+use rocket::{delete, get, post, put, routes, serde::json::Json, Route, State};
+use uuid::Uuid;
+
+use crate::{application::usecase::contact_detail_usecase::{ContactDetailUseCase, ContactDetailUseCaseError}, domain::{dto::{auth_dto::AuthenticatedUser, contact_detail_dto::{ReqCreateContactDetailDto, ReqUpdateContactDetailDto, ResEntryContactDetailDto, ResListContactDetailDto, ResUpdateContactDetailDto}, std_201::ResCreateSuccess}, entities::prelude::ContactDetail}, infrastructure::{faring::cors::options, handler::api_response::{api_response::{ApiErrorResponse, ApiResponse, ApiSuccessResponse}, api_success_response::{ApiCreatedResponse, ApiCreatedResponseType}}, mysql::repositories::impl_contact_detail::ImplContactDetailRespository}};
+
+use super::contact;
 
 pub fn contact_detail_routes() -> Vec<Route> {
     routes![
@@ -21,6 +26,17 @@ pub fn contact_detail_routes() -> Vec<Route> {
     ]
 }
 
+impl From<ContactDetailUseCaseError> for ApiErrorResponse {
+    fn from(error: ContactDetailUseCaseError) -> Self {
+        match error {
+            ContactDetailUseCaseError::ContactDetailNotFound => ApiErrorResponse::new(404, "Contact Detail not found".to_string()),
+            ContactDetailUseCaseError::InternalServerError => ApiErrorResponse::new(500, "Internal server error".to_string()),
+            ContactDetailUseCaseError::DeleteFailed => ApiErrorResponse::new(500, "Delete failed".to_string()),
+            ContactDetailUseCaseError::UpdateFailed => ApiErrorResponse::new(500, "Update failed".to_string())
+
+        }
+    }
+}
 
 
 #[utoipa::path(
@@ -40,13 +56,35 @@ pub fn contact_detail_routes() -> Vec<Route> {
     ),
     
 )]
-#[post("/", format = "json", data = "<contact_detail_data>")]
+#[post("/<contact_id>", format = "json", data = "<contact_detail_data>")]
 pub async fn create_contact_detail(
     user : AuthenticatedUser,
-    contact_detail_data: Json<ReqCreateContactDetailDto>
+    contact_detail_data: Json<ReqCreateContactDetailDto>,
+    contact_id: String,
+    contact_detail_usecase: &State<Arc<ContactDetailUseCase<ImplContactDetailRespository>>>
 )
--> ApiResponse<String> {
-    todo!()
+-> ApiCreatedResponseType<ResCreateSuccess> {
+
+    if contact_id.is_empty() {
+        return Err(ApiErrorResponse::new(400, "Invalid contact id".to_string()));
+    }
+
+    let operation = 
+        contact_detail_usecase.create_contact_detail(
+            user.id, 
+            Uuid::parse_str(&contact_id).unwrap(),
+            contact_detail_data.into_inner(),
+        ).await;
+    match operation {
+        Ok(data) => {
+            Ok(ApiCreatedResponse{
+                status: "success".to_string(),
+                message: "Contact Detail created".to_string(),
+                data: data
+            })
+        },
+        Err(e) => Err(e.into())
+    }
 }
 
 
@@ -73,9 +111,19 @@ pub async fn create_contact_detail(
 #[get("/<contact_detail_id>")]
 pub async fn view_contact_detail(
     user : AuthenticatedUser,
-    contact_detail_id : String
+    contact_detail_id : String,
+    contact_detail_usecase: &State<Arc<ContactDetailUseCase<ImplContactDetailRespository>>>
 ) -> ApiResponse<ResEntryContactDetailDto> {
-    todo!()
+    let operaion = contact_detail_usecase.get_contact_detail(user.id, Uuid::parse_str(&contact_detail_id).unwrap()).await;
+    match operaion {
+        Ok(data) => {
+            Ok(ApiSuccessResponse{
+                status: "success".to_string(),
+                data: data
+            })
+        },
+        Err(e) => Err(e.into())
+    }
 }
 
 
@@ -101,9 +149,19 @@ pub async fn view_contact_detail(
 )]
 #[get("/")]
 pub async fn view_contact_details(
-    user : AuthenticatedUser
+    user : AuthenticatedUser,
+    contact_detail_usecase: &State<Arc<ContactDetailUseCase<ImplContactDetailRespository>>>
 ) -> ApiResponse<ResListContactDetailDto> {
-    todo!()
+    let operation = contact_detail_usecase.get_contact_details(user.id).await;
+    match operation {
+        Ok(data) => {
+            Ok(ApiSuccessResponse{
+                status: "success".to_string(),
+                data: data
+            })
+        },
+        Err(e) => Err(e.into())
+    }
 }
 
 
@@ -130,9 +188,23 @@ pub async fn view_contact_details(
 pub async fn edit_contact_detail(
     user : AuthenticatedUser,
     contact_detail_id : String,
-    customer_contact_data: Json<ReqUpdateContactDetailDto>
-) -> ApiResponse<String> {
-    todo!()
+    customer_contact_data: Json<ReqUpdateContactDetailDto>,
+    contact_detail_usecase: &State<Arc<ContactDetailUseCase<ImplContactDetailRespository>>>
+) -> ApiResponse<ResUpdateContactDetailDto> {
+    let operation = contact_detail_usecase.update_contact_detail(
+        user.id,
+        Uuid::parse_str(&contact_detail_id).unwrap(),
+        customer_contact_data.into_inner()
+    ).await;
+    match operation {
+        Ok(data) => {
+            Ok(ApiSuccessResponse{
+                status: "success".to_string(),
+                data: data
+            })
+        },
+        Err(e) => Err(e.into())
+    }
 }
 
 
@@ -156,7 +228,17 @@ pub async fn edit_contact_detail(
 #[delete("/<contact_detail_id>")]
 pub async fn delete_contact_detail(
     user : AuthenticatedUser,
-    contact_detail_id : String
+    contact_detail_id : String,
+    contact_detail_usecase: &State<Arc<ContactDetailUseCase<ImplContactDetailRespository>>>
 ) -> ApiResponse<String> {
-    todo!()
+    let operation = contact_detail_usecase.delete_contact_detail(user.id, Uuid::parse_str(&contact_detail_id).unwrap()).await;
+    match operation {
+        Ok(_) => {
+            Ok(ApiSuccessResponse{
+                status: "success".to_string(),
+                data: "Contact detail deleted".to_string()
+            })
+        },
+        Err(e) => Err(e.into())
+    }
 }

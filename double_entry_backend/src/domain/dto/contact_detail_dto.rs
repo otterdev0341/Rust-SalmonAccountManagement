@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
+use uuid::Uuid;
 
 use super::contact_dto::ResListContactDto;
 
@@ -18,7 +19,6 @@ use super::contact_dto::ResListContactDto;
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 pub struct ReqCreateContactDetailDto {
-    pub contact_id: String,
     pub mobile_phone_1: Option<String>,
     pub mobile_phone_2: Option<String>,
     pub mobile_phone_3: Option<String>,
@@ -31,6 +31,7 @@ pub struct ReqCreateContactDetailDto {
 #[derive(Serialize, ToSchema)]
 #[schema(example = json!({
     "id": "2390whflksjf0993",
+    "userId": "2390whflksjf0993",
     "contactId": "2390whflksjf0993",
     "mobilePhone1": "08123456789",
     "mobilePhone2": "08123456789",
@@ -43,8 +44,12 @@ pub struct ReqCreateContactDetailDto {
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 pub struct ResEntryContactDetailDto {
-    pub id: String,
-    pub contact_id: String,
+    #[schema(value_type = String)]
+    pub id: Uuid,
+    #[schema(value_type = String)]
+    pub contact_id: Uuid,
+    #[schema(value_type = String)]
+    pub user_id: Uuid,
     pub mobile_phone_1: String,
     pub mobile_phone_2: String,
     pub mobile_phone_3: String,
@@ -90,8 +95,8 @@ pub struct ResEntryContactDetailDto {
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 pub struct ResListContactDetailDto {
-    pub total: i32,
-    pub contact_details: Vec<ResListContactDto>
+    pub total: u32,
+    pub contact_details: Vec<ResEntryContactDetailDto>
 }
 
 
@@ -112,4 +117,28 @@ pub struct ReqUpdateContactDetailDto {
     pub mobile_phone_3: Option<String>,
     pub email: Option<String>,
     pub address: Option<String>
+}
+
+
+#[derive(Serialize, ToSchema)]
+#[schema(example = json!({
+    "id": "2390whflksjf0993",
+    "mobilePhone1": "08123456789",
+    "mobilePhone2": "08123456783",
+    "mobilePhone3": "08123456782",
+    "email": "kriky@aloha.com",
+    "address": "bank road, lagos",
+    "updatedAt": "2021-08-01T00:00:00Z"
+}))]
+#[serde(rename_all = "camelCase")]
+#[serde(crate = "rocket::serde")]
+pub struct ResUpdateContactDetailDto {
+    #[schema(value_type = String)]
+    pub id : Uuid,
+    pub mobile_phone_1 : String,
+    pub mobile_phone_2 : String,
+    pub mobile_phone_3 : String,
+    pub email : String,
+    pub address : String,
+    pub updated_at : String,
 }

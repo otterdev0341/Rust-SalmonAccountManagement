@@ -9,6 +9,8 @@ pub struct Model {
     pub id: Vec<u8>,
     pub name: String,
     pub description: String,
+    #[sea_orm(column_type = "Binary(16)")]
+    pub user_id: Vec<u8>,
     pub created_at: Option<DateTimeUtc>,
     pub updated_at: Option<DateTimeUtc>,
 }
@@ -17,11 +19,25 @@ pub struct Model {
 pub enum Relation {
     #[sea_orm(has_many = "super::contact::Entity")]
     Contact,
+    #[sea_orm(
+        belongs_to = "super::user::Entity",
+        from = "Column::UserId",
+        to = "super::user::Column::Id",
+        on_update = "Cascade",
+        on_delete = "Cascade"
+    )]
+    User,
 }
 
 impl Related<super::contact::Entity> for Entity {
     fn to() -> RelationDef {
         Relation::Contact.def()
+    }
+}
+
+impl Related<super::user::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::User.def()
     }
 }
 

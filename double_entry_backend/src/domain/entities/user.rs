@@ -23,6 +23,10 @@ pub enum Relation {
     Company,
     #[sea_orm(has_many = "super::contact::Entity")]
     Contact,
+    #[sea_orm(has_many = "super::contact_detail::Entity")]
+    ContactDetail,
+    #[sea_orm(has_many = "super::contact_type::Entity")]
+    ContactType,
 }
 
 impl Related<super::company::Entity> for Entity {
@@ -34,6 +38,18 @@ impl Related<super::company::Entity> for Entity {
 impl Related<super::contact::Entity> for Entity {
     fn to() -> RelationDef {
         Relation::Contact.def()
+    }
+}
+
+impl Related<super::contact_detail::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::ContactDetail.def()
+    }
+}
+
+impl Related<super::contact_type::Entity> for Entity {
+    fn to() -> RelationDef {
+        Relation::ContactType.def()
     }
 }
 
