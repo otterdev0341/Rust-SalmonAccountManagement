@@ -42,9 +42,15 @@ pub struct ReqUpdateContactDto {
 #[serde(crate = "rocket::serde")]
 #[serde(rename_all = "camelCase")]
 pub struct ResEntryContactDto {
-    pub id: String,
+    #[schema(value_type = String)]
+    pub id: Uuid,
     pub name: String,
-    pub company_id: String,
+    #[schema(value_type = String)]
+    pub company_id: Uuid,
+    #[schema(value_type = String)]
+    pub user_id: Uuid,
+    #[schema(value_type = String)]
+    pub contact_type_id: Uuid,
     pub created_at: String,
     pub updated_at: String,
 }
@@ -62,7 +68,8 @@ pub struct ResUpdateContactDto{
     #[schema(value_type = String)]
     pub id : Uuid,
     pub name : String,
-    pub company_id : String,
+    #[schema(value_type = String)]
+    pub company_id : Uuid,
     pub updated_at : String,
 }
 
@@ -89,6 +96,6 @@ pub struct ResUpdateContactDto{
 #[serde(crate = "rocket::serde")]
 #[serde(rename_all = "camelCase")]
 pub struct ResListContactDto {
-    pub total: i32,
-    pub customers: Vec<ResEntryContactDto>,
+    pub total: u32,
+    pub contacts: Vec<ResEntryContactDto>,
 }

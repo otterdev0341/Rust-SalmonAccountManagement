@@ -41,4 +41,31 @@ class TestCreateUser extends Specification{
         response.statusCode() != 404
 
     }
+
+    @Description("create default user")
+    def "create_default_user"(){
+        given:
+        def kotaro_user = new ReqCreateUserDto(
+                firstName: "kotaro",
+                lastName: "river_otter",
+                email: "kotaro@work.com",
+                username: "kotaro_cute",
+                password: "kotaro1235555")
+
+        def kotaro_json = JsonOutput.toJson(kotaro_user)
+        def target_url = new TestRouteManagement().get_auth_route(AuthCase.SIGN_UP)
+        when:
+        def response
+                    = given().contentType("application/json")
+                        .body(kotaro_json)
+                    .when()
+                        .post(target_url)
+                    .then()
+                        .extract()
+                        .response()
+        def json_response = new JsonSlurper().parseText(response.asString())
+        then:
+        response.statusCode() == 201 || response.statusCode() == 400
+
+    }
 }

@@ -175,6 +175,7 @@ package "Contact Management" {
         id: <<pk>>
         name: String
         company_id: <<FK>> Company
+        user_id: <<FK>> User
         contact_type_id: <<FK>> ContactType
         created_at: Date
         updated_at: Date

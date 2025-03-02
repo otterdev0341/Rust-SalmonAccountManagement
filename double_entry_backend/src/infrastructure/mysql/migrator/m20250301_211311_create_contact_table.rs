@@ -1,6 +1,6 @@
 use sea_orm_migration::{prelude::*, schema::*};
 
-use super::m20250301_212131_create_contact_type::ContactType;
+use super::{m20220101_000001_create_user_table::User, m20250301_212131_create_contact_type::ContactType};
 
 #[derive(DeriveMigrationName)]
 pub struct Migration;
@@ -27,6 +27,18 @@ impl MigrationTrait for Migration {
                         ColumnDef::new(Contact::CompanyId)
                             .uuid()
                             .not_null()
+                    ).col(
+                        ColumnDef::new(Contact::UserId)
+                            .uuid()
+                            .not_null()
+                    )
+                    .foreign_key(
+                        ForeignKey::create()
+                        .name("fk_contact_user_id")
+                        .from(Contact::Table, Contact::UserId)
+                        .to(User::Table, User::Id)
+                        .on_delete(ForeignKeyAction::Cascade)
+                        .on_update(ForeignKeyAction::Cascade),
                     )
                     .col(
                         ColumnDef::new(Contact::ContactTypeId)
@@ -74,6 +86,8 @@ pub enum Contact {
     Id,
     #[sea_orm(iden = "name")]
     Name,
+    #[sea_orm(iden = "user_id")]
+    UserId,
     #[sea_orm(iden = "company_id")]
     CompanyId,
     #[sea_orm(iden = "contact_type_id")]
