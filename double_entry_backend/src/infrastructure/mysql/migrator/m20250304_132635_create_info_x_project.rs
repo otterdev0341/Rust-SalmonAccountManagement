@@ -21,6 +21,7 @@ impl MigrationTrait for Migration {
                             .uuid()
                             .not_null()
                             
+                            
                     )
                     .foreign_key(
                         ForeignKey::create()
@@ -35,6 +36,7 @@ impl MigrationTrait for Migration {
                             .uuid()
                             .not_null()
                             
+                            
                     )
                     .foreign_key(
                         ForeignKey::create()
@@ -43,6 +45,12 @@ impl MigrationTrait for Migration {
                             .to(Info::Table, Info::Id)
                             .on_delete(ForeignKeyAction::Cascade)
                             .on_update(ForeignKeyAction::Cascade),
+                    )
+                    .primary_key(
+                        Index::create()
+                            .name("pk_project_info")
+                            .col(ProjectInfo::ProjectId)
+                            .col(ProjectInfo::InfoId),
                     )
                     .to_owned(),
             )

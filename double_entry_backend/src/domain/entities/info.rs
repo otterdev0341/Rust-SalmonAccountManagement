@@ -3,23 +3,22 @@
 use sea_orm::entity::prelude::*;
 
 #[derive(Clone, Debug, PartialEq, DeriveEntityModel, Eq)]
-#[sea_orm(table_name = "ProjectStatus")]
+#[sea_orm(table_name = "Info")]
 pub struct Model {
     #[sea_orm(primary_key, auto_increment = false, column_type = "Binary(16)")]
     pub id: Vec<u8>,
-    #[sea_orm(unique)]
-    pub name: String,
+    pub title: String,
+    pub content: String,
     #[sea_orm(column_type = "Binary(16)")]
     pub user_id: Vec<u8>,
-    pub description: String,
     pub created_at: Option<DateTimeUtc>,
     pub updated_at: Option<DateTimeUtc>,
 }
 
 #[derive(Copy, Clone, Debug, EnumIter, DeriveRelation)]
 pub enum Relation {
-    #[sea_orm(has_many = "super::project::Entity")]
-    Project,
+    #[sea_orm(has_many = "super::project_x_info::Entity")]
+    ProjectXInfo,
     #[sea_orm(
         belongs_to = "super::user::Entity",
         from = "Column::UserId",
@@ -30,15 +29,24 @@ pub enum Relation {
     User,
 }
 
-impl Related<super::project::Entity> for Entity {
+impl Related<super::project_x_info::Entity> for Entity {
     fn to() -> RelationDef {
-        Relation::Project.def()
+        Relation::ProjectXInfo.def()
     }
 }
 
 impl Related<super::user::Entity> for Entity {
     fn to() -> RelationDef {
         Relation::User.def()
+    }
+}
+
+impl Related<super::project::Entity> for Entity {
+    fn to() -> RelationDef {
+        super::project_x_info::Relation::Project.def()
+    }
+    fn via() -> Option<RelationDef> {
+        Some(super::project_x_info::Relation::Info.def().rev())
     }
 }
 

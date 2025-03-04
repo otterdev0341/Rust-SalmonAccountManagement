@@ -1,6 +1,9 @@
-use rocket::{delete, get, post, put, routes, serde::json::Json, Route};
+use std::str::FromStr;
 
-use crate::{domain::dto::{auth_dto::AuthenticatedUser, project_dto::{ReqCreateProjectDto, ReqUpdateProjectDto, ResEntryProjectDto, ResListProjectDto}}, infrastructure::{faring::cors::options, handler::api_response::api_response::ApiResponse}};
+use rocket::{delete, get, post, put, routes, serde::json::Json, Route, State};
+use uuid::Uuid;
+
+use crate::{application::usecase::project_usecase::{ProjectUseCase, ProjectUseCaseError}, domain::dto::{auth_dto::AuthenticatedUser, project_dto::{ReqCreateProjectDto, ReqUpdateProjectDto, ResEntryProjectDto, ResListProjectDto, ResUpdateProjectDto}, std_201::ResCreateSuccess}, infrastructure::{faring::cors::options, handler::api_response::{api_response::{ApiErrorResponse, ApiResponse, ApiSuccessResponse}, api_success_response::{ApiCreatedResponse, ApiCreatedResponseType}, api_update_response::{ApiUpdateResponse, ApiUpdateResponseType}}, mysql::repositories::impl_project_repository::ImplProjectRepository}};
 
 pub fn project_routes() -> Vec<Route>{
     routes![
@@ -14,6 +17,18 @@ pub fn project_routes() -> Vec<Route>{
 }
 
 
+impl From<ProjectUseCaseError> for ApiErrorResponse {
+    fn from(error: ProjectUseCaseError) -> Self {
+        match error {
+            ProjectUseCaseError::ProjectNotFound => ApiErrorResponse::new(404, "Project not found".to_string()),
+            ProjectUseCaseError::InternalServerError => ApiErrorResponse::new(500, "Internal server error".to_string()),
+            ProjectUseCaseError::ConflictingCompany => ApiErrorResponse::new(409, "Conflicting company".to_string()),
+            ProjectUseCaseError::ConvertUuidError => ApiErrorResponse::new(500, "Uuid convert error".to_string()),
+            ProjectUseCaseError::DeleteFailed => ApiErrorResponse::new(500, "Delete failed".to_string()),
+            ProjectUseCaseError::UpdateFailed => ApiErrorResponse::new(500, "Update failed".to_string())
+        }
+    }
+}
 
 
 #[utoipa::path(
@@ -36,9 +51,25 @@ pub fn project_routes() -> Vec<Route>{
 #[post("/", format = "json", data = "<project_data>")]
 pub async fn create_project(
     user: AuthenticatedUser,
-    project_data: Json<ReqCreateProjectDto>
-) -> ApiResponse<String> {
-    todo!()
+    project_data: Json<ReqCreateProjectDto>,
+    project_usecase: &State<ProjectUseCase<ImplProjectRepository>>
+) -> ApiCreatedResponseType<ResCreateSuccess> {
+    let operation = 
+            project_usecase
+                .create_project(user.id, project_data.company_id, project_data.into_inner()).await;
+
+    match operation {
+        Ok(data) => {
+            return Ok(ApiCreatedResponse{
+                status: "success".to_string(),
+                message: "Project created".to_string(),
+                data: data
+            })
+        },
+        Err(err) => {
+            return Err(err.into());
+        }
+    }
 }
 
 
@@ -69,9 +100,24 @@ pub async fn create_project(
 #[get("/<project_id>", format = "json")]
 pub async fn view_project(
     user: AuthenticatedUser,
-    project_id: String
+    project_id: String,
+    project_usecase: &State<ProjectUseCase<ImplProjectRepository>>
 ) -> ApiResponse<ResEntryProjectDto> {
-    todo!()
+    let operation = 
+            project_usecase
+                .get_project(user.id, Uuid::from_str(&project_id).unwrap()).await;
+    match operation {
+        Ok(data) => {
+            return Ok(ApiSuccessResponse{
+                status: "success".to_string(),
+                data: data
+            })
+        },
+        Err(err) => {
+            return Err(err.into());
+        }
+    }
+    
 }
 
 
@@ -99,9 +145,23 @@ pub async fn view_project(
 )]
 #[get("/", format = "json")]
 pub async fn view_projects(
-    user: AuthenticatedUser
+    user: AuthenticatedUser,
+    project_usecase: &State<ProjectUseCase<ImplProjectRepository>>
 ) -> ApiResponse<ResListProjectDto> {
-    todo!()
+    let operation = 
+            project_usecase
+                .get_projects(user.id).await;
+    match operation {
+        Ok(data) => {
+            return Ok(ApiSuccessResponse{
+                status: "success".to_string(),
+                data: data
+            })
+        },
+        Err(err) => {
+            return Err(err.into());
+        }
+    }
 }
 
 
@@ -132,10 +192,27 @@ pub async fn view_projects(
 pub async fn edit_project(
     user: AuthenticatedUser,
     project_id: String,
-    project_data: Json<ReqUpdateProjectDto>
+    project_data: Json<ReqUpdateProjectDto>,
+    project_usecase: &State<ProjectUseCase<ImplProjectRepository>>
     ) 
--> ApiResponse<String> {
-    todo!()
+-> ApiUpdateResponseType<ResUpdateProjectDto> {
+    
+    let operation = 
+            project_usecase
+                .update_project(user.id, Uuid::from_str(&project_id).unwrap(), project_data.into_inner()).await;
+    
+    match operation {
+        Ok(data) => {
+            return Ok(ApiUpdateResponse{
+                status: "success".to_string(),
+                message: "Project edited".to_string(),
+                data: data
+            })
+        },
+        Err(err) => {
+            return Err(err.into());
+        }
+    }
 }
 
 
@@ -163,9 +240,23 @@ pub async fn edit_project(
 #[delete("/<project_id>", format = "json")]
 pub async fn delete_project(
     user: AuthenticatedUser,
-    project_id: String
+    project_id: String,
+    project_usecase: &State<ProjectUseCase<ImplProjectRepository>>
 ) -> ApiResponse<String> {
-    todo!()
+    let operation = 
+            project_usecase
+                .delete_project(user.id, Uuid::from_str(&project_id).unwrap()).await;
+    match operation {
+        Ok(_) => {
+            return Ok(ApiSuccessResponse{
+                status: "success".to_string(),
+                data: "Project deleted".to_string()
+            })
+        },
+        Err(err) => {
+            return Err(err.into());
+        }
+    }
 }
 
 

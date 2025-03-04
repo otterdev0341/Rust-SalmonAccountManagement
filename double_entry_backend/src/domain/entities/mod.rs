@@ -6,5 +6,8 @@ pub mod company;
 pub mod contact;
 pub mod contact_detail;
 pub mod contact_type;
+pub mod info;
+pub mod project;
 pub mod project_status;
+pub mod project_x_info;
 pub mod user;

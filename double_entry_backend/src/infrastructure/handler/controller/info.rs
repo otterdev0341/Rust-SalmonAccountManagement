@@ -1,7 +1,7 @@
 use rocket::{delete, get, post, put, routes, serde::json::Json, Route};
 use serde::de;
 use utoipa::openapi::info;
-use crate::{domain::dto::{auth_dto::AuthenticatedUser, info_dto::{ReqCreateInfoDto, ReqUpdateInfoDto, ResEntryInfoDto, RestListInfoDto}}, infrastructure::{faring::cors::options, handler::api_response::api_response::ApiResponse}};
+use crate::{domain::dto::{auth_dto::AuthenticatedUser, info_dto::{ReqCreateInfoDto, ReqUpdateInfoDto, ResEntryInfoDto, ResListInfoDto}}, infrastructure::{faring::cors::options, handler::api_response::api_response::ApiResponse}};
 
 
 pub fn info_routes() -> Vec<Route> {
@@ -95,7 +95,7 @@ pub async fn view_project_info(
     ),
     responses(
         (status = 200, description = "Project infos found",
-            body = RestListInfoDto,
+            body = ResListInfoDto,
             description = "Project infos found"
         ),
         (status = 404, description = "Project infos not found"),
@@ -106,7 +106,7 @@ pub async fn view_project_info(
 #[get("/info", format = "json")]
 pub async fn view_project_infos(
     user: AuthenticatedUser
-) -> ApiResponse<RestListInfoDto> {
+) -> ApiResponse<ResListInfoDto> {
     todo!()
 }
 

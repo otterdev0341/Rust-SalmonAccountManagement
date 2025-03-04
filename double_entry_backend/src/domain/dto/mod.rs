@@ -12,3 +12,4 @@ pub mod location_dto;
 pub mod location_type_dto;
 pub mod account_system;
 pub mod std_201;
+pub mod project_x_info_dto;

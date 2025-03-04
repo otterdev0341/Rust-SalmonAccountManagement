@@ -1,6 +1,6 @@
 use utoipa::OpenApi;
 
-use crate::{config::api_doc_config::api_security_addon::SecurityAddon, domain::dto::info_dto::{ReqCreateInfoDto, ReqUpdateInfoDto, ResEntryInfoDto, RestListInfoDto}};
+use crate::{config::api_doc_config::api_security_addon::SecurityAddon, domain::dto::info_dto::{ReqCreateInfoDto, ReqUpdateInfoDto, ResEntryInfoDto, ResListInfoDto}};
 
 
 #[derive(OpenApi)]
@@ -21,7 +21,7 @@ use crate::{config::api_doc_config::api_security_addon::SecurityAddon, domain::d
             ReqCreateInfoDto,
             ReqUpdateInfoDto,
             ResEntryInfoDto,
-            RestListInfoDto
+            ResListInfoDto
         )
     )
 )]

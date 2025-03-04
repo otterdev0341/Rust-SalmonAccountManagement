@@ -4,3 +4,6 @@ pub mod trait_contact;
 pub mod trait_contact_type;
 pub mod trait_contact_detail;
 pub mod trait_project_status;
+pub mod trait_info;
+pub mod trait_project_x_info;
+pub mod trait_project;

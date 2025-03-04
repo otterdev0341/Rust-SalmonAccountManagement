@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
+use uuid::Uuid;
 
 
 
@@ -13,8 +14,7 @@ use utoipa::ToSchema;
 #[serde(crate = "rocket::serde")]
 #[serde(rename_all = "camelCase")]
 pub struct ReqCreateInfoDto {
-    pub project_id : String,
-    pub user_id: Option<String>,
+    
     pub title: String,
     pub content: String,
 }
@@ -33,8 +33,8 @@ pub struct ReqCreateInfoDto {
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 pub struct ResEntryInfoDto {
-    pub id: String,
-    pub project_id: String,
+    #[schema(value_type = String)]
+    pub id: Uuid,
     pub user_id: String,
     pub title: String,
     pub content: String,
@@ -68,8 +68,8 @@ pub struct ResEntryInfoDto {
 }))]
 #[serde(crate = "rocket::serde")]
 #[serde(rename_all = "camelCase")]
-pub struct RestListInfoDto {
-    pub total: i32,
+pub struct ResListInfoDto {
+    pub total: u32,
     pub infos: Vec<ResEntryInfoDto>,
 }
 
@@ -83,5 +83,26 @@ pub struct RestListInfoDto {
 pub struct ReqUpdateInfoDto {
     pub title: Option<String>,
     pub content: Option<String>,
+}
+
+
+#[derive(Serialize, Deserialize, ToSchema)]
+#[schema(example = json!({
+    "id": "2390whflksjf0993",
+    "title": "Otter heaven inc",
+    "content": "use tech to grow sweet fish",
+    "userId": "2390whflksjf0993",
+    "updatedAt": "2021-08-01T00:00:00Z"
+}))]
+#[serde(rename_all = "camelCase")]
+#[serde(crate = "rocket::serde")]
+pub struct ResUpdateInfoDto {
+    #[schema(value_type = String)]
+    pub id: Uuid,
+    pub title: String,
+    pub content: String,
+    #[schema(value_type = String)]
+    pub user_id: Uuid,
+    pub updated_at: String,
 }
 
