@@ -1,5 +1,7 @@
 use sea_orm_migration::{prelude::*, schema::*};
 
+use super::m20220101_000001_create_user_table::User;
+
 #[derive(DeriveMigrationName)]
 pub struct Migration;
 
@@ -12,11 +14,41 @@ impl MigrationTrait for Migration {
         manager
             .create_table(
                 Table::create()
-                    .table(Post::Table)
-                    .if_not_exists()
-                    .col(pk_auto(Post::Id))
-                    .col(string(Post::Title))
-                    .col(string(Post::Text))
+                    .table(Info::Table)
+                        .if_not_exists()
+                    .col(
+                        ColumnDef::new(Info::Id)
+                            .uuid()
+                            .not_null()
+                            .primary_key()
+                            
+                    )
+                    .col(string(Info::Title))
+                    .col(string(Info::Content))
+                    .col(
+                        ColumnDef::new(Info::UserId)
+                            .uuid()
+                            .not_null()
+                            
+                    )
+                    .foreign_key(
+                        ForeignKey::create()
+                            .name("fk_info_user_id")
+                            .from(Info::Table, Info::UserId)
+                            .to(User::Table, User::Id)
+                            .on_delete(ForeignKeyAction::Cascade)
+                            .on_update(ForeignKeyAction::Cascade),
+                    )
+                    .col(
+                        ColumnDef::new(Info::CreatedAt)
+                            .timestamp()
+                            .extra("DEFAULT CURRENT_TIMESTAMP".to_owned()),
+                    )
+                    .col(
+                        ColumnDef::new(Info::UpdatedAt)
+                            .timestamp()
+                            .extra("DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP".to_owned()),
+                    )
                     .to_owned(),
             )
             .await
@@ -27,13 +59,13 @@ impl MigrationTrait for Migration {
         
 
         manager
-            .drop_table(Table::drop().table(Post::Table).to_owned())
+            .drop_table(Table::drop().table(Info::Table).to_owned())
             .await
     }
 }
 
 #[derive(DeriveIden)]
-enum Info {
+pub enum Info {
     #[sea_orm(iden = "Info")]
     Table,
     #[sea_orm(iden = "id")]
