@@ -4,4 +4,5 @@ pub use super::company::Entity as Company;
 pub use super::contact::Entity as Contact;
 pub use super::contact_detail::Entity as ContactDetail;
 pub use super::contact_type::Entity as ContactType;
+pub use super::project_status::Entity as ProjectStatus;
 pub use super::user::Entity as User;

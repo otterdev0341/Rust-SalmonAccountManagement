@@ -1,17 +1,33 @@
-use std::default;
+use std::{default, str::FromStr, sync::Arc};
 
-use rocket::{delete, get, post, put, routes, serde::json::Json, Route};
+use rocket::{delete, get, post, put, routes, serde::json::Json, Route, State};
+use uuid::Uuid;
 
-use crate::{domain::dto::{auth_dto::AuthenticatedUser, project_status::{ReqCreateProjectStatusDto, ReqUpdateProjectStatusDto, ResEntryProjectStatusDto, ResListProjectStatusDto}}, infrastructure::{faring::cors::options, handler::api_response::api_response::ApiResponse}};
+use crate::{application::usecase::project_status_usecase::{ProjectStatusUseCase, ProjectStatusUseCaseError}, domain::{dto::{auth_dto::AuthenticatedUser, project_status_dto::{ReqCreateProjectStatusDto, ReqUpdateProjectStatusDto, ResEntryProjectStatusDto, ResListProjectStatusDto, ResUpdateProjectStatusDto}, std_201::ResCreateSuccess}, entities::project_status}, infrastructure::{faring::cors::options, handler::api_response::{api_response::{ApiErrorResponse, ApiResponse, ApiSuccessResponse}, api_success_response::{ApiCreatedResponse, ApiCreatedResponseType}}, mysql::repositories::impl_project_status_repository::ImplProjectStatusRepository}};
 
 pub fn project_status_routes() -> Vec<Route> {
     routes![
-        
+        create_project_status,
+        view_project_status,
+        view_project_statuses,
+        edit_project_status,
+        delete_project_status,
         options
     ]
 }
 
-
+impl From<ProjectStatusUseCaseError> for ApiErrorResponse{
+    fn from(error: ProjectStatusUseCaseError) -> Self {
+        match error {
+            ProjectStatusUseCaseError::ProjectStatusNotFound => ApiErrorResponse::new(404, "Project status not found".to_string()),
+            ProjectStatusUseCaseError::InternalServerError => ApiErrorResponse::new(500, "Internal server error".to_string()),
+            ProjectStatusUseCaseError::DeleteFailed => ApiErrorResponse::new(500, "Delete failed".to_string()),
+            ProjectStatusUseCaseError::CreateFailed => ApiErrorResponse::new(500, "Create failed".to_string()),
+            ProjectStatusUseCaseError::UpdateFailed => ApiErrorResponse::new(500, "Update failed".to_string()),
+            ProjectStatusUseCaseError::ThisProjectNameAlreadyExist => ApiErrorResponse::new(409, "This project name already exist".to_string())
+        }
+    }
+}
 
 
 
@@ -35,10 +51,31 @@ pub fn project_status_routes() -> Vec<Route> {
 #[post("/", format = "json", data = "<project_status_data>")]
 pub async fn create_project_status(
     user: AuthenticatedUser,
-    project_status_data: Json<ReqCreateProjectStatusDto>
+    project_status_data: Json<ReqCreateProjectStatusDto>,
+    project_status_usecase: &State<Arc<ProjectStatusUseCase<ImplProjectStatusRepository>>>
 
-) -> ApiResponse<String> {
-    todo!()
+) -> ApiCreatedResponseType<ResCreateSuccess> {
+
+    // validate data before operation
+    if project_status_data.name.is_empty() || project_status_data.description.is_empty() {
+        return Err(ApiErrorResponse::new(400, "Project status name and detail is required".to_string()))
+    }
+
+    // peform operaiont
+    let operation = project_status_usecase.create_project_status(user.id, project_status_data.into_inner()).await;
+    match operation {
+        Ok(this_data) => {
+            return Ok(ApiCreatedResponse{
+                status: "success".to_string(),
+                message: "project detail successfully created".to_string(),
+                data: this_data
+
+            })
+        },
+        Err(e) => {
+            return Err(e.into())
+        }
+    }
 }
 
 
@@ -68,10 +105,26 @@ pub async fn create_project_status(
 #[get("/<project_status_id>", format = "json")]
 pub async fn view_project_status(
     user: AuthenticatedUser,
-    project_status_id: String
+    project_status_id: String,
+    project_status_usecase: &State<Arc<ProjectStatusUseCase<ImplProjectStatusRepository>>>
 ) 
 -> ApiResponse<ResEntryProjectStatusDto> {
-    todo!()
+    let operation 
+        = project_status_usecase
+            .get_project_status(user.id, Uuid::from_str(&project_status_id).unwrap()).await;
+    match operation {
+        Ok(this_data) => {
+            return Ok(
+                ApiSuccessResponse{
+                    status: "success".to_string(),
+                    data: this_data
+                }
+            )
+        },
+        Err(e) => {
+            return Err(e.into())
+        }
+    }
 }
 
 
@@ -95,10 +148,24 @@ pub async fn view_project_status(
 )]
 #[get("/", format = "json")]
 pub async fn view_project_statuses(
-    user: AuthenticatedUser
+    user: AuthenticatedUser,
+    project_status_usecase: &State<Arc<ProjectStatusUseCase<ImplProjectStatusRepository>>>
 ) 
 -> ApiResponse<ResListProjectStatusDto> {
-    todo!()
+    let operation = project_status_usecase.get_project_statuses(user.id).await;
+    match operation {
+        Ok(this_data) => {
+            return Ok(
+                ApiSuccessResponse{
+                    status: "success".to_string(),
+                    data: this_data
+                }
+            )
+        },
+        Err(e) => {
+            return Err(e.into())
+        }
+    }
 }
 
 
@@ -130,10 +197,26 @@ pub async fn view_project_statuses(
 pub async fn edit_project_status(
     user: AuthenticatedUser,
     project_status_id: String,
-    project_status_data: Json<ReqUpdateProjectStatusDto>
+    project_status_data: Json<ReqUpdateProjectStatusDto>,
+    project_status_usecase: &State<Arc<ProjectStatusUseCase<ImplProjectStatusRepository>>>
 ) 
--> ApiResponse<String> {
-    todo!()
+-> ApiResponse<ResUpdateProjectStatusDto> {
+    let operation 
+        = project_status_usecase
+            .update_project_status(user.id, Uuid::from_str(&project_status_id).unwrap(), project_status_data.into_inner()).await;
+    match operation {
+        Ok(this_data) => {
+            return Ok(
+                ApiSuccessResponse{
+                    status: "success".to_string(),
+                    data: this_data
+                }
+            )
+        },
+        Err(e) => {
+            return Err(e.into())
+        }
+    }
 }
 
 
@@ -164,9 +247,23 @@ pub async fn edit_project_status(
 #[delete("/<project_status_id>", format = "json")]
 pub async fn delete_project_status(
     user: AuthenticatedUser,
-    project_status_id: String
+    project_status_id: String,
+    project_status_usecase: &State<Arc<ProjectStatusUseCase<ImplProjectStatusRepository>>>
 )
 -> ApiResponse<String> {
-    todo!()
+    let operation = project_status_usecase.delete_project_status(user.id, Uuid::from_str(&project_status_id).unwrap()).await;
+    match operation {
+        Ok(_) => {
+            return Ok(
+                ApiSuccessResponse{
+                    status: "success".to_string(),
+                    data: "Project status deleted".to_string()
+                }
+            )
+        },
+        Err(e) => {
+            return Err(e.into())
+        }
+    }
 }
 

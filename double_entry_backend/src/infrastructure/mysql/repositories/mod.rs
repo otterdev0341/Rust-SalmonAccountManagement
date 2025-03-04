@@ -3,3 +3,4 @@ pub mod impl_company_repository;
 pub mod impl_contact_repository;
 pub mod impl_contact_type_repository;
 pub mod impl_contact_detail;
+pub mod impl_project_status_repository;

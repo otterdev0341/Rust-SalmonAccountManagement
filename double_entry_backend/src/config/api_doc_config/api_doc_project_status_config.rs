@@ -14,10 +14,10 @@ use utoipa::OpenApi;
     ),
     components(
         schemas(
-            crate::domain::dto::project_status::ReqCreateProjectStatusDto,
-            crate::domain::dto::project_status::ResEntryProjectStatusDto,
-            crate::domain::dto::project_status::ResListProjectStatusDto,
-            crate::domain::dto::project_status::ReqUpdateProjectStatusDto
+            crate::domain::dto::project_status_dto::ReqCreateProjectStatusDto,
+            crate::domain::dto::project_status_dto::ResEntryProjectStatusDto,
+            crate::domain::dto::project_status_dto::ResListProjectStatusDto,
+            crate::domain::dto::project_status_dto::ReqUpdateProjectStatusDto
         )
     )
 )]

@@ -3,9 +3,9 @@ use std::sync::Arc;
 use rocket::fairing::AdHoc;
 use sea_orm::DatabaseConnection;
 
-use crate::{domain::entities::{contact, contact_type}, infrastructure::mysql::repositories::{impl_auth_repository::ImplAuthRepository, impl_company_repository::ImplCompanyRespository, impl_contact_detail::ImplContactDetailRespository, impl_contact_repository::ImplContactRepository, impl_contact_type_repository::ImplContactTypeRepository}};
+use crate::{domain::entities::{contact, contact_type}, infrastructure::mysql::repositories::{impl_auth_repository::ImplAuthRepository, impl_company_repository::ImplCompanyRespository, impl_contact_detail::ImplContactDetailRespository, impl_contact_repository::ImplContactRepository, impl_contact_type_repository::ImplContactTypeRepository, impl_project_status_repository::ImplProjectStatusRepository}};
 
-use super::{auth_usecase::AuthUseCase, company_usecase::CompanyUseCase, contact_detail_usecase::ContactDetailUseCase, contact_type_usecase::{self, ContactTypeUseCase}, contact_usecase::{self, ContactUseCase}};
+use super::{auth_usecase::AuthUseCase, company_usecase::CompanyUseCase, contact_detail_usecase::ContactDetailUseCase, contact_type_usecase::{self, ContactTypeUseCase}, contact_usecase::{self, ContactUseCase}, project_status_usecase::{self, ProjectStatusUseCase}};
 
 
 
@@ -29,6 +29,10 @@ pub fn init_usecase_setup(db_connection: Arc<DatabaseConnection>) -> AdHoc {
         let contact_detail_repository = ImplContactDetailRespository{
             db: Arc::clone(&db_connection)
         };
+        let project_status_repository = ImplProjectStatusRepository{
+            db: Arc::clone(&db_connection)
+        };
+
 
         // Initial Usecase
         let user_usecase = Arc::new(AuthUseCase::new(Arc::new(auth_repository)));
@@ -36,6 +40,8 @@ pub fn init_usecase_setup(db_connection: Arc<DatabaseConnection>) -> AdHoc {
         let contact_usecase = Arc::new(ContactUseCase::new(Arc::new(contact_repository)));
         let contact_type_usecase = Arc::new(ContactTypeUseCase::new(Arc::new(contact_type_repository)));
         let contact_detail_usecase = Arc::new(ContactDetailUseCase::new(Arc::new(contact_detail_repository)));
+        let project_status_usecase = Arc::new(ProjectStatusUseCase::new(Arc::new(project_status_repository)));
+
         // Attach to Rocket
         rocket.manage(Arc::clone(&db_connection))
               .manage(user_usecase)
@@ -43,6 +49,7 @@ pub fn init_usecase_setup(db_connection: Arc<DatabaseConnection>) -> AdHoc {
               .manage(contact_usecase)
               .manage(contact_type_usecase)
               .manage(contact_detail_usecase)
+              .manage(project_status_usecase)
               
     })
 }

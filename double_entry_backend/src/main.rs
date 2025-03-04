@@ -37,7 +37,7 @@ async fn main() -> Result<(), rocket::Error> {
             
         }
     };
-    let migrate_status = Migrator::up(&db, None).await;
+    let migrate_status = Migrator::fresh(&db).await;
     if migrate_status.is_err() {
         eprintln!("Failed to migrate: {:?}", migrate_status);
         panic!("Failed to migrate: {:?}", migrate_status);

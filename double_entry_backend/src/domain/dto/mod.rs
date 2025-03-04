@@ -7,7 +7,7 @@ pub mod contact_dto;
 pub mod contact_type_dto;
 pub mod project_dto;
 pub mod info_dto;
-pub mod project_status;
+pub mod project_status_dto;
 pub mod location_dto;
 pub mod location_type_dto;
 pub mod account_system;

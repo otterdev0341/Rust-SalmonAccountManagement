@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
+use uuid::Uuid;
 
 
 
@@ -28,9 +29,12 @@ pub struct ReqCreateProjectStatusDto {
 #[serde(rename_all = "camelCase")]
 #[serde(crate = "rocket::serde")]
 pub struct ResEntryProjectStatusDto {
-    pub id: String,
+    #[schema(value_type = String)]
+    pub id: Uuid,
     pub name: String,
     pub description: String,
+    #[schema(value_type = String)]
+    pub user_id: Uuid,
     pub created_at: String,
     pub updated_at: String,
 }
@@ -58,7 +62,7 @@ pub struct ResEntryProjectStatusDto {
 #[serde(crate = "rocket::serde")]
 #[serde(rename_all = "camelCase")]
 pub struct ResListProjectStatusDto {
-    pub total: i32,
+    pub total: u32,
     pub statuses: Vec<ResEntryProjectStatusDto>,
 }
 
@@ -73,4 +77,27 @@ pub struct ResListProjectStatusDto {
 pub struct ReqUpdateProjectStatusDto {
     pub name: Option<String>,
     pub description: Option<String>,
+}
+
+
+
+#[derive(Serialize, Deserialize, ToSchema)]
+#[schema(example = json!({
+    "id": "2390whflksjf0993",
+    "name": "Postponed",
+    "description": "project is postponed",
+    "userId": "2390whflksjf0993",
+    "createdAt": "2021-08-01T00:00:00Z",
+    "updatedAt": "2021-08-01T00:00:00Z"
+}))]
+#[serde(crate = "rocket::serde")]
+#[serde(rename_all = "camelCase")]
+pub struct ResUpdateProjectStatusDto {
+    #[schema(value_type = String)]
+    pub id: Uuid,
+    pub name: String,
+    pub description: String,
+    #[schema(value_type = String)]
+    pub user_id: Uuid,
+    pub updated_at: String,
 }
