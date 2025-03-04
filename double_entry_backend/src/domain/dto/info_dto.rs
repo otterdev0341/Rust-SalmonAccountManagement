@@ -35,7 +35,8 @@ pub struct ReqCreateInfoDto {
 pub struct ResEntryInfoDto {
     #[schema(value_type = String)]
     pub id: Uuid,
-    pub user_id: String,
+    #[schema(value_type = String)]
+    pub user_id: Uuid,
     pub title: String,
     pub content: String,
     pub created_at: String,

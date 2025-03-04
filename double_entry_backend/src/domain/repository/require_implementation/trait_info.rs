@@ -1,3 +1,4 @@
+
 use sea_orm_migration::async_trait;
 use thiserror::Error;
 use uuid::Uuid;
@@ -14,8 +15,7 @@ pub enum InfoRepositoryError {
     DeleteFailed,
     #[error("Failed to update info")]
     UpdateFailed,
-    #[error("Failed to create info")]
-    CreateFailed
+    
 }
 
 #[async_trait::async_trait]
@@ -28,7 +28,8 @@ pub trait InfoRepoReqImpl {
 
     async fn get_info(
         &self, 
-        user_id: Uuid
+        user_id: Uuid,
+        info_id: Uuid
     ) -> Result<ResEntryInfoDto, InfoRepositoryError>;
 
     async fn get_infos(
@@ -38,12 +39,14 @@ pub trait InfoRepoReqImpl {
     
     async fn update_info(
         &self, 
-        user_id: Uuid, 
+        user_id: Uuid,
+        info_id: Uuid, 
         info_data: ReqUpdateInfoDto
     ) -> Result<ResUpdateInfoDto, InfoRepositoryError>;
 
     async fn delete_info(
         &self, 
-        user_id: Uuid
+        user_id: Uuid,
+        info_id: Uuid
     ) -> Result<(), InfoRepositoryError>;
 }

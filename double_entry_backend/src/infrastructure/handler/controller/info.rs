@@ -1,7 +1,10 @@
-use rocket::{delete, get, post, put, routes, serde::json::Json, Route};
+use std::{str::FromStr, sync::Arc};
+
+use rocket::{delete, get, post, put, routes, serde::json::Json, Route, State};
 use serde::de;
 use utoipa::openapi::info;
-use crate::{domain::dto::{auth_dto::AuthenticatedUser, info_dto::{ReqCreateInfoDto, ReqUpdateInfoDto, ResEntryInfoDto, ResListInfoDto}}, infrastructure::{faring::cors::options, handler::api_response::api_response::ApiResponse}};
+use uuid::Uuid;
+use crate::{application::usecase::info_usecase::{InfoUseCase, InfoUseCaseError}, domain::dto::{auth_dto::AuthenticatedUser, info_dto::{ReqCreateInfoDto, ReqUpdateInfoDto, ResEntryInfoDto, ResListInfoDto, ResUpdateInfoDto}, std_201::ResCreateSuccess}, infrastructure::{faring::cors::options, handler::api_response::{api_response::{ApiErrorResponse, ApiResponse, ApiSuccessResponse}, api_success_response::{ApiCreatedResponse, ApiCreatedResponseType}, api_update_response::{ApiUpdateResponse, ApiUpdateResponseType}}, mysql::repositories::impl_info_repository::ImplInfoRepository}};
 
 
 pub fn info_routes() -> Vec<Route> {
@@ -13,6 +16,18 @@ pub fn info_routes() -> Vec<Route> {
         delete_project_info,
         options
     ]
+}
+
+impl From<InfoUseCaseError> for ApiErrorResponse{
+    fn from(error: InfoUseCaseError) -> Self {
+        match error {
+            InfoUseCaseError::InfoNotFound => ApiErrorResponse::new(404, "Info not found".to_string()),
+            InfoUseCaseError::InternalServerError => ApiErrorResponse::new(500, "Internal server error".to_string()),
+            InfoUseCaseError::ConflictingInfo => ApiErrorResponse::new(409, "Conflicting info".to_string()),
+            InfoUseCaseError::DeleteFailed => ApiErrorResponse::new(500, "Delete failed".to_string()),
+            InfoUseCaseError::UpdateFailed => ApiErrorResponse::new(500, "Update failed".to_string())
+        }
+    }
 }
 
 
@@ -37,10 +52,26 @@ pub fn info_routes() -> Vec<Route> {
 #[post("/", format = "json", data = "<info_data>")]
 pub async fn create_project_info(
     user: AuthenticatedUser,
-    info_data: Json<ReqCreateInfoDto>
+    info_data: Json<ReqCreateInfoDto>,
+    info_usecase: &State<Arc<InfoUseCase<ImplInfoRepository>>>
     ) 
--> ApiResponse<String> {
-    todo!()
+-> ApiCreatedResponseType<ResCreateSuccess> {
+    if info_data.title.is_empty() || info_data.content.is_empty() {
+        return Err(ApiErrorResponse::new(400, "Invalid title or content".to_string()));
+    }
+    let operation = info_usecase.create_info(user.id, info_data.into_inner()).await;
+    match operation {
+        Ok(data) => {
+            return Ok(ApiCreatedResponse {
+                status: "success".to_string(),
+                message: "Project info created".to_string(),
+                data: data
+            })
+        },
+        Err(err) => {
+            return Err(err.into());
+        }
+    }
 }
 
 
@@ -75,9 +106,23 @@ pub async fn create_project_info(
 #[get("/<info_id>", format = "json")]
 pub async fn view_project_info(
     user: AuthenticatedUser,
-    info_id: String
+    info_id: String,
+    info_usecase: &State<Arc<InfoUseCase<ImplInfoRepository>>>
 ) -> ApiResponse<ResEntryInfoDto> {
-    todo!()
+    let operation = info_usecase.get_info(user.id, Uuid::from_str(&info_id).unwrap()).await;
+    match operation {
+        Ok(data) => {
+            return Ok(
+                ApiSuccessResponse{
+                    status: "success".to_string(),
+                    data: data
+                }
+            );
+        },
+        Err(err) => {
+            return Err(err.into());
+        }
+    }
 }
 
 
@@ -105,9 +150,23 @@ pub async fn view_project_info(
 )]
 #[get("/info", format = "json")]
 pub async fn view_project_infos(
-    user: AuthenticatedUser
+    user: AuthenticatedUser,
+    info_usecase: &State<Arc<InfoUseCase<ImplInfoRepository>>>
 ) -> ApiResponse<ResListInfoDto> {
-    todo!()
+    let operation = info_usecase.get_infos(user.id).await;
+    match operation {
+        Ok(data) => {
+            return Ok(
+                ApiSuccessResponse{
+                    status: "success".to_string(),
+                    data: data
+                }
+            );
+        },
+        Err(err) => {
+            return Err(err.into());
+        }
+    }
 }
 
 
@@ -137,10 +196,23 @@ pub async fn view_project_infos(
 pub async fn edit_project_info(
     user: AuthenticatedUser,
     info_id: String,
-    info_data: Json<ReqUpdateInfoDto>
+    info_data: Json<ReqUpdateInfoDto>,
+    info_usecase: &State<Arc<InfoUseCase<ImplInfoRepository>>>
     ) 
--> ApiResponse<String> {
-    todo!()
+-> ApiUpdateResponseType<ResUpdateInfoDto> {
+    let operation = info_usecase.update_info(user.id, Uuid::from_str(&info_id).unwrap(), info_data.into_inner()).await;
+    match operation {
+        Ok(data) => {
+            return Ok(ApiUpdateResponse {
+                status: "success".to_string(),
+                message: "Project info edited".to_string(),
+                data: data
+            })
+        },
+        Err(err) => {
+            return Err(err.into());
+        }
+    }
 }
 
 
@@ -167,9 +239,23 @@ pub async fn edit_project_info(
 #[delete("/info/<info_id>", format = "json")]
 pub async fn delete_project_info(
     user: AuthenticatedUser,
-    info_id: String
+    info_id: String,
+    info_usecase: &State<Arc<InfoUseCase<ImplInfoRepository>>>
 ) 
 -> ApiResponse<String> {
-    todo!()
+    let operation = info_usecase.delete_info(user.id, Uuid::from_str(&info_id).unwrap()).await;
+    match operation {
+        Ok(_) => {
+            return Ok(
+                ApiSuccessResponse{
+                    status: "success".to_string(),
+                    data: "Project info deleted".to_string()
+                }
+            );
+        },
+        Err(err) => {
+            return Err(err.into());
+        }
+    }
 }
 

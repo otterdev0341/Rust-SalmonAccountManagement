@@ -1,6 +1,5 @@
 use std::sync::Arc;
 
-use rocket::data::N;
 use sea_orm::{ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel, ModelTrait, QueryFilter, Set};
 use sea_orm_migration::async_trait;
 use uuid::Uuid;
@@ -48,6 +47,7 @@ impl ProjectRepoReqImpl for ImplProjectRepository {
             company_id: Set(company_id.as_bytes().to_vec()),
             name: Set(project_data.name),
             description: Set(project_data.description),
+            user_id: Set(user_id.as_bytes().to_vec()),
             ..Default::default()
         };
         
